@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liberty Ford — Service Advisor ADE Platform</title>
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:#F5F5F5;color:#1a1a2e;font-size:13px;-webkit-font-smoothing:antialiased}
+:root{--navy:#003366;--orange:#FF6600;--white:#FFFFFF;--gray-50:#F5F5F5;--gray-100:#E0E0E0;--gray-200:#CCCCCC;--gray-500:#666666;--gray-700:#333333;--green:#1a7f37;--yellow:#b45309;--red:#c0392b;--blue:#1565c0;--purple:#6b21a8}
+.app-shell{display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.top-bar{background:var(--navy);color:white;display:flex;align-items:center;padding:0 20px;height:52px;border-bottom:3px solid var(--orange);flex-shrink:0;gap:16px}
+.top-bar-logo{height:32px;object-fit:contain}
+.top-bar-brand{font-size:16px;font-weight:700;letter-spacing:0.5px;color:white}
+.top-bar-sub{font-size:11px;color:rgba(255,255,255,0.65);margin-left:2px}
+.top-bar-right{margin-left:auto;display:flex;align-items:center;gap:16px}
+.ade-status-badge{background:var(--orange);color:white;padding:3px 10px;border-radius:3px;font-size:11px;font-weight:600;letter-spacing:0.8px}
+.top-bar-user{color:rgba(255,255,255,0.8);font-size:12px}
+.nav-tabs{background:var(--navy);display:flex;padding:0 20px;gap:2px;flex-shrink:0;border-bottom:1px solid #002244}
+.nav-tab{padding:10px 16px;color:rgba(255,255,255,0.65);font-size:12px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;white-space:nowrap;position:relative}
+.nav-tab:hover{color:white;background:rgba(255,255,255,0.08)}
+.nav-tab.active{color:white;border-bottom-color:var(--orange);background:rgba(255,255,255,0.05)}
+.nav-tab .badge{position:absolute;top:6px;right:6px;background:var(--red);color:white;border-radius:10px;font-size:9px;font-weight:700;padding:1px 5px;min-width:16px;text-align:center}
+.content-area{flex:1;overflow:auto;background:#F5F5F5}
+.section-header{background:white;border-bottom:1px solid var(--gray-100);padding:12px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10}
+.section-title{font-size:15px;font-weight:600;color:var(--navy)}
+.section-sub{font-size:12px;color:var(--gray-500)}
+.section-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+.btn{padding:6px 14px;border-radius:3px;font-size:12px;font-weight:500;cursor:pointer;border:none;transition:all 0.15s;font-family:inherit}
+.btn-primary{background:var(--navy);color:white}.btn-primary:hover{background:#004080}
+.btn-orange{background:var(--orange);color:white}.btn-orange:hover{background:#e55a00}
+.btn-sm{padding:4px 10px;font-size:11px}
+.btn-ghost{background:transparent;color:var(--navy);border:1px solid var(--gray-200)}.btn-ghost:hover{background:var(--gray-50)}
+.btn-danger{background:var(--red);color:white}.btn-danger:hover{background:#a93226}
+.btn-success{background:var(--green);color:white}.btn-success:hover{background:#156729}
+.panel{background:white;border:1px solid var(--gray-100);border-radius:4px;overflow:hidden}
+.panel-header{background:#F8F9FA;border-bottom:1px solid var(--gray-100);padding:10px 16px;display:flex;align-items:center;gap:8px}
+.panel-title{font-size:12px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:0.5px}
+table{width:100%;border-collapse:collapse}
+thead th{background:#F8F9FA;border-bottom:2px solid var(--gray-100);padding:8px 12px;text-align:left;font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;cursor:pointer;user-select:none}
+thead th:hover{background:#EFEFEF}
+tbody tr{border-bottom:1px solid var(--gray-100);transition:background 0.1s;cursor:pointer}
+tbody tr:hover{background:#F0F4FF}
+tbody td{padding:9px 12px;font-size:12px;color:var(--gray-700);vertical-align:middle}
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:600;letter-spacing:0.3px;white-space:nowrap}
+.badge-gray{background:#E8E8E8;color:#555}
+.badge-yellow{background:#FFF3CD;color:#856404}
+.badge-orange{background:#FFE4CC;color:#A84600}
+.badge-blue{background:#DBEAFE;color:#1e40af}
+.badge-purple{background:#EDE9FE;color:#5b21b6}
+.badge-green{background:#D1FAE5;color:#065f46}
+.badge-dark{background:#374151;color:#f9fafb}
+.badge-red{background:#FEE2E2;color:#991b1b}
+.badge-navy{background:#003366;color:white}
+.badge-ade{background:var(--orange);color:white;font-size:9px;padding:1px 6px}
+input[type=text],input[type=search],select,textarea{border:1px solid var(--gray-200);border-radius:3px;padding:6px 10px;font-size:12px;font-family:inherit;outline:none;color:var(--gray-700);background:white}
+input[type=text]:focus,input[type=search]:focus,select:focus,textarea:focus{border-color:var(--navy);box-shadow:0 0 0 2px rgba(0,51,102,0.1)}
+.search-input{width:220px}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding:40px 20px;overflow:auto}
+.modal{background:white;border-radius:4px;width:100%;max-width:900px;border:1px solid var(--gray-200);box-shadow:0 8px 32px rgba(0,0,0,0.2)}
+.modal-header{background:var(--navy);color:white;padding:14px 20px;display:flex;align-items:center;gap:10px}
+.modal-title{font-size:14px;font-weight:600}
+.modal-close{margin-left:auto;cursor:pointer;opacity:0.7;font-size:18px;background:none;border:none;color:white}.modal-close:hover{opacity:1}
+.modal-body{padding:20px;max-height:75vh;overflow:auto}
+.modal-footer{padding:14px 20px;border-top:1px solid var(--gray-100);display:flex;gap:8px;justify-content:flex-end;background:#F8F9FA}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:16px}
+.field-label{font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.field-value{font-size:13px;color:var(--gray-700);font-weight:500}
+.metric-card{background:white;border:1px solid var(--gray-100);border-radius:4px;padding:16px;border-left:3px solid var(--navy)}
+.metric-value{font-size:28px;font-weight:700;color:var(--navy);line-height:1}
+.metric-label{font-size:11px;color:var(--gray-500);margin-top:4px;text-transform:uppercase;letter-spacing:0.5px}
+.metric-trend{font-size:11px;margin-top:6px;font-weight:500}
+.trend-up{color:var(--green)}.trend-down{color:var(--red)}
+.ade-workflow{border:1px solid var(--gray-100);border-radius:4px;overflow:hidden}
+.ade-step{display:flex;align-items:flex-start;gap:12px;padding:10px 16px;border-bottom:1px solid var(--gray-100)}
+.ade-step:last-child{border-bottom:none}
+.step-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+.step-complete{background:#D1FAE5;color:#065f46}
+.step-active{background:var(--orange);color:white;animation:pulse 1.5s infinite}
+.step-pending{background:#E8E8E8;color:#999}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.7}}
+.step-content{flex:1}
+.step-title{font-size:12px;font-weight:600;color:var(--gray-700)}
+.step-detail{font-size:11px;color:var(--gray-500);margin-top:2px}
+.comm-message{padding:10px 14px;border-bottom:1px solid var(--gray-100)}
+.comm-message:last-child{border-bottom:none}
+.comm-meta{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.comm-sender{font-size:11px;font-weight:600;color:var(--navy)}
+.comm-time{font-size:11px;color:var(--gray-500)}
+.comm-text{font-size:12px;color:var(--gray-700);line-height:1.5}
+.comm-sms{border-left:3px solid var(--green)}
+.comm-email{border-left:3px solid var(--blue)}
+.comm-note{border-left:3px solid var(--yellow)}
+.kanban-board{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;padding:16px;height:calc(100vh - 160px);overflow:auto}
+.kanban-col{background:#F0F2F5;border-radius:4px;display:flex;flex-direction:column;min-height:300px}
+.kanban-col-header{padding:10px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--gray-500);border-bottom:1px solid var(--gray-200);display:flex;align-items:center;justify-content:space-between}
+.kanban-cards{padding:8px;display:flex;flex-direction:column;gap:8px;flex:1;overflow:auto}
+.kanban-card{background:white;border:1px solid var(--gray-100);border-radius:4px;padding:10px;cursor:grab;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.kanban-card:hover{box-shadow:0 2px 6px rgba(0,0,0,0.1);border-color:var(--navy)}
+.kanban-card-ro{font-size:11px;font-weight:700;color:var(--navy)}
+.kanban-card-name{font-size:12px;font-weight:500;margin-top:2px}
+.kanban-card-vehicle{font-size:11px;color:var(--gray-500)}
+.kanban-card-job{font-size:11px;color:var(--gray-700);margin-top:4px}
+.kanban-card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.tech-util{display:flex;align-items:center;gap:8px}
+.util-bar{height:6px;border-radius:3px;background:#E0E0E0;width:80px;overflow:hidden}
+.util-fill{height:100%;border-radius:3px;transition:width 0.3s}
+.util-green{background:#1a7f37}.util-yellow{background:#d97706}.util-red{background:#c0392b}
+.tab-content{padding:16px}
+.escalation-row{background:white;border:1px solid var(--gray-100);border-radius:4px;padding:14px 16px;margin-bottom:10px}
+.escalation-row.urgent{border-left:3px solid var(--red)}
+.escalation-row.warning{border-left:3px solid var(--orange)}
+.ade-config-section{background:white;border:1px solid var(--gray-100);border-radius:4px;padding:20px;margin-bottom:16px}
+.ade-config-section h3{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--gray-100);text-transform:uppercase;letter-spacing:0.5px}
+.ade-config-section p,.ade-config-section li{font-size:12px;color:var(--gray-700);line-height:1.7;margin-bottom:6px}
+.ade-config-section ul{padding-left:18px}
+.split-layout{display:grid;grid-template-columns:1fr 380px;gap:0;height:calc(100vh - 120px)}
+.split-main{overflow:auto;border-right:1px solid var(--gray-100)}
+.split-panel{overflow:auto;background:white}
+.detail-section{padding:14px 16px;border-bottom:1px solid var(--gray-100)}
+.detail-section-title{font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.ro-line-item{display:grid;grid-template-columns:2fr 1fr 80px 80px 80px 60px;gap:8px;padding:8px 12px;border-bottom:1px solid var(--gray-100);font-size:12px;align-items:center}
+.ro-line-item:hover{background:#F8F9FA}
+.ro-line-header{font-size:10px;font-weight:700;text-transform:uppercase;color:var(--gray-500);background:#F8F9FA;letter-spacing:0.5px}
+.progress-bar-wrap{background:#E0E0E0;height:4px;border-radius:2px;overflow:hidden;margin-top:3px}
+.progress-bar-fill{height:100%;background:var(--orange);border-radius:2px;transition:width 0.5s}
+.summary-row{display:flex;justify-content:space-between;padding:6px 12px;font-size:12px}
+.summary-row.total{font-weight:700;font-size:13px;border-top:2px solid var(--gray-100);background:#F8F9FA}
+.recall-item{padding:8px 12px;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;gap:10px}
+.recall-open{border-left:3px solid var(--red)}
+.recall-closed{border-left:3px solid var(--green)}
+.upsell-summary-bar{background:var(--navy);color:white;padding:12px 20px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px}
+.upsell-metric{text-align:center;padding:0 12px}
+.upsell-metric-val{font-size:20px;font-weight:700}
+.upsell-metric-lbl{font-size:10px;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:0.5px}
+.sort-arrow{opacity:0.4;font-size:10px;margin-left:3px}
+.filter-bar{display:flex;gap:8px;align-items:center;padding:10px 16px;background:white;border-bottom:1px solid var(--gray-100)}
+.empty-state{padding:40px;text-align:center;color:var(--gray-500);font-size:13px}
+.divider{height:1px;background:var(--gray-100);margin:12px 0}
+.tag{display:inline-flex;align-items:center;background:#EEF2FF;color:#3730a3;padding:2px 7px;border-radius:2px;font-size:10px;font-weight:600;margin:2px}
+
+/* ── DEMO MODE ── */
+.demo-overlay{position:fixed;inset:0;background:white;z-index:200;display:flex;flex-direction:column;overflow:hidden}
+.demo-header{background:var(--navy);border-bottom:3px solid var(--orange);padding:10px 20px;display:flex;align-items:center;gap:14px;flex-shrink:0}
+.demo-title{font-size:15px;font-weight:700;color:white;letter-spacing:0.3px}
+.demo-scenario-badge{background:var(--orange);color:white;padding:3px 12px;border-radius:3px;font-size:11px;font-weight:700;letter-spacing:0.5px}
+.demo-body{flex:1;display:grid;grid-template-columns:220px 1fr 300px;overflow:hidden;gap:0}
+.demo-steps-col{border-right:1px solid var(--gray-100);padding:16px 12px;overflow-y:auto;background:#F8F9FA}
+.demo-step-row{display:flex;align-items:flex-start;gap:8px;padding:7px 8px;border-radius:4px;margin-bottom:2px;cursor:default;border:1px solid transparent}
+.demo-step-row.active-step{background:#FFF3EB;border-color:#FFD4B3}
+.demo-step-row.done-step{opacity:0.7}
+.demo-step-row.pending-step{opacity:0.4}
+.demo-step-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.demo-step-num.done{background:#D1FAE5;color:#065f46}
+.demo-step-num.active{background:var(--orange);color:white;animation:pulse 1s infinite}
+.demo-step-num.pending{background:var(--gray-100);color:var(--gray-500)}
+.demo-step-label{font-size:11px;font-weight:500;color:var(--gray-700);line-height:1.4}
+.demo-step-sublabel{font-size:10px;color:var(--gray-500);margin-top:1px}
+.demo-log-col{display:flex;flex-direction:column;overflow:hidden;background:white;border-right:1px solid var(--gray-100)}
+.demo-log-header{padding:10px 16px;background:#F8F9FA;border-bottom:1px solid var(--gray-100);font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.demo-log-blinker{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 1s infinite}
+.demo-log-stream{flex:1;overflow-y:auto;padding:12px 16px;font-family:'Courier New',monospace;font-size:11.5px;line-height:1.9}
+.demo-log-entry{display:flex;gap:10px;animation:fadeInLog 0.2s ease-out;border-bottom:1px solid #FAFAFA}
+@keyframes fadeInLog{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.log-time{color:var(--gray-500);min-width:52px;flex-shrink:0}
+.log-type-tag{min-width:52px;flex-shrink:0;font-weight:700;font-size:10px;padding-top:1px}
+.log-system .log-type-tag{color:var(--gray-500)}
+.log-info .log-type-tag{color:#1565c0}
+.log-success .log-type-tag{color:var(--green)}
+.log-warning .log-type-tag{color:#b45309}
+.log-error .log-type-tag{color:var(--red)}
+.log-complete .log-type-tag{color:var(--navy);font-weight:800}
+.log-sms .log-type-tag{color:var(--green)}
+.log-text{color:var(--gray-700);flex:1}
+.log-complete .log-text{color:var(--navy);font-weight:700}
+.log-warning .log-text{color:#92400e}
+.demo-right-col{display:flex;flex-direction:column;overflow:hidden;background:#F8F9FA}
+.demo-ro-panel{flex:1;overflow-y:auto;padding:14px;background:white;border-bottom:1px solid var(--gray-100)}
+.demo-sms-panel{padding:14px;max-height:220px;overflow-y:auto;background:#F8F9FA}
+.demo-panel-label{font-size:10px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px}
+.demo-ro-line{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--gray-100);font-size:11px;animation:fadeInLog 0.3s ease-out}
+.demo-ro-line .desc{color:var(--gray-700);flex:1}
+.demo-ro-line .val{color:var(--navy);font-weight:600;white-space:nowrap;margin-left:8px}
+.demo-ro-total{display:flex;justify-content:space-between;padding:10px 0 0;font-size:13px;font-weight:700;color:var(--orange);border-top:2px solid var(--gray-100);margin-top:4px}
+.demo-sms-bubble{margin-bottom:8px;animation:fadeInLog 0.3s ease-out}
+.demo-sms-bubble .meta{font-size:10px;color:var(--gray-500);margin-bottom:3px}
+.demo-sms-bubble .bubble{background:white;border:1px solid var(--gray-200);border-radius:8px;padding:8px 11px;font-size:11px;color:var(--gray-700);line-height:1.6}
+.demo-sms-bubble.customer .bubble{background:#EEF9EE;border-color:#B7E4B7}
+.demo-footer{background:white;border-top:2px solid var(--gray-100);padding:12px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.demo-progress-wrap{flex:1;margin:0 16px}
+.demo-progress-bar{height:6px;background:var(--gray-100);border-radius:3px;overflow:hidden}
+.demo-progress-fill{height:100%;background:var(--orange);border-radius:3px;transition:width 0.5s}
+.demo-progress-label{font-size:11px;color:var(--gray-500);margin-top:4px}
+.demo-complete-banner{background:#F0FFF4;border:1px solid #A7F3D0;border-radius:6px;padding:20px;text-align:center;margin:12px}
+.demo-launch-btn{background:var(--orange);color:white;border:none;padding:9px 20px;border-radius:3px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.5px;display:flex;align-items:center;gap:6px;transition:all 0.15s}
+.demo-launch-btn:hover{background:#e55a00;transform:translateY(-1px);box-shadow:0 4px 12px rgba(255,102,0,0.3)}
+.demo-launch-btn .pulse-dot{width:8px;height:8px;background:white;border-radius:50%;animation:pulse 1s infinite}
+
+/* ── TOASTS ── */
+.toast-container{position:fixed;bottom:20px;right:20px;z-index:300;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:white;border:1px solid var(--gray-200);border-radius:4px;padding:10px 14px;min-width:260px;max-width:360px;pointer-events:all;animation:slideInToast 0.25s ease-out;display:flex;align-items:flex-start;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,0.12)}
+@keyframes slideInToast{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+.toast-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.toast-body{flex:1}
+.toast-title{font-size:12px;font-weight:600;color:var(--navy);margin-bottom:2px}
+.toast-msg{font-size:11px;color:var(--gray-500)}
+.toast.success{border-left:3px solid var(--green)}
+.toast.info{border-left:3px solid #1565c0}
+.toast.warning{border-left:3px solid #b45309}
+.toast.error{border-left:3px solid var(--red)}
+.toast.ade{border-left:3px solid var(--orange)}
+
+/* ── ACTIVITY FEED ── */
+.activity-feed{position:fixed;right:0;top:105px;width:300px;background:white;border-left:1px solid var(--gray-100);border-bottom:1px solid var(--gray-100);box-shadow:-4px 4px 12px rgba(0,0,0,0.08);z-index:50;max-height:400px;display:flex;flex-direction:column;transform:translateX(100%);transition:transform 0.25s}
+.activity-feed.open{transform:translateX(0)}
+.activity-feed-header{background:var(--navy);color:white;padding:8px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;display:flex;align-items:center;gap:6px;cursor:pointer;flex-shrink:0}
+.activity-entry{padding:8px 12px;border-bottom:1px solid var(--gray-100);display:flex;gap:8px;animation:fadeInLog 0.2s ease-out}
+.activity-entry:last-child{border-bottom:none}
+.activity-dot{width:6px;height:6px;border-radius:50%;background:var(--orange);margin-top:5px;flex-shrink:0;animation:pulse 2s infinite}
+.activity-text{font-size:11px;color:var(--gray-700);line-height:1.4;flex:1}
+.activity-time{font-size:10px;color:var(--gray-500);margin-top:2px}
+
+/* ── APPOINTMENT QUEUE ── */
+.appt-card{background:white;border:1px solid var(--gray-100);border-radius:4px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.appt-card:hover{border-color:var(--navy);background:#F8F9FF}
+.appt-card.walkin{border-left:3px solid var(--orange)}
+.appt-card.scheduled{border-left:3px solid var(--green)}
+.appt-time-block{background:var(--navy);color:white;border-radius:4px;padding:6px 10px;text-align:center;min-width:60px;flex-shrink:0}
+.appt-time-hour{font-size:14px;font-weight:700}
+.appt-time-ampm{font-size:9px;opacity:0.7}
+.appt-details{flex:1}
+.appt-name{font-size:13px;font-weight:600}
+.appt-vehicle{font-size:11px;color:var(--gray-500);margin-top:2px}
+.appt-concern{font-size:11px;color:var(--gray-700);margin-top:4px}
+.mpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:16px}
+.mpi-item{border:1px solid var(--gray-100);border-radius:4px;padding:10px;text-align:center;cursor:pointer}
+.mpi-item:hover{border-color:var(--navy)}
+.mpi-item.good{background:#D1FAE5;border-color:#6EE7B7}
+.mpi-item.fair{background:#FFF3CD;border-color:#FCD34D}
+.mpi-item.poor{background:#FEE2E2;border-color:#FCA5A5}
+.mpi-icon{font-size:18px;margin-bottom:4px}
+.mpi-label{font-size:10px;font-weight:600;color:var(--gray-700)}
+.revenue-ticker{background:var(--navy);color:white;padding:8px 20px;display:flex;gap:24px;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1)}
+.rev-item{text-align:center}
+.rev-val{font-size:16px;font-weight:700;color:var(--orange)}
+.rev-lbl{font-size:9px;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.5px}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState, useEffect, useRef, useCallback, useMemo} = React;
+
+// ─── SIMULATED DATA ──────────────────────────────────────────────────────────
+
+const CUSTOMERS = [
+  {id:'C001',name:'Michael Donovan',phone:'(330) 555-0142',email:'m.donovan@gmail.com',address:'2847 Chagrin Falls Rd, Chagrin Falls OH 44022'},
+  {id:'C002',name:'Sandra Kowalski',phone:'(440) 555-0287',email:'skowalski@outlook.com',address:'119 Elm Street, Strongsville OH 44136'},
+  {id:'C003',name:'Travis Burnett',phone:'(216) 555-0319',email:'tburnett@yahoo.com',address:'5501 Ridge Rd, Parma OH 44129'},
+  {id:'C004',name:'Diane Petrocelli',phone:'(330) 555-0456',email:'dpetro@gmail.com',address:'88 Oak Hill Dr, Hudson OH 44236'},
+  {id:'C005',name:'James Olawale',phone:'(440) 555-0581',email:'jolawale@gmail.com',address:'2214 Center Rd, Avon OH 44011'},
+  {id:'C006',name:'Karen Hessler',phone:'(216) 555-0634',email:'khessler@att.net',address:'7730 Mayfield Rd, Chesterland OH 44026'},
+  {id:'C007',name:'Robert Shimkus',phone:'(330) 555-0718',email:'rshimkus@gmail.com',address:'321 Portage Path, Akron OH 44303'},
+  {id:'C008',name:'Angela Ferraro',phone:'(440) 555-0892',email:'aferraro@icloud.com',address:'944 Brecksville Rd, Brecksville OH 44141'},
+];
+
+const VEHICLES = [
+  {id:'V001',customerId:'C001',vin:'1FTFW1ET5NFA28471',year:2022,make:'Ford',model:'F-150 XLT',trim:'4x4 SuperCrew',color:'Iconic Silver',mileage:41820,engine:'5.0L V8',trans:'10-Speed Auto',licensePlate:'GHX 4421',warranty:'3yr/36k bumper-to-bumper (expired), 5yr/60k powertrain active'},
+  {id:'V002',customerId:'C002',vin:'1FM5K8DH7NGA12043',year:2022,make:'Ford',model:'Explorer XLT',trim:'AWD',color:'Atlas Blue',mileage:33650,engine:'2.3L EcoBoost',trans:'10-Speed Auto',licensePlate:'KTZ 9910',warranty:'5yr/60k powertrain active'},
+  {id:'V003',customerId:'C003',vin:'1FMCU9GD8PUB91204',year:2023,make:'Ford',model:'Escape SEL',trim:'AWD Hybrid',color:'Carbonized Gray',mileage:18340,engine:'2.5L PHEV',trans:'CVT',licensePlate:'RMW 2278',warranty:'5yr/60k active, hybrid battery 8yr/100k'},
+  {id:'V004',customerId:'C004',vin:'1FA6P8TH7P5103481',year:2023,make:'Ford',model:'Mustang GT',trim:'Premium Fastback',color:'Race Red',mileage:9870,engine:'5.0L V8',trans:'6-Speed Manual',licensePlate:'LNX 5544',warranty:'3yr/36k active'},
+  {id:'V005',customerId:'C005',vin:'1FTBR1C84PKA50193',year:2023,make:'Ford',model:'Transit 250',trim:'Med Roof Cargo',color:'Oxford White',mileage:62410,engine:'3.5L EcoBoost V6',trans:'10-Speed Auto',licensePlate:'CTM 8816',warranty:'5yr/60k powertrain (2k remaining)'},
+  {id:'V006',customerId:'C006',vin:'1FMJK1KT8PEA14728',year:2023,make:'Ford',model:'Expedition MAX',trim:'Limited 4x4',color:'Antimatter Blue',mileage:27190,engine:'3.5L EcoBoost V6',trans:'10-Speed Auto',licensePlate:'JKV 3302',warranty:'5yr/60k active'},
+  {id:'V007',customerId:'C007',vin:'1FTFW1ET0NFB04113',year:2022,make:'Ford',model:'F-150 Lariat',trim:'4x4 SuperCab',color:'Carbonized Gray',mileage:55340,engine:'3.5L EcoBoost V6',trans:'10-Speed Auto',licensePlate:'PWQ 7765',warranty:'5yr/60k expired at 50k'},
+  {id:'V008',customerId:'C008',vin:'1FM5K8GCXNGA84037',year:2022,make:'Ford',model:'Explorer ST',trim:'AWD',color:'Rapid Red',mileage:39420,engine:'3.0L EcoBoost',trans:'10-Speed Auto',licensePlate:'YRB 1149',warranty:'3yr/36k expired, 5yr/60k active'},
+];
+
+const RECALLS = [
+  {id:'R001',vehicleId:'V001',nhtsa:'23V-812',description:'Rear axle bolt torque insufficient — potential wheel separation',status:'OPEN',severity:'high'},
+  {id:'R002',vehicleId:'V005',nhtsa:'22V-391',description:'Fuel system vapor leakage — fire risk under load',status:'OPEN',severity:'high'},
+  {id:'R003',vehicleId:'V007',nhtsa:'23V-445',description:'Windshield wiper motor relay failure in extreme cold',status:'CLOSED',severity:'medium'},
+  {id:'R004',vehicleId:'V002',nhtsa:'23V-601',description:'Trailer tow module software — erratic braking signal',status:'OPEN',severity:'medium'},
+  {id:'R005',vehicleId:'V008',nhtsa:'22V-289',description:'Rearview camera image may not display on startup',status:'CLOSED',severity:'low'},
+];
+
+const TECHNICIANS = [
+  {id:'T001',name:'Carlos Reyes',skills:['Powertrain','Transmission','Diesel'],certifications:['Ford Master','ASE Master'],available:8,flagged:7.2,color:'#1565c0'},
+  {id:'T002',name:'Darnell Washington',skills:['Electrical','ADAS','Hybrid/EV'],certifications:['Ford Senior','ASE L3'],available:8,flagged:8.4,color:'#6b21a8'},
+  {id:'T003',name:'Kevin O\'Brien',skills:['Brakes','Suspension','Alignment'],certifications:['ASE Master'],available:8,flagged:6.1,color:'#065f46'},
+  {id:'T004',name:'Marcus Chen',skills:['Engine','HVAC','Diagnostics'],certifications:['Ford Master','ASE A8'],available:8,flagged:8.8,color:'#92400e'},
+  {id:'T005',name:'Tyler Hendricks',skills:['Maintenance','Tires','Quick Service'],certifications:['ASE A4','Ford Bronze'],available:8,flagged:5.5,color:'#1f2937'},
+  {id:'T006',name:'Sofia Ramirez',skills:['Warranty','Body','Trim','Recalls'],certifications:['Ford Senior','ASE B2'],available:8,flagged:7.9,color:'#7c2d12'},
+];
+
+const initialROs = [
+  {id:'RO-24-8801',customerId:'C001',vehicleId:'V001',status:'Awaiting Approval',advisorId:'ADE',techId:'T004',checkIn:'07:42',concern:'Engine vibration at highway speeds, customer reports onset at ~65mph',labors:[{code:'1234A',desc:'Engine balance shaft inspection & replacement',hours:3.2,rate:175,warranty:false,approved:null},{code:'1234B',desc:'Spark plug replacement — 5.0L V8',hours:1.5,rate:175,warranty:false,approved:null}],parts:[{part:'SP-542F',desc:'Motorcraft Platinum Spark Plugs (8pk)',qty:1,unit:89.95,warranty:false},{part:'EB-7018',desc:'Engine Balance Shaft Kit',qty:1,unit:312.00,warranty:false}],payType:'Customer',tax:0.0725,opened:'2024-03-19',adeActive:true,adeStep:5,communications:['MSG001','MSG002','MSG003'],upsells:['U001','U002']},
+  {id:'RO-24-8802',customerId:'C002',vehicleId:'V002',status:'In Progress',advisorId:'ADE',techId:'T003',checkIn:'08:15',concern:'Clunking noise from front suspension on rough roads, especially left side',labors:[{code:'2062A',desc:'Front strut assembly R&R — LH',hours:2.2,rate:175,warranty:false,approved:true},{code:'2062B',desc:'Wheel alignment — 4-wheel',hours:0.8,rate:175,warranty:false,approved:true}],parts:[{part:'AS-9004',desc:'Motorcraft Front Strut LH',qty:1,unit:218.40,warranty:false},{part:'WA-001',desc:'Alignment spec sheet',qty:1,unit:0,warranty:false}],payType:'Customer',tax:0.0725,opened:'2024-03-19',adeActive:true,adeStep:6,communications:['MSG004','MSG005'],upsells:['U003']},
+  {id:'RO-24-8803',customerId:'C003',vehicleId:'V003',status:'Diagnosis',advisorId:'ADE',techId:'T002',checkIn:'08:31',concern:'Hybrid battery warning light illuminated, reduced EV range',labors:[{code:'9H01A',desc:'Hybrid battery diagnostic scan — HVB',hours:1.5,rate:175,warranty:true,approved:null},{code:'9H02A',desc:'HVB cell module replacement per diag',hours:4.0,rate:175,warranty:true,approved:null}],parts:[{part:'HV-1901',desc:'HVB Cell Module Assembly',qty:2,unit:485.00,warranty:true}],payType:'Warranty',tax:0,opened:'2024-03-19',adeActive:true,adeStep:3,communications:['MSG006'],upsells:[]},
+  {id:'RO-24-8804',customerId:'C004',vehicleId:'V004',status:'In Progress',advisorId:'ADE',techId:'T001',checkIn:'09:00',concern:'Manual transmission grinding into 3rd gear',labors:[{code:'7600A',desc:'Manual transmission R&R and rebuild',hours:8.0,rate:175,warranty:false,approved:true},{code:'7601A',desc:'Clutch disc, pressure plate, flywheel resurface',hours:3.5,rate:175,warranty:false,approved:true}],parts:[{part:'MT-2204',desc:'Tremec T-6060 Rebuild Kit',qty:1,unit:742.00,warranty:false},{part:'CL-8801',desc:'Motorcraft Clutch Assembly Kit',qty:1,unit:398.00,warranty:false}],payType:'Customer',tax:0.0725,opened:'2024-03-19',adeActive:true,adeStep:6,communications:['MSG007','MSG008'],upsells:['U004']},
+  {id:'RO-24-8805',customerId:'C005',vehicleId:'V005',status:'Awaiting Approval',advisorId:'ADE',techId:'T001',checkIn:'09:22',concern:'Open recall NHTSA 22V-391 — fuel system vapor leak. Also requesting 60k service.',labors:[{code:'RECALL-391',desc:'Fuel vapor barrier R&R per recall 22V-391',hours:2.5,rate:0,warranty:true,approved:null},{code:'MC-60K',desc:'60k Motorcraft maintenance package',hours:3.0,rate:175,warranty:false,approved:null}],parts:[{part:'FV-3391',desc:'Fuel Vapor Barrier Kit (recall)',qty:1,unit:0,warranty:true},{part:'MC-60K-KIT',desc:'60k service kit — filters, fluids, plugs',qty:1,unit:284.00,warranty:false}],payType:'Split',tax:0.0725,opened:'2024-03-19',adeActive:true,adeStep:5,communications:['MSG009','MSG010'],upsells:['U005','U006']},
+  {id:'RO-24-8806',customerId:'C006',vehicleId:'V006',status:'Quality Check',advisorId:'ADE',techId:'T005',checkIn:'07:15',concern:'Routine 30k service, tire rotation, cabin air filter',labors:[{code:'MC-30K',desc:'30k Motorcraft scheduled maintenance',hours:1.5,rate:175,warranty:false,approved:true},{code:'MT-4022',desc:'Tire rotation and balance — 4-wheel',hours:0.7,rate:175,warranty:false,approved:true}],parts:[{part:'FP-1109',desc:'Motorcraft Cabin Air Filter',qty:1,unit:24.95,warranty:false},{part:'MC-30K-KIT',desc:'30k service kit',qty:1,unit:112.00,warranty:false}],payType:'Customer',tax:0.0725,opened:'2024-03-19',adeActive:true,adeStep:8,communications:['MSG011','MSG012'],upsells:['U007']},
+  {id:'RO-24-8807',customerId:'C007',vehicleId:'V007',status:'Escalation',advisorId:'ADE',techId:'T004',checkIn:'08:48',concern:'Check engine light — multiple codes, customer concerned about catalytic converters',labors:[{code:'1200A',desc:'Powertrain diag scan — comprehensive',hours:1.5,rate:175,warranty:false,approved:true},{code:'3442A',desc:'Catalytic converter R&R — LH bank',hours:2.8,rate:175,warranty:false,approved:null}],parts:[{part:'CC-7741',desc:'Motorcraft Catalytic Converter LH',qty:1,unit:892.00,warranty:false}],payType:'Customer',tax:0.0725,opened:'2024-03-19',adeActive:false,adeStep:5,communications:['MSG013','MSG014','MSG015'],upsells:[]},
+  {id:'RO-24-8808',customerId:'C008',vehicleId:'V008',status:'Ready for Pickup',advisorId:'ADE',techId:'T003',checkIn:'06:55',concern:'Brake pad replacement front and rear, brake fluid flush',labors:[{code:'2012A',desc:'Front brake pad R&R — both sides',hours:1.2,rate:175,warranty:false,approved:true},{code:'2012B',desc:'Rear brake pad R&R — both sides',hours:1.4,rate:175,warranty:false,approved:true},{code:'2016A',desc:'Brake fluid flush — complete system',hours:0.8,rate:175,warranty:false,approved:true}],parts:[{part:'BP-4401',desc:'Motorcraft Premium Brake Pads — Front',qty:1,unit:68.95,warranty:false},{part:'BP-4402',desc:'Motorcraft Premium Brake Pads — Rear',qty:1,unit:62.40,warranty:false},{part:'BF-5501',desc:'Motorcraft DOT4 Brake Fluid',qty:2,unit:12.50,warranty:false}],payType:'Customer',tax:0.0725,opened:'2024-03-19',adeActive:true,adeStep:9,communications:['MSG016','MSG017','MSG018'],upsells:['U008']},
+  {id:'RO-24-8809',customerId:'C001',vehicleId:'V001',status:'Closed',advisorId:'ADE',techId:'T005',checkIn:'—',concern:'Oil change and tire rotation',labors:[{code:'MC-OC',desc:'Full synthetic oil change 5W-30',hours:0.5,rate:175,warranty:false,approved:true}],parts:[{part:'OC-001',desc:'Motorcraft 5W-30 Synthetic + filter',qty:1,unit:54.95,warranty:false}],payType:'Customer',tax:0.0725,opened:'2024-03-12',closed:'2024-03-12',adeActive:false,adeStep:10,communications:[],upsells:[]},
+  {id:'RO-24-8810',customerId:'C003',vehicleId:'V003',status:'Intake',advisorId:'ADE',techId:null,checkIn:'09:58',concern:'New customer check-in — no prior appointment, walk-in',labors:[],parts:[],payType:'Customer',tax:0.0725,opened:'2024-03-19',adeActive:false,adeStep:1,communications:[],upsells:[]},
+  {id:'RO-24-8811',customerId:'C006',vehicleId:'V006',status:'Closed',advisorId:'ADE',techId:'T002',checkIn:'—',concern:'SYNC 4 infotainment system freeze and reboot loop',labors:[{code:'9901A',desc:'SYNC 4 module reflash — latest OTA',hours:1.0,rate:175,warranty:true,approved:true}],parts:[],payType:'Warranty',tax:0,opened:'2024-03-05',closed:'2024-03-05',adeActive:false,adeStep:10,communications:[],upsells:[]},
+  {id:'RO-24-8812',customerId:'C008',vehicleId:'V008',status:'Diagnosis',advisorId:'ADE',techId:'T002',checkIn:'10:14',concern:'A/C not cooling adequately — weak airflow, warm output at max setting',labors:[{code:'AC-3301',desc:'A/C system diagnostic — leak check and charge eval',hours:1.5,rate:175,warranty:false,approved:null}],parts:[],payType:'Customer',tax:0.0725,opened:'2024-03-19',adeActive:true,adeStep:3,communications:['MSG019'],upsells:[]},
+];
+
+const COMMUNICATIONS = [
+  {id:'MSG001',roId:'RO-24-8801',customerId:'C001',type:'sms',sender:'ADE',time:'07:44',content:'Hi Michael, this is Liberty Ford Service. We\'ve checked in your 2022 F-150 (RO-24-8801). Our advisor has pulled your vehicle history and we\'re getting started on the diagnosis now. We\'ll keep you updated every step of the way.',delivered:true},
+  {id:'MSG002',roId:'RO-24-8801',customerId:'C001',type:'sms',sender:'Customer',time:'07:51',content:'Thanks. How long do you think it\'ll take?',delivered:true},
+  {id:'MSG003',roId:'RO-24-8801',customerId:'C001',type:'sms',sender:'ADE',time:'07:52',content:'Hi Michael, our technician has completed the diagnosis. We found the vibration is caused by worn engine balance shaft components combined with fouled spark plugs at 41k miles. Full estimate and approval request sent to your email. Total estimated: $1,482.41. You can approve digitally — link in email.',delivered:true},
+  {id:'MSG004',roId:'RO-24-8802',customerId:'C002',type:'sms',sender:'ADE',time:'08:17',content:'Sandra, your Explorer is checked in (RO-24-8802). Diagnosis complete: LH front strut assembly failed. We recommend R&R + 4-wheel alignment. Estimate: $768.30. Approval link sent to skowalski@outlook.com.',delivered:true},
+  {id:'MSG005',roId:'RO-24-8802',customerId:'C002',type:'sms',sender:'Customer',time:'08:29',content:'Approved. Go ahead. Can you also check the rear tires for wear?',delivered:true},
+  {id:'MSG006',roId:'RO-24-8803',customerId:'C003',type:'sms',sender:'ADE',time:'08:33',content:'Travis, your Escape Hybrid is checked in (RO-24-8803). The hybrid battery warning is under diagnosis now — this is a warranty-covered component. We\'ll have findings within 90 minutes. No charge to you for the diagnostic.',delivered:true},
+  {id:'MSG007',roId:'RO-24-8804',customerId:'C004',type:'sms',sender:'ADE',time:'09:02',content:'Diane, your Mustang GT is in (RO-24-8804). We\'ve confirmed 3rd gear syncro damage and the clutch is showing significant wear. Full rebuild + clutch kit recommended. Total estimate: $3,188.88. Sending approval link now.',delivered:true},
+  {id:'MSG008',roId:'RO-24-8804',customerId:'C004',type:'email',sender:'ADE',time:'09:03',content:'SUBJECT: RO-24-8804 — Mustang GT Repair Estimate\n\nDiane,\n\nOur technician Carlos Reyes has completed the diagnostic on your 2023 Mustang GT. Findings: Tremec T-6060 3rd gear synchronizer failure, clutch disc worn to 20% remaining life.\n\nRecommended: Full transmission rebuild + clutch assembly replacement\nLabor: $2,012.50 | Parts: $1,140.00 | Tax: $86.38\nTotal: $3,188.88\n\nApprove: [Digital Approval Link]\n\n— Liberty Ford Service ADE',delivered:true},
+  {id:'MSG009',roId:'RO-24-8805',customerId:'C005',type:'sms',sender:'ADE',time:'09:24',content:'James, your Transit 250 is in (RO-24-8805). We\'re completing the recall repair (22V-391) at NO CHARGE. We also have your 60k service queued — estimate $809.50. Approval link sent.',delivered:true},
+  {id:'MSG010',roId:'RO-24-8805',customerId:'C005',type:'sms',sender:'Customer',time:'09:31',content:'Do the recall for sure. For the 60k service, can you break out what\'s included?',delivered:true},
+  {id:'MSG011',roId:'RO-24-8806',customerId:'C006',type:'sms',sender:'ADE',time:'07:17',content:'Karen, your Expedition is in for the 30k service (RO-24-8806). Estimated completion by 10:00 AM. We\'ll notify you when it\'s ready.',delivered:true},
+  {id:'MSG012',roId:'RO-24-8806',customerId:'C006',type:'sms',sender:'ADE',time:'10:42',content:'Karen, your Expedition MAX is quality-checked and ready. Total due: $448.62. Pull up front and we\'ll get you out quickly. Payment link: [Liberty Ford Pay]',delivered:true},
+  {id:'MSG013',roId:'RO-24-8807',customerId:'C007',type:'sms',sender:'ADE',time:'08:50',content:'Robert, your F-150 Lariat is in (RO-24-8807). Running full diagnostic scan on the CEL codes now.',delivered:true},
+  {id:'MSG014',roId:'RO-24-8807',customerId:'C007',type:'sms',sender:'Customer',time:'09:14',content:'I want to talk to an actual person about this. The last dealer told me the cats were fine and now they\'re saying they need to be replaced? This feels like I\'m being taken advantage of.',delivered:true},
+  {id:'MSG015',roId:'RO-24-8807',customerId:'C007',type:'note',sender:'ADE',time:'09:14',content:'ESCALATION TRIGGERED: Customer sentiment flag — distrust/dispute. Requested human advisor. ADE suspended. Full context transferred to Service Manager queue. Technician findings and code data attached.',delivered:true},
+  {id:'MSG016',roId:'RO-24-8808',customerId:'C008',type:'sms',sender:'ADE',time:'06:57',content:'Angela, your Explorer ST is in (RO-24-8808) for brake service. Technician starting shortly.',delivered:true},
+  {id:'MSG017',roId:'RO-24-8808',customerId:'C008',type:'sms',sender:'ADE',time:'10:08',content:'Angela, brake service complete! Brake pads front and rear replaced, fluid flushed and filled. Passed QC. Total: $521.27. Ready for pickup. Payment: [Liberty Ford Pay]',delivered:true},
+  {id:'MSG018',roId:'RO-24-8808',customerId:'C008',type:'sms',sender:'Customer',time:'10:15',content:'Paid! Heading over now.',delivered:true},
+  {id:'MSG019',roId:'RO-24-8812',customerId:'C008',type:'sms',sender:'ADE',time:'10:16',content:'Angela — separately, your Explorer ST A/C is in for diagnosis (RO-24-8812). Our tech is on it now. We\'ll have findings within the hour.',delivered:true},
+];
+
+const UPSELLS = [
+  {id:'U001',roId:'RO-24-8801',vehicleId:'V001',service:'Fuel System Clean — High Mileage',basis:'Ford Motorcraft 45k interval',mileage:41820,trigger:'41k miles — past recommended interval',laborHrs:0.5,laborAmt:87.50,partsAmt:54.95,total:142.45,status:'Pending'},
+  {id:'U002',roId:'RO-24-8801',vehicleId:'V001',service:'Cabin Air Filter Replacement',basis:'Motorcraft 15k-20k interval',mileage:41820,trigger:'41k miles — filter at 2x recommended interval',laborHrs:0.3,laborAmt:52.50,partsAmt:24.95,total:77.45,status:'Approved'},
+  {id:'U003',roId:'RO-24-8802',vehicleId:'V002',service:'Rear Shock Absorber Inspection',basis:'Customer reported rear bouncing — related complaint',mileage:33650,trigger:'Customer mentioned rear handling issue during intake',laborHrs:0.5,laborAmt:87.50,partsAmt:0,total:87.50,status:'Declined'},
+  {id:'U004',roId:'RO-24-8804',vehicleId:'V004',service:'Differential fluid service — rear',basis:'Motorcraft 30k interval',mileage:9870,trigger:'Transmission R&R — recommended concurrent service',laborHrs:0.5,laborAmt:87.50,partsAmt:38.95,total:126.45,status:'Approved'},
+  {id:'U005',roId:'RO-24-8805',vehicleId:'V005',service:'Serpentine belt replacement',basis:'Motorcraft 60k-90k replacement',mileage:62410,trigger:'62k miles — within recommended interval window',laborHrs:0.8,laborAmt:140.00,partsAvm:48.95,partsAmt:48.95,total:188.95,status:'Pending'},
+  {id:'U006',roId:'RO-24-8805',vehicleId:'V005',service:'Coolant system flush',basis:'Ford 100k or 10yr — degraded sample noted by tech',mileage:62410,trigger:'Tech noted coolant discoloration during recall work',laborHrs:0.8,laborAmt:140.00,partsAmt:32.50,total:172.50,status:'Approved'},
+  {id:'U007',roId:'RO-24-8806',vehicleId:'V006',service:'Engine air filter replacement',basis:'Motorcraft 15k-30k interval',mileage:27190,trigger:'27k miles — at interval',laborHrs:0.3,laborAmt:52.50,partsAmt:28.95,total:81.45,status:'Approved'},
+  {id:'U008',roId:'RO-24-8808',vehicleId:'V008',service:'Brake rotors front — turning/resurface',basis:'Inspection finding — light scoring noted',mileage:39420,trigger:'Technician noted rotor scoring during brake R&R',laborHrs:0.8,laborAmt:140.00,partsAmt:0,total:140.00,status:'Declined'},
+];
+
+const APPOINTMENTS = [
+  {id:'A001',time:'07:30',ampm:'AM',type:'scheduled',customerId:'C001',vehicleId:'V001',concern:'Engine vibration at highway speeds, also requesting recall check',advisor:'ADE',confirmed:true},
+  {id:'A002',time:'08:00',ampm:'AM',type:'scheduled',customerId:'C002',vehicleId:'V002',concern:'Front clunking noise — left side over bumps',advisor:'ADE',confirmed:true},
+  {id:'A003',time:'08:30',ampm:'AM',type:'scheduled',customerId:'C003',vehicleId:'V003',concern:'Hybrid battery warning, reduced range',advisor:'ADE',confirmed:true},
+  {id:'A004',time:'09:00',ampm:'AM',type:'walkin',customerId:'C004',vehicleId:'V004',concern:'Walk-in — grinding noise shifting into 3rd gear, urgent',advisor:'ADE',confirmed:false},
+  {id:'A005',time:'09:15',ampm:'AM',type:'walkin',customerId:'C005',vehicleId:'V005',concern:'Walk-in — recall notice received in mail, 22V-391',advisor:'ADE',confirmed:false},
+  {id:'A006',time:'10:00',ampm:'AM',type:'scheduled',customerId:'C006',vehicleId:'V006',concern:'30k scheduled maintenance',advisor:'ADE',confirmed:true},
+  {id:'A007',time:'10:30',ampm:'AM',type:'scheduled',customerId:'C007',vehicleId:'V007',concern:'Check engine light — multiple codes',advisor:'ADE',confirmed:true},
+  {id:'A008',time:'11:00',ampm:'AM',type:'scheduled',customerId:'C008',vehicleId:'V008',concern:'Brake pads + brake fluid flush',advisor:'ADE',confirmed:true},
+  {id:'A009',time:'01:00',ampm:'PM',type:'scheduled',customerId:'C001',vehicleId:'V001',concern:'Follow-up alignment check post-suspension work',advisor:'ADE',confirmed:true},
+  {id:'A010',time:'02:30',ampm:'PM',type:'walkin',customerId:'C008',vehicleId:'V008',concern:'Walk-in — A/C not cooling, very warm output',advisor:'ADE',confirmed:false},
+];
+
+const DEMO_SCENARIOS = [
+  {
+    id:'michael-f150',
+    label:'Michael Donovan — F-150 Engine Repair',
+    desc:'Engine vibration + recall + upsell + approval',
+    customer: 'Michael Donovan',
+    vehicle: '2022 Ford F-150 XLT · 41,820 mi',
+    steps:[
+      {n:1,label:'Intake & History Pull',logs:[
+        {d:500,t:'Connecting to Reynolds & Reynolds DMS...',y:'system'},
+        {d:700,t:'Customer record retrieved: Michael Donovan (C001)',y:'success'},
+        {d:500,t:'VIN: 1FTFW1ET5NFA28471 — 2022 Ford F-150 XLT 5.0L V8',y:'info'},
+        {d:400,t:'Current mileage: 41,820 mi',y:'info'},
+        {d:600,t:'Pulling Ford OASIS service history...',y:'system'},
+        {d:700,t:'Prior ROs at Liberty Ford: 3 found (last: 32k oil & rotation)',y:'success'},
+        {d:500,t:'Open recall: NHTSA 23V-812 — rear axle bolt torque (OPEN)',y:'warning'},
+        {d:400,t:'Warranty: 5yr/60k powertrain ACTIVE · B2B expired at 36k',y:'info'},
+        {d:500,t:'Customer preferred channel: SMS · (330) 555-0142',y:'info'},
+        {d:400,t:'✓ Intake complete — summary compiled',y:'complete',a:{type:'step',n:1}},
+      ]},
+      {n:2,label:'RO Draft Creation',logs:[
+        {d:400,t:'Mapping concern to Ford labor operation codes...',y:'system'},
+        {d:600,t:'Concern: engine vibration ~65mph → op code 1234A (balance shaft)',y:'info'},
+        {d:500,t:'Labor: 1234A Engine balance shaft inspection & R&R — 3.2 hrs',y:'info',a:{type:'labor',v:'1234A — Balance Shaft R&R',h:3.2,r:175}},
+        {d:400,t:'Labor: 1234B Spark plug replacement 5.0L V8 — 1.5 hrs',y:'info',a:{type:'labor',v:'1234B — Spark Plug R&R (8)',h:1.5,r:175}},
+        {d:500,t:'Pre-populating Motorcraft parts catalog...',y:'system'},
+        {d:400,t:'Part: SP-542F Motorcraft Platinum Spark Plugs 8pk — $89.95',y:'info',a:{type:'part',v:'SP-542F Spark Plugs (8pk)',p:89.95}},
+        {d:400,t:'Part: EB-7018 Engine Balance Shaft Kit — $312.00',y:'info',a:{type:'part',v:'EB-7018 Balance Shaft Kit',p:312.00}},
+        {d:500,t:'Warranty flag check... no warranty-eligible lines on this RO',y:'info'},
+        {d:400,t:'Pay type: Customer Pay',y:'info'},
+        {d:400,t:'✓ Draft RO generated: RO-DEMO-001 · Est. $1,482.41',y:'complete',a:{type:'step',n:2}},
+      ]},
+      {n:3,label:'Technician Dispatch',logs:[
+        {d:400,t:'Checking technician availability and skill match...',y:'system'},
+        {d:500,t:'Required skills: Engine, Diagnostics, Powertrain',y:'info'},
+        {d:500,t:'Marcus Chen — Engine/HVAC/Diag · 78% utilized → MATCH',y:'success'},
+        {d:400,t:'Carlos Reyes — Powertrain/Trans · 90% utilized → secondary',y:'info'},
+        {d:400,t:'Assigning RO-DEMO-001 → Marcus Chen',y:'success'},
+        {d:400,t:'Dispatch board updated — status: Assigned',y:'info'},
+        {d:400,t:'✓ Technician assigned: Marcus Chen',y:'complete',a:{type:'step',n:3}},
+      ]},
+      {n:4,label:'Intake Confirmation',logs:[
+        {d:400,t:'Generating intake confirmation message...',y:'system'},
+        {d:500,t:'Sending SMS to Michael Donovan (330) 555-0142...',y:'system'},
+        {d:600,t:'SMS delivered ✓',y:'success',a:{type:'sms',sender:'ADE',text:'Hi Michael, this is Liberty Ford Service. Your 2022 F-150 is checked in (RO-DEMO-001). We\'ve pulled your full vehicle history and our advisor is reviewing now. We\'ll update you at every step. Est. completion: 3-4 hours.'}},
+        {d:400,t:'Follow-up trigger set: diagnosis complete',y:'info'},
+        {d:400,t:'✓ Intake confirmation sent',y:'complete',a:{type:'step',n:4}},
+      ]},
+      {n:5,label:'Diagnosis Complete',logs:[
+        {d:600,t:'Awaiting technician findings from Marcus Chen...',y:'system'},
+        {d:1200,t:'Tech findings received ✓',y:'success'},
+        {d:400,t:'Finding 1: Balance shaft bearing wear — confirms vibration root cause',y:'info'},
+        {d:400,t:'Finding 2: Spark plugs fouled — misfires detected on cylinders 3 and 7',y:'info'},
+        {d:400,t:'Recall 23V-812: axle bolt torque within spec — no action needed',y:'info'},
+        {d:500,t:'Generating customer-ready explanation (plain language)...',y:'system'},
+        {d:500,t:'Cost estimate finalized: Labor $840.00 · Parts $401.95 · Tax $90.74',y:'info'},
+        {d:500,t:'Sending estimate + digital approval request...',y:'system'},
+        {d:600,t:'Approval request sent via SMS + email ✓',y:'success',a:{type:'sms',sender:'ADE',text:'Michael, diagnosis complete. Root cause: worn engine balance shaft + fouled spark plugs. Plain-language summary: The vibration is caused by an internal engine part wearing out — common at 40k+ miles on the 5.0L. We\'ll replace it and the plugs. Total: $1,482.41. Approve? Reply YES or tap: [Approve Now]'}},
+        {d:400,t:'✓ Approval request delivered — awaiting customer response',y:'complete',a:{type:'step',n:5}},
+      ]},
+      {n:6,label:'Upsell Presentation',logs:[
+        {d:500,t:'Cross-referencing Motorcraft maintenance schedule...',y:'system'},
+        {d:400,t:'Mileage 41,820 — checking interval triggers...',y:'system'},
+        {d:500,t:'45k interval: Fuel system clean — due in ~3k mi → flag as upcoming',y:'info'},
+        {d:400,t:'20k interval: Cabin air filter — vehicle at 2.1x interval → OVERDUE',y:'warning'},
+        {d:400,t:'60k interval: Spark plugs — already in RO, skip',y:'info'},
+        {d:500,t:'2 recommendations generated (capped at 3)',y:'info'},
+        {d:400,t:'Appending upsells to approval request...',y:'system'},
+        {d:400,t:'Upsell 1: Fuel System Clean $142.45 · basis: 45k Motorcraft interval',y:'info'},
+        {d:400,t:'Upsell 2: Cabin Air Filter $77.45 · status: OVERDUE at 41k',y:'warning'},
+        {d:400,t:'✓ Upsell presentation appended to customer approval',y:'complete',a:{type:'step',n:6}},
+      ]},
+      {n:7,label:'Approval Management',logs:[
+        {d:600,t:'Monitoring customer approval status...',y:'system'},
+        {d:800,t:'30-minute response window active...',y:'info'},
+        {d:1400,t:'Customer response received: Michael Donovan',y:'success'},
+        {d:400,t:'Parsing approval: YES on main repair',y:'success'},
+        {d:400,t:'Parsing upsells: Fuel System — DECLINED · Cabin Filter — APPROVED',y:'info'},
+        {d:500,t:'Updating RO-DEMO-001 line items...',y:'system',a:{type:'sms',sender:'Customer',text:'Yes approved. Skip the fuel system clean but go ahead on the cabin filter. How long until ready?'}},
+        {d:400,t:'RO updated: main repair + cabin filter approved',y:'success'},
+        {d:300,t:'Declined item logged with reason code for CSI tracking',y:'info'},
+        {d:400,t:'✓ RO approved — revised total $1,559.86',y:'complete',a:{type:'step',n:7}},
+      ]},
+      {n:8,label:'Completion & Delivery',logs:[
+        {d:600,t:'Awaiting QC sign-off from Marcus Chen...',y:'system'},
+        {d:1200,t:'QC passed — quality inspection complete ✓',y:'success'},
+        {d:400,t:'All completed items verified against approved RO',y:'info'},
+        {d:400,t:'Status → Ready for Pickup',y:'info'},
+        {d:500,t:'Generating pickup notification...',y:'system'},
+        {d:500,t:'Sending SMS to (330) 555-0142...',y:'system'},
+        {d:500,t:'Pickup notification delivered ✓',y:'success',a:{type:'sms',sender:'ADE',text:'Michael, your F-150 is ready! Balance shaft replaced, plugs done, cabin filter in. Total due: $1,559.86. Pay online: [Liberty Ford Pay] or pay at pickup. Pull up to the front service lane.'}},
+        {d:400,t:'✓ Customer notified — awaiting pickup',y:'complete',a:{type:'step',n:8}},
+      ]},
+      {n:9,label:'RO Closure',logs:[
+        {d:700,t:'Customer arrival confirmed',y:'success'},
+        {d:400,t:'Payment processed: $1,559.86 ✓',y:'success',a:{type:'sms',sender:'Customer',text:'Paid! On my way. Thanks for the updates — this was way smoother than I expected.'}},
+        {d:400,t:'Triggering post-service CSI survey...',y:'system'},
+        {d:300,t:'CSI survey dispatched to m.donovan@gmail.com',y:'info'},
+        {d:400,t:'Archiving full interaction log (47 entries)...',y:'system'},
+        {d:400,t:'✓ RO-DEMO-001 closed',y:'complete',a:{type:'step',n:9}},
+      ]},
+      {n:10,label:'Metrics Update',logs:[
+        {d:400,t:'Updating performance metrics...',y:'system'},
+        {d:300,t:'ADE handle time: 47 minutes (target: ≤45 min)',y:'info'},
+        {d:300,t:'Upsell conversion: 1/2 (50%)',y:'info'},
+        {d:300,t:'Customer sentiment: positive (paid + thanked)',y:'success'},
+        {d:300,t:'RO value: $1,559.86 (avg target: $900)',y:'success'},
+        {d:400,t:'All metrics pushed to CSI dashboard',y:'info'},
+        {d:600,t:'✓ ADE WORKFLOW COMPLETE — All 10 steps executed autonomously',y:'complete',a:{type:'step',n:10}},
+      ]},
+    ]
+  },
+  {
+    id:'travis-hybrid',
+    label:'Travis Burnett — Hybrid Battery Warranty',
+    desc:'HVB warning light · full warranty coverage · zero customer cost',
+    customer:'Travis Burnett',
+    vehicle:'2023 Ford Escape SEL PHEV · 18,340 mi',
+    steps:[
+      {n:1,label:'Intake & History Pull',logs:[
+        {d:500,t:'Connecting to Reynolds & Reynolds DMS...',y:'system'},
+        {d:600,t:'Customer record retrieved: Travis Burnett (C003)',y:'success'},
+        {d:400,t:'VIN: 1FMCU9GD8PUB91204 — 2023 Escape SEL PHEV',y:'info'},
+        {d:400,t:'Mileage: 18,340 mi — vehicle is 14 months old',y:'info'},
+        {d:500,t:'Hybrid battery: 8yr/100k warranty — FULLY ACTIVE',y:'success'},
+        {d:400,t:'No open recalls. Prior ROs: 1 (10k service)',y:'info'},
+        {d:400,t:'✓ Intake complete — warranty coverage confirmed',y:'complete',a:{type:'step',n:1}},
+      ]},
+      {n:2,label:'RO Draft Creation',logs:[
+        {d:400,t:'Hybrid battery warning → op code 9H01A (HVB diagnostic)',y:'info'},
+        {d:500,t:'Labor: 9H01A HVB diagnostic scan — 1.5 hrs · WARRANTY',y:'info',a:{type:'labor',v:'9H01A — HVB Diagnostic Scan',h:1.5,r:0}},
+        {d:400,t:'Labor: 9H02A HVB cell module R&R — 4.0 hrs · WARRANTY',y:'info',a:{type:'labor',v:'9H02A — HVB Cell Module R&R',h:4.0,r:0}},
+        {d:400,t:'Parts: HV-1901 HVB Cell Module Assembly x2 — WARRANTY',y:'info',a:{type:'part',v:'HV-1901 HVB Cell Module (x2)',p:0}},
+        {d:500,t:'Pay type: WARRANTY — zero customer out-of-pocket',y:'success'},
+        {d:400,t:'✓ Draft RO generated — $0.00 customer cost',y:'complete',a:{type:'step',n:2}},
+      ]},
+      {n:3,label:'Technician Dispatch',logs:[
+        {d:400,t:'Required skills: Hybrid/EV, Electrical',y:'info'},
+        {d:500,t:'Darnell Washington — Electrical/Hybrid · 85% utilized → MATCH',y:'success'},
+        {d:400,t:'Assigning → Darnell Washington',y:'success'},
+        {d:400,t:'✓ Assigned: Darnell Washington',y:'complete',a:{type:'step',n:3}},
+      ]},
+      {n:4,label:'Intake Confirmation',logs:[
+        {d:500,t:'Sending SMS to Travis Burnett...',y:'system'},
+        {d:600,t:'SMS delivered ✓',y:'success',a:{type:'sms',sender:'ADE',text:'Travis, your Escape PHEV is checked in. Good news: the hybrid battery warning is a warranty item — zero cost to you. Our hybrid specialist Darnell is on it now. Est. 5-6 hours for full repair. We\'ll keep you posted.'}},
+        {d:400,t:'✓ Intake confirmation sent — warranty coverage communicated',y:'complete',a:{type:'step',n:4}},
+      ]},
+      {n:5,label:'Diagnosis Complete',logs:[
+        {d:800,t:'Tech findings from Darnell Washington...',y:'success'},
+        {d:400,t:'DTC: P0AA6 — HVB isolation fault on cell modules 3 and 7',y:'info'},
+        {d:400,t:'Both modules require replacement per Ford warranty procedure',y:'info'},
+        {d:500,t:'Warranty claim pre-authorized — Ford coverage confirmed',y:'success'},
+        {d:400,t:'Customer cost: $0.00',y:'success'},
+        {d:400,t:'Sending update to customer...',y:'system'},
+        {d:500,t:'SMS delivered ✓',y:'success',a:{type:'sms',sender:'ADE',text:'Travis, diagnosis confirmed: two battery cell modules need replacement. All covered under your 8yr/100k hybrid warranty — no charge to you. Work starting now, ready by end of day.'}},
+        {d:400,t:'✓ Diagnosis communicated — no approval needed (warranty)',y:'complete',a:{type:'step',n:5}},
+      ]},
+      {n:6,label:'Upsell Presentation',logs:[
+        {d:400,t:'Cross-referencing Motorcraft schedule at 18,340 mi...',y:'system'},
+        {d:400,t:'20k interval: cabin filter upcoming — not yet due',y:'info'},
+        {d:400,t:'Wiper blades: 12-month interval — vehicle is 14mo → flag',y:'warning'},
+        {d:400,t:'Upsell 1: Wiper blade replacement $48.95 — minor, low-pressure',y:'info'},
+        {d:400,t:'No other intervals triggered at 18k',y:'info'},
+        {d:400,t:'1 low-key recommendation generated (customer has $0 RO — good time)',y:'info'},
+        {d:400,t:'✓ Upsell appended to notification',y:'complete',a:{type:'step',n:6}},
+      ]},
+      {n:7,label:'Approval Management',logs:[
+        {d:500,t:'Warranty work requires no customer approval',y:'info'},
+        {d:500,t:'Wiper blade upsell sent for optional approval...',y:'system'},
+        {d:800,t:'Customer response: wiper blades APPROVED',y:'success',a:{type:'sms',sender:'Customer',text:'Sure, go ahead on the wipers. Thanks for covering the warranty so quickly!'}},
+        {d:400,t:'RO updated with wiper blade line',y:'info'},
+        {d:400,t:'✓ Approval complete — revised total: $48.95',y:'complete',a:{type:'step',n:7}},
+      ]},
+      {n:8,label:'Completion & Delivery',logs:[
+        {d:800,t:'QC passed ✓',y:'success'},
+        {d:400,t:'Hybrid system post-repair test: all DTCs cleared',y:'success'},
+        {d:400,t:'EV range restored to factory spec',y:'success'},
+        {d:500,t:'Pickup notification sent...',y:'system'},
+        {d:500,t:'SMS delivered ✓',y:'success',a:{type:'sms',sender:'ADE',text:'Travis, your Escape is ready! Hybrid battery fully repaired under warranty. New wipers installed. Total due: $48.95 for the wipers. See you soon!'}},
+        {d:400,t:'✓ Ready for pickup',y:'complete',a:{type:'step',n:8}},
+      ]},
+      {n:9,label:'RO Closure',logs:[
+        {d:600,t:'Customer pickup confirmed ✓',y:'success'},
+        {d:400,t:'Warranty claim submitted to Ford Motor Company',y:'info'},
+        {d:400,t:'CSI survey dispatched',y:'info'},
+        {d:400,t:'✓ RO closed — warranty reimbursement pending',y:'complete',a:{type:'step',n:9}},
+      ]},
+      {n:10,label:'Metrics Update',logs:[
+        {d:400,t:'Handle time: 41 minutes',y:'info'},
+        {d:300,t:'Warranty claim: $970.00 to Ford reimbursement',y:'info'},
+        {d:300,t:'Customer cost: $48.95',y:'success'},
+        {d:300,t:'Upsell conversion: 1/1 (100%)',y:'success'},
+        {d:500,t:'✓ ADE WORKFLOW COMPLETE',y:'complete',a:{type:'step',n:10}},
+      ]},
+    ]
+  },
+];
+
+const CSI_DATA = Array.from({length:30},(_,i)=>{
+  const d = new Date('2024-02-19'); d.setDate(d.getDate()+i);
+  const base = 88+Math.sin(i/5)*4+Math.random()*3;
+  return {date:d.toISOString().slice(0,10),csi:Math.round(base*10)/10,roVolume:Math.floor(18+Math.random()*12),avgRoValue:Math.floor(720+Math.random()*400),upsellRate:Math.round((0.52+Math.random()*0.25)*100)/100,escalationRate:Math.round((0.04+Math.random()*0.06)*100)/100,handleTime:Math.floor(38+Math.random()*25),responseRate:Math.round((0.78+Math.random()*0.18)*100)/100};
+});
+
+const ADE_STEPS = [
+  {n:1,label:'Intake & History Pull',desc:'Customer record retrieved, vehicle history compiled, VIN decoded'},
+  {n:2,label:'RO Draft Creation',desc:'Labor op codes mapped, parts pre-populated, warranty lines flagged'},
+  {n:3,label:'Diagnosis Coordination',desc:'Technician assigned, dispatch board updated, RO logged'},
+  {n:4,label:'Intake Confirmation',desc:'Customer SMS sent, follow-up trigger set'},
+  {n:5,label:'Diagnosis Complete',desc:'Tech findings received, customer explanation generated, estimate sent'},
+  {n:6,label:'Upsell Presentation',desc:'Motorcraft cross-reference complete, up to 3 recommendations attached'},
+  {n:7,label:'Approval Management',desc:'Digital approval tracked, RO updated, declines coded'},
+  {n:8,label:'Completion & Delivery',desc:'QC signed off, pickup notification sent, payment link delivered'},
+  {n:9,label:'RO Closure',desc:'Customer confirmed pickup, CSI survey triggered, log archived'},
+  {n:10,label:'Closed',desc:'RO fully closed, metrics updated, interaction archived'},
+];
+
+const STATUS_CONFIG = {
+  'Intake':{badge:'badge-gray',label:'Intake'},
+  'Diagnosis':{badge:'badge-yellow',label:'Diagnosis'},
+  'Awaiting Approval':{badge:'badge-orange',label:'Awaiting Approval'},
+  'In Progress':{badge:'badge-blue',label:'In Progress'},
+  'Quality Check':{badge:'badge-purple',label:'Quality Check'},
+  'Ready for Pickup':{badge:'badge-green',label:'Ready for Pickup'},
+  'Closed':{badge:'badge-dark',label:'Closed'},
+  'Escalation':{badge:'badge-red',label:'Escalation'},
+};
+
+// ─── UTILITIES ───────────────────────────────────────────────────────────────
+
+function calcRO(ro){
+  const labor = ro.labors.reduce((s,l)=>s+(l.hours*l.rate),0);
+  const parts = ro.parts.reduce((s,p)=>s+(p.qty*p.unit),0);
+  const sub = labor+parts;
+  const tax = ro.payType==='Warranty'?0:sub*ro.tax;
+  return {labor,parts,sub,tax,total:sub+tax};
+}
+
+function getCustomer(id){return CUSTOMERS.find(c=>c.id===id)}
+function getVehicle(id){return VEHICLES.find(v=>v.id===id)}
+function getTech(id){return TECHNICIANS.find(t=>t.id===id)}
+function getRecalls(vid){return RECALLS.filter(r=>r.vehicleId===vid)}
+
+function StatusBadge({status}){
+  const cfg = STATUS_CONFIG[status]||{badge:'badge-gray',label:status};
+  return <span className={`badge ${cfg.badge}`}>{cfg.label}</span>;
+}
+
+function exportCSV(data,filename){
+  if(!data.length)return;
+  const keys=Object.keys(data[0]);
+  const csv=[keys.join(','),...data.map(r=>keys.map(k=>`"${String(r[k]).replace(/"/g,'""')}"`).join(','))].join('\n');
+  const a=document.createElement('a');a.href='data:text/csv,'+encodeURIComponent(csv);a.download=filename+'.csv';a.click();
+}
+
+// ─── TOAST SYSTEM ────────────────────────────────────────────────────────────
+const ToastContext = React.createContext(null);
+function ToastProvider({children}){
+  const [toasts,setToasts]=useState([]);
+  const add=useCallback((title,msg,variant='info')=>{
+    const id=Date.now();
+    setToasts(t=>[...t,{id,title,msg,variant}]);
+    setTimeout(()=>setToasts(t=>t.filter(x=>x.id!==id)),4500);
+  },[]);
+  const icons={success:'✓',info:'ℹ',warning:'⚠',error:'✕',ade:'⚡'};
+  return (
+    <ToastContext.Provider value={add}>
+      {children}
+      <div className="toast-container">
+        {toasts.map(t=>(
+          <div key={t.id} className={`toast ${t.variant}`}>
+            <span className="toast-icon">{icons[t.variant]||'ℹ'}</span>
+            <div className="toast-body">
+              <div className="toast-title">{t.title}</div>
+              {t.msg&&<div className="toast-msg">{t.msg}</div>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </ToastContext.Provider>
+  );
+}
+
+// ─── ACTIVITY FEED ────────────────────────────────────────────────────────────
+function ActivityFeed({entries,open,onToggle}){
+  return (
+    <div className={`activity-feed ${open?'open':''}`}>
+      <div className="activity-feed-header" onClick={onToggle}>
+        <span style={{width:6,height:6,background:'#3fb950',borderRadius:'50%',display:'inline-block',animation:'pulse 1s infinite'}}/>
+        ADE Live Feed
+        <span style={{marginLeft:'auto',fontSize:12}}>{open?'→':'←'}</span>
+      </div>
+      <div style={{overflowY:'auto',flex:1}}>
+        {entries.slice().reverse().map((e,i)=>(
+          <div key={i} className="activity-entry">
+            <div className="activity-dot"/>
+            <div>
+              <div className="activity-text">{e.text}</div>
+              <div className="activity-time">{e.time} · {e.ro}</div>
+            </div>
+          </div>
+        ))}
+        {entries.length===0&&<div style={{padding:16,fontSize:11,color:'var(--gray-500)'}}>No activity yet</div>}
+      </div>
+    </div>
+  );
+}
+
+// ─── APPOINTMENT QUEUE ────────────────────────────────────────────────────────
+function AppointmentQueue({ros,setRos}){
+  const [filter,setFilter]=useState('All');
+  const filtered=APPOINTMENTS.filter(a=>filter==='All'||a.type===filter);
+  const toast=React.useContext(ToastContext);
+
+  const checkIn=(appt)=>{
+    toast('Customer Checked In',`${appt.customer||getCustomer(appt.customerId)?.name} — ADE activated`,'ade');
+  };
+
+  return (
+    <div>
+      <div style={{background:'var(--navy)',color:'white',padding:'10px 20px',display:'flex',gap:24,alignItems:'center'}}>
+        <div><div style={{fontSize:18,fontWeight:700}}>{APPOINTMENTS.length}</div><div style={{fontSize:10,opacity:0.6,textTransform:'uppercase',letterSpacing:'0.5px'}}>Total Today</div></div>
+        <div><div style={{fontSize:18,fontWeight:700,color:'var(--orange)'}}>{APPOINTMENTS.filter(a=>a.type==='walkin').length}</div><div style={{fontSize:10,opacity:0.6,textTransform:'uppercase',letterSpacing:'0.5px'}}>Walk-Ins</div></div>
+        <div><div style={{fontSize:18,fontWeight:700,color:'#3fb950'}}>{APPOINTMENTS.filter(a=>a.confirmed).length}</div><div style={{fontSize:10,opacity:0.6,textTransform:'uppercase',letterSpacing:'0.5px'}}>Confirmed</div></div>
+        <div style={{marginLeft:'auto',display:'flex',gap:8}}>
+          <select value={filter} onChange={e=>setFilter(e.target.value)} style={{background:'rgba(255,255,255,0.1)',color:'white',border:'1px solid rgba(255,255,255,0.2)'}}>
+            <option value="All">All</option><option value="scheduled">Scheduled</option><option value="walkin">Walk-Ins</option>
+          </select>
+        </div>
+      </div>
+      <div style={{padding:16}}>
+        {filtered.map(appt=>{
+          const c=getCustomer(appt.customerId),v=getVehicle(appt.vehicleId);
+          return (
+            <div key={appt.id} className={`appt-card ${appt.type}`}>
+              <div className="appt-time-block">
+                <div className="appt-time-hour">{appt.time}</div>
+                <div className="appt-time-ampm">{appt.ampm}</div>
+              </div>
+              <div className="appt-details">
+                <div style={{display:'flex',alignItems:'center',gap:8}}>
+                  <div className="appt-name">{c?.name}</div>
+                  <span className={`badge ${appt.type==='walkin'?'badge-orange':'badge-green'}`}>{appt.type==='walkin'?'Walk-In':'Scheduled'}</span>
+                  {appt.confirmed&&<span className="badge badge-blue">Confirmed</span>}
+                </div>
+                <div className="appt-vehicle">{v?.year} {v?.model} · {v?.mileage?.toLocaleString()} mi · {v?.vin?.slice(-8)}</div>
+                <div className="appt-concern">{appt.concern}</div>
+              </div>
+              <div style={{display:'flex',flexDirection:'column',gap:6,flexShrink:0}}>
+                <button className="btn btn-orange btn-sm" onClick={()=>checkIn(appt)}>Check In + ADE</button>
+                <button className="btn btn-ghost btn-sm">View History</button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── ADE DEMO MODE ────────────────────────────────────────────────────────────
+function ADEDemoMode({onClose}){
+  const [scenarioIdx,setScenarioIdx]=useState(0);
+  const [speed,setSpeed]=useState(2);
+  const [running,setRunning]=useState(false);
+  const [started,setStarted]=useState(false);
+  const [currentStep,setCurrentStep]=useState(0);
+  const [logs,setLogs]=useState([]);
+  const [demoLabors,setDemoLabors]=useState([]);
+  const [demoParts,setDemoParts]=useState([]);
+  const [demoComms,setDemoComms]=useState([]);
+  const [complete,setComplete]=useState(false);
+  const logRef=useRef(null);
+  const runningRef=useRef(false);
+  const toast=React.useContext(ToastContext);
+
+  const scenario=DEMO_SCENARIOS[scenarioIdx];
+  const allStepLogs=scenario.steps.flatMap(s=>s.logs);
+  const totalLogs=allStepLogs.length;
+  const logsDone=logs.length;
+
+  const sleep=(ms)=>new Promise(res=>{const t=setTimeout(res,ms);runningRef._t=t;});
+
+  const addLog=(entry,stepN)=>{
+    const now=new Date();
+    const time=now.toTimeString().slice(0,8);
+    setLogs(l=>[...l,{id:Date.now()+Math.random(),time,text:entry.t,type:entry.y}]);
+  };
+
+  const applyAction=(a)=>{
+    if(!a) return;
+    if(a.type==='labor') setDemoLabors(l=>[...l,{desc:a.v,hours:a.h,rate:a.r}]);
+    if(a.type==='part') setDemoParts(p=>[...p,{desc:a.v,price:a.p}]);
+    if(a.type==='sms') setDemoComms(c=>[...c,{sender:a.sender,text:a.text,time:new Date().toTimeString().slice(0,5)}]);
+    if(a.type==='step') {setCurrentStep(a.n); toast(`ADE Step ${a.n} Complete`,DEMO_SCENARIOS[scenarioIdx].steps[a.n-1]?.label,'ade');}
+  };
+
+  const run=async()=>{
+    runningRef.current=true;
+    setRunning(true);
+    setStarted(true);
+    for(const step of scenario.steps){
+      for(const entry of step.logs){
+        if(!runningRef.current) return;
+        await sleep(entry.d/speed);
+        if(!runningRef.current) return;
+        addLog(entry,step.n);
+        if(entry.a) applyAction(entry.a);
+      }
+    }
+    setRunning(false);
+    setComplete(true);
+    toast('ADE Demo Complete',`${scenario.customer} — All 10 steps executed autonomously`,'success');
+  };
+
+  const pause=()=>{runningRef.current=false;setRunning(false);clearTimeout(runningRef._t);};
+  const resume=()=>run();
+
+  const reset=()=>{
+    runningRef.current=false;
+    clearTimeout(runningRef._t);
+    setRunning(false);setStarted(false);setCurrentStep(0);
+    setLogs([]);setDemoLabors([]);setDemoParts([]);setDemoComms([]);setComplete(false);
+  };
+
+  useEffect(()=>{if(logRef.current) logRef.current.scrollTop=logRef.current.scrollHeight;},[logs]);
+
+  const totalLabor=demoLabors.reduce((s,l)=>s+l.hours*l.rate,0);
+  const totalParts=demoParts.reduce((s,p)=>s+p.price,0);
+  const totalEst=(totalLabor+totalParts)*1.0725;
+  const progress=started?(logsDone/totalLogs)*100:0;
+
+  const TYPE_TAG={system:'SYSTEM',info:'INFO  ',success:'OK    ',warning:'WARN  ',error:'ERROR ',complete:'DONE  ',sms:'SMS   '};
+
+  return (
+    <div className="demo-overlay">
+      {/* Header */}
+      <div className="demo-header">
+        <div style={{width:8,height:8,background:'#6EE7B7',borderRadius:'50%',animation:'pulse 1s infinite'}}/>
+        <div className="demo-title">ADE LIVE DEMO</div>
+        <div className="demo-scenario-badge">{scenario.label}</div>
+        <div style={{marginLeft:'auto',display:'flex',alignItems:'center',gap:10}}>
+          {!started&&(
+            <select value={scenarioIdx} onChange={e=>setScenarioIdx(+e.target.value)}
+              style={{background:'rgba(255,255,255,0.15)',color:'white',border:'1px solid rgba(255,255,255,0.3)',padding:'4px 8px',borderRadius:3,fontSize:11}}>
+              {DEMO_SCENARIOS.map((s,i)=><option key={i} value={i} style={{color:'black'}}>{s.label}</option>)}
+            </select>
+          )}
+          <span style={{fontSize:11,color:'rgba(255,255,255,0.75)'}}>{scenario.vehicle}</span>
+          <button className="btn btn-ghost btn-sm" style={{color:'white',borderColor:'rgba(255,255,255,0.35)'}} onClick={onClose}>✕ End Demo</button>
+        </div>
+      </div>
+
+      {/* Body */}
+      <div className="demo-body">
+        {/* Steps col */}
+        <div className="demo-steps-col">
+          <div style={{fontSize:10,fontWeight:700,color:'var(--gray-500)',textTransform:'uppercase',letterSpacing:'0.8px',marginBottom:10}}>Workflow Steps</div>
+          {scenario.steps.map(s=>{
+            const state=currentStep>s.n?'done':currentStep===s.n&&started?'active':'pending';
+            return (
+              <div key={s.n} className={`demo-step-row ${state}-step`}>
+                <div className={`demo-step-num ${state}`}>{state==='done'?'✓':s.n}</div>
+                <div>
+                  <div className="demo-step-label">{s.label}</div>
+                  <div className="demo-step-sublabel">{s.logs.length} operations</div>
+                </div>
+              </div>
+            );
+          })}
+          {complete&&(
+            <div style={{marginTop:12,padding:10,background:'#F0FFF4',border:'1px solid #A7F3D0',borderRadius:4}}>
+              <div style={{fontSize:11,fontWeight:700,color:'var(--green)',marginBottom:4}}>DEMO COMPLETE</div>
+              <div style={{fontSize:10,color:'var(--gray-500)'}}>All 10 steps executed autonomously</div>
+              <div style={{fontSize:12,fontWeight:700,color:'var(--orange)',marginTop:6}}>${totalEst.toFixed(2)}</div>
+              <div style={{fontSize:10,color:'var(--gray-500)'}}>Final RO value</div>
+            </div>
+          )}
+        </div>
+
+        {/* Log col */}
+        <div className="demo-log-col">
+          <div className="demo-log-header">
+            {running&&<div className="demo-log-blinker"/>}
+            ADE Live Execution Log
+            <span style={{marginLeft:'auto',fontSize:10,color:'var(--gray-500)'}}>{logs.length} entries</span>
+          </div>
+          <div className="demo-log-stream" ref={logRef}>
+            {!started&&(
+              <div style={{padding:'40px 20px',textAlign:'center'}}>
+                <div style={{fontSize:28,marginBottom:12}}>⚡</div>
+                <div style={{color:'var(--navy)',fontSize:14,fontWeight:600,marginBottom:6}}>ADE Ready to Execute</div>
+                <div style={{color:'var(--gray-500)',fontSize:12,marginBottom:20}}>Scenario: {scenario.label}</div>
+                <div style={{color:'var(--gray-500)',fontSize:11}}>{scenario.desc}</div>
+              </div>
+            )}
+            {logs.map(l=>(
+              <div key={l.id} className={`demo-log-entry log-${l.type}`}>
+                <span className="log-time">{l.time}</span>
+                <span className="log-type-tag">{TYPE_TAG[l.type]||'INFO  '}</span>
+                <span className="log-text">{l.text}</span>
+              </div>
+            ))}
+            {running&&<div className="demo-log-entry log-system"><span className="log-time"/><span className="log-type-tag">...   </span><span className="log-text" style={{animation:'pulse 1s infinite'}}>█</span></div>}
+          </div>
+        </div>
+
+        {/* Right col — live RO + SMS */}
+        <div className="demo-right-col">
+          <div className="demo-ro-panel">
+            <div className="demo-panel-label">Live RO · {started?'RO-DEMO-001':'—'}</div>
+            {demoLabors.map((l,i)=>(
+              <div key={i} className="demo-ro-line">
+                <span className="desc">{l.desc}</span>
+                <span className="val">${(l.hours*l.rate).toFixed(0)}</span>
+              </div>
+            ))}
+            {demoParts.map((p,i)=>(
+              <div key={i} className="demo-ro-line">
+                <span className="desc" style={{color:'#8b949e'}}>{p.desc}</span>
+                <span className="val" style={{color:'#8b949e'}}>${p.price.toFixed(2)}</span>
+              </div>
+            ))}
+            {(demoLabors.length>0||demoParts.length>0)&&(
+              <div className="demo-ro-total">
+                <span>Est. Total</span>
+                <span>${totalEst.toFixed(2)}</span>
+              </div>
+            )}
+            {!started&&<div style={{color:'rgba(255,255,255,0.2)',fontSize:11,textAlign:'center',padding:'20px 0'}}>RO will build here</div>}
+          </div>
+          <div className="demo-sms-panel">
+            <div className="demo-panel-label">Customer SMS Thread</div>
+            {demoComms.map((m,i)=>(
+              <div key={i} className={`demo-sms-bubble ${m.sender==='Customer'?'customer':''}`}>
+                <div className="meta">{m.sender==='ADE'?'ADE → Customer':'Customer → Liberty Ford'} · {m.time}</div>
+                <div className="bubble">{m.text}</div>
+              </div>
+            ))}
+            {!started&&<div style={{color:'rgba(255,255,255,0.2)',fontSize:11,textAlign:'center',padding:'10px 0'}}>SMS thread will appear here</div>}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer controls */}
+      <div className="demo-footer">
+        {!started?(
+          <button className="demo-launch-btn" onClick={run}>
+            <div className="pulse-dot"/>
+            LAUNCH ADE DEMO
+          </button>
+        ):running?(
+          <button className="btn btn-ghost btn-sm" onClick={pause}>⏸ Pause</button>
+        ):(
+          !complete&&<button className="btn btn-orange btn-sm" onClick={resume}>▶ Resume</button>
+        )}
+        {started&&<button className="btn btn-ghost btn-sm" onClick={reset}>⏹ Reset</button>}
+        <div className="demo-progress-wrap">
+          <div className="demo-progress-bar"><div className="demo-progress-fill" style={{width:progress+'%'}}/></div>
+          <div className="demo-progress-label">
+            {complete?'Complete — All 10 steps executed autonomously':started?`Step ${currentStep}/10 · ${Math.round(progress)}% complete`:'Ready to launch'}
+          </div>
+        </div>
+        <div style={{display:'flex',alignItems:'center',gap:8,color:'var(--gray-500)',fontSize:11,flexShrink:0}}>
+          <span>Speed</span>
+          <select value={speed} onChange={e=>setSpeed(+e.target.value)}>
+            <option value={0.5}>0.5×</option><option value={1}>1×</option><option value={2}>2×</option><option value={5}>5×</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── TOP BAR ─────────────────────────────────────────────────────────────────
+function TopBar(){
+  return (
+    <div className="top-bar">
+      <img className="top-bar-logo" src="https://www.libertyford.com/static/dealer-11898/LibertyFordLogo.png" alt="Liberty Ford"
+        onError={e=>{e.target.style.display='none'}} />
+      <div>
+        <div className="top-bar-brand">LIBERTY FORD AUTO GROUP</div>
+        <div className="top-bar-sub">Service Advisor ADE Platform — Enterprise Edition</div>
+      </div>
+      <div className="top-bar-right">
+        <span className="ade-status-badge">● ADE ACTIVE</span>
+        <span className="top-bar-user">Admin: Service Manager</span>
+      </div>
+    </div>
+  );
+}
+
+// ─── DRILL-DOWN PANEL ────────────────────────────────────────────────────────
+function DrillPanel({ro,onClose,ros,setRos}){
+  if(!ro) return null;
+  const cust = getCustomer(ro.customerId);
+  const veh = getVehicle(ro.vehicleId);
+  const tech = getTech(ro.techId);
+  const recalls = getRecalls(ro.vehicleId);
+  const totals = calcRO(ro);
+  const comms = COMMUNICATIONS.filter(m=>m.roId===ro.id);
+  const ups = UPSELLS.filter(u=>u.roId===ro.id);
+
+  const activateADE = () => {
+    setRos(prev=>prev.map(r=>r.id===ro.id?{...r,adeActive:true,adeStep:Math.max(r.adeStep,1),status:r.status==='Intake'?'Diagnosis':r.status}:r));
+  };
+
+  return (
+    <div className="split-panel">
+      <div style={{background:'var(--navy)',color:'white',padding:'12px 16px',display:'flex',alignItems:'center',gap:8}}>
+        <div>
+          <div style={{fontWeight:700,fontSize:14}}>{ro.id}</div>
+          <div style={{fontSize:11,opacity:0.7}}>{cust?.name} — {veh?.year} {veh?.model}</div>
+        </div>
+        <StatusBadge status={ro.status}/>
+        <button className="modal-close" onClick={onClose} style={{marginLeft:'auto'}}>×</button>
+      </div>
+
+      {/* ADE Workflow */}
+      <div className="detail-section">
+        <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:10}}>
+          <div className="detail-section-title" style={{margin:0}}>ADE Workflow</div>
+          {!ro.adeActive && ro.status!=='Closed' && (
+            <button className="btn btn-orange btn-sm" onClick={activateADE}>▶ Activate ADE</button>
+          )}
+          {ro.adeActive && <span className="badge badge-ade">ADE RUNNING</span>}
+        </div>
+        <div className="ade-workflow">
+          {ADE_STEPS.map(step=>{
+            const state = ro.adeStep>step.n?'complete':ro.adeStep===step.n&&ro.adeActive?'active':'pending';
+            return (
+              <div className="ade-step" key={step.n}>
+                <div className={`step-icon step-${state}`}>{state==='complete'?'✓':step.n}</div>
+                <div className="step-content">
+                  <div className="step-title">Step {step.n}: {step.label}</div>
+                  <div className="step-detail">{state!=='pending'?step.desc:'Pending'}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Customer & Vehicle */}
+      <div className="detail-section">
+        <div className="detail-section-title">Customer & Vehicle</div>
+        <div className="grid-2" style={{gap:8}}>
+          <div>
+            <div className="field-label">Customer</div>
+            <div className="field-value">{cust?.name}</div>
+            <div style={{fontSize:11,color:'var(--gray-500)',marginTop:2}}>{cust?.phone}</div>
+          </div>
+          <div>
+            <div className="field-label">Vehicle</div>
+            <div className="field-value">{veh?.year} {veh?.make} {veh?.model}</div>
+            <div style={{fontSize:11,color:'var(--gray-500)',marginTop:2}}>{veh?.vin}</div>
+          </div>
+          <div>
+            <div className="field-label">Mileage</div>
+            <div className="field-value">{veh?.mileage?.toLocaleString()} mi</div>
+          </div>
+          <div>
+            <div className="field-label">Technician</div>
+            <div className="field-value">{tech?.name||'—'}</div>
+          </div>
+        </div>
+        {recalls.filter(r=>r.status==='OPEN').length>0&&(
+          <div style={{marginTop:8,padding:'6px 10px',background:'#FEE2E2',borderRadius:3,border:'1px solid #FECACA'}}>
+            <span style={{fontSize:11,color:'#991b1b',fontWeight:600}}>⚠ {recalls.filter(r=>r.status==='OPEN').length} Open Recall(s) — Action Required</span>
+          </div>
+        )}
+      </div>
+
+      {/* RO Lines */}
+      <div className="detail-section">
+        <div className="detail-section-title">Repair Order Lines</div>
+        <div style={{overflowX:'auto'}}>
+          <div className="ro-line-item ro-line-header">
+            <span>Description</span><span>Op Code</span><span>Hrs</span><span>Labor</span><span>Parts</span><span>Status</span>
+          </div>
+          {ro.labors.map((l,i)=>(
+            <div className="ro-line-item" key={i}>
+              <span>{l.desc}</span>
+              <span style={{fontFamily:'monospace',fontSize:11}}>{l.code}</span>
+              <span>{l.hours}</span>
+              <span>${(l.hours*l.rate).toFixed(2)}</span>
+              <span>${(ro.parts.filter(p=>p.warranty===l.warranty).reduce((s,p)=>s+p.qty*p.unit,0)/Math.max(ro.labors.length,1)).toFixed(2)}</span>
+              <span>{l.warranty?<span className="badge badge-blue">Warranty</span>:l.approved===true?<span className="badge badge-green">Approved</span>:l.approved===false?<span className="badge badge-red">Declined</span>:<span className="badge badge-orange">Pending</span>}</span>
+            </div>
+          ))}
+        </div>
+        <div style={{borderTop:'1px solid var(--gray-100)',marginTop:4}}>
+          <div className="summary-row"><span>Labor</span><span>${totals.labor.toFixed(2)}</span></div>
+          <div className="summary-row"><span>Parts</span><span>${totals.parts.toFixed(2)}</span></div>
+          <div className="summary-row"><span>Tax</span><span>${totals.tax.toFixed(2)}</span></div>
+          <div className="summary-row total"><span>Total</span><span>${totals.total.toFixed(2)}</span></div>
+        </div>
+      </div>
+
+      {/* Communications */}
+      {comms.length>0&&(
+        <div className="detail-section">
+          <div className="detail-section-title">Communications ({comms.length})</div>
+          {comms.map(msg=>(
+            <div key={msg.id} className={`comm-message comm-${msg.type}`}>
+              <div className="comm-meta">
+                <span className="comm-sender">{msg.sender==='ADE'?<><span className="badge badge-ade">ADE</span> System</>:msg.sender==='Customer'?getCustomer(msg.customerId)?.name:'Staff'}</span>
+                <span className="comm-time">{msg.time}</span>
+                <span className="badge badge-gray" style={{fontSize:9}}>{msg.type.toUpperCase()}</span>
+              </div>
+              <div className="comm-text">{msg.content}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Upsells */}
+      {ups.length>0&&(
+        <div className="detail-section">
+          <div className="detail-section-title">Upsell Recommendations</div>
+          {ups.map(u=>(
+            <div key={u.id} style={{padding:'8px 0',borderBottom:'1px solid var(--gray-100)',display:'flex',alignItems:'center',gap:8}}>
+              <div style={{flex:1}}>
+                <div style={{fontSize:12,fontWeight:600}}>{u.service}</div>
+                <div style={{fontSize:11,color:'var(--gray-500)'}}>{u.basis} · ${u.total.toFixed(2)}</div>
+              </div>
+              <span className={`badge ${u.status==='Approved'?'badge-green':u.status==='Declined'?'badge-red':'badge-orange'}`}>{u.status}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── TAB 1: SERVICE DRIVE ────────────────────────────────────────────────────
+function ServiceDrive({ros,setRos}){
+  const [search,setSearch]=useState('');
+  const [statusFilter,setStatusFilter]=useState('All');
+  const [selectedRO,setSelectedRO]=useState(null);
+  const [sort,setSort]=useState({col:'checkIn',dir:1});
+
+  const filtered = useMemo(()=>{
+    return ros.filter(ro=>{
+      const c=getCustomer(ro.customerId),v=getVehicle(ro.vehicleId);
+      const q=search.toLowerCase();
+      const matchQ=!q||ro.id.toLowerCase().includes(q)||c?.name.toLowerCase().includes(q)||v?.model.toLowerCase().includes(q)||v?.vin.toLowerCase().includes(q);
+      const matchS=statusFilter==='All'||ro.status===statusFilter;
+      return matchQ&&matchS;
+    }).sort((a,b)=>{
+      let av=a[sort.col]||'',bv=b[sort.col]||'';
+      return String(av).localeCompare(String(bv))*sort.dir;
+    });
+  },[ros,search,statusFilter,sort]);
+
+  const selectedROObj = ros.find(r=>r.id===selectedRO);
+
+  const activateADE = (e,roId)=>{
+    e.stopPropagation();
+    setRos(prev=>prev.map(r=>r.id===roId?{...r,adeActive:true,adeStep:Math.max(r.adeStep,1)}:r));
+  };
+
+  const sortBy=(col)=>setSort(s=>({col,dir:s.col===col?-s.dir:1}));
+
+  return (
+    <div className="split-layout">
+      <div className="split-main">
+        <div className="section-header">
+          <div><div className="section-title">Service Drive</div><div className="section-sub">{filtered.length} active interactions</div></div>
+          <div className="section-actions">
+            <input className="search-input" type="search" placeholder="Search RO, customer, vehicle..." value={search} onChange={e=>setSearch(e.target.value)}/>
+            <select value={statusFilter} onChange={e=>setStatusFilter(e.target.value)}>
+              <option>All</option>
+              {Object.keys(STATUS_CONFIG).map(s=><option key={s}>{s}</option>)}
+            </select>
+            <button className="btn btn-ghost btn-sm" onClick={()=>exportCSV(filtered.map(r=>{const c=getCustomer(r.customerId),v=getVehicle(r.vehicleId);return{ro:r.id,customer:c?.name,vehicle:`${v?.year} ${v?.model}`,status:r.status,checkin:r.checkIn,total:calcRO(r).total.toFixed(2)};}),'service-drive')}>Export CSV</button>
+          </div>
+        </div>
+        <table>
+          <thead><tr>
+            {[['id','RO #'],['customerId','Customer'],['vehicleId','Vehicle'],['checkIn','Check-In'],['status','Status'],['techId','Technician'],['adeActive','ADE'],['','Actions']].map(([col,lbl])=>(
+              <th key={col} onClick={()=>col&&sortBy(col)}>{lbl}{sort.col===col&&<span className="sort-arrow">{sort.dir>0?'▲':'▼'}</span>}</th>
+            ))}
+          </tr></thead>
+          <tbody>
+            {filtered.map(ro=>{
+              const c=getCustomer(ro.customerId),v=getVehicle(ro.vehicleId),t=getTech(ro.techId),tot=calcRO(ro);
+              return (
+                <tr key={ro.id} onClick={()=>setSelectedRO(selectedRO===ro.id?null:ro.id)} style={{background:selectedRO===ro.id?'#EEF2FF':undefined}}>
+                  <td><span style={{fontWeight:700,color:'var(--navy)',fontFamily:'monospace'}}>{ro.id}</span></td>
+                  <td><div style={{fontWeight:500}}>{c?.name}</div><div style={{fontSize:11,color:'var(--gray-500)'}}>{c?.phone}</div></td>
+                  <td><div>{v?.year} {v?.model}</div><div style={{fontSize:11,color:'var(--gray-500)',fontFamily:'monospace'}}>{v?.vin?.slice(-8)}</div></td>
+                  <td>{ro.checkIn}</td>
+                  <td><StatusBadge status={ro.status}/></td>
+                  <td>{t?.name||<span style={{color:'var(--gray-500)'}}>Unassigned</span>}</td>
+                  <td>{ro.adeActive?<span className="badge badge-ade">ADE</span>:<span className="badge badge-gray">—</span>}</td>
+                  <td onClick={e=>e.stopPropagation()}>
+                    {!ro.adeActive&&ro.status!=='Closed'?
+                      <button className="btn btn-orange btn-sm" onClick={e=>activateADE(e,ro.id)}>Activate ADE</button>:
+                      <button className="btn btn-ghost btn-sm" onClick={()=>setSelectedRO(ro.id)}>View</button>}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      {selectedROObj&&<DrillPanel ro={selectedROObj} onClose={()=>setSelectedRO(null)} ros={ros} setRos={setRos}/>}
+    </div>
+  );
+}
+
+// ─── TAB 2: REPAIR ORDERS ────────────────────────────────────────────────────
+function RepairOrders({ros,setRos}){
+  const [search,setSearch]=useState('');
+  const [payFilter,setPayFilter]=useState('All');
+  const [selected,setSelected]=useState(null);
+  const [sort,setSort]=useState({col:'id',dir:1});
+
+  const filtered=useMemo(()=>ros.filter(ro=>{
+    const c=getCustomer(ro.customerId),v=getVehicle(ro.vehicleId);
+    const q=search.toLowerCase();
+    return (!q||ro.id.toLowerCase().includes(q)||c?.name.toLowerCase().includes(q))&&(payFilter==='All'||ro.payType===payFilter);
+  }).sort((a,b)=>String(a[sort.col]).localeCompare(String(b[sort.col]))*sort.dir),[ros,search,payFilter,sort]);
+
+  const selectedRO=ros.find(r=>r.id===selected);
+  const sortBy=col=>setSort(s=>({col,dir:s.col===col?-s.dir:1}));
+
+  return (
+    <div className="split-layout">
+      <div className="split-main">
+        <div className="section-header">
+          <div><div className="section-title">Repair Order Management</div><div className="section-sub">{filtered.length} ROs</div></div>
+          <div className="section-actions">
+            <input className="search-input" type="search" placeholder="Search RO, customer..." value={search} onChange={e=>setSearch(e.target.value)}/>
+            <select value={payFilter} onChange={e=>setPayFilter(e.target.value)}><option>All</option><option>Customer</option><option>Warranty</option><option>Split</option></select>
+            <button className="btn btn-ghost btn-sm" onClick={()=>exportCSV(filtered.map(r=>{const t=calcRO(r);return{ro:r.id,customer:getCustomer(r.customerId)?.name,status:r.status,payType:r.payType,labor:t.labor.toFixed(2),parts:t.parts.toFixed(2),total:t.total.toFixed(2)};}),'repair-orders')}>Export CSV</button>
+          </div>
+        </div>
+        <table>
+          <thead><tr>
+            {[['id','RO #'],['customerId','Customer'],['status','Status'],['opened','Opened'],['payType','Pay Type'],['concern','Concern'],['','Total']].map(([col,lbl])=>(
+              <th key={col} onClick={()=>col&&sortBy(col)}>{lbl}{sort.col===col&&<span className="sort-arrow">{sort.dir>0?'▲':'▼'}</span>}</th>
+            ))}
+          </tr></thead>
+          <tbody>
+            {filtered.map(ro=>{
+              const c=getCustomer(ro.customerId),tot=calcRO(ro);
+              return (
+                <tr key={ro.id} onClick={()=>setSelected(selected===ro.id?null:ro.id)} style={{background:selected===ro.id?'#EEF2FF':undefined}}>
+                  <td><span style={{fontWeight:700,color:'var(--navy)',fontFamily:'monospace'}}>{ro.id}</span></td>
+                  <td>{c?.name}</td>
+                  <td><StatusBadge status={ro.status}/></td>
+                  <td style={{fontSize:11}}>{ro.opened}</td>
+                  <td><span className={`badge ${ro.payType==='Warranty'?'badge-blue':ro.payType==='Split'?'badge-purple':'badge-gray'}`}>{ro.payType}</span></td>
+                  <td style={{maxWidth:200,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{ro.concern}</td>
+                  <td style={{fontWeight:700,color:'var(--navy)'}}>${tot.total.toFixed(2)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      {selectedRO&&<DrillPanel ro={selectedRO} onClose={()=>setSelected(null)} ros={ros} setRos={setRos}/>}
+    </div>
+  );
+}
+
+// ─── TAB 3: COMMUNICATION HUB ────────────────────────────────────────────────
+function CommHub(){
+  const [selected,setSelected]=useState('C001');
+  const [filter,setFilter]=useState('All');
+
+  const custComms = useMemo(()=>{
+    return COMMUNICATIONS.filter(m=>m.customerId===selected&&(filter==='All'||m.type===filter));
+  },[selected,filter]);
+
+  return (
+    <div style={{display:'grid',gridTemplateColumns:'220px 1fr',height:'calc(100vh-120px)'}}>
+      <div style={{borderRight:'1px solid var(--gray-100)',background:'white',overflowY:'auto'}}>
+        <div style={{padding:'10px 12px',background:'#F8F9FA',borderBottom:'1px solid var(--gray-100)',fontSize:11,fontWeight:700,color:'var(--navy)',textTransform:'uppercase',letterSpacing:'0.5px'}}>Customers</div>
+        {CUSTOMERS.map(c=>{
+          const unread=COMMUNICATIONS.filter(m=>m.customerId===c.id&&m.sender==='Customer').length;
+          return (
+            <div key={c.id} onClick={()=>setSelected(c.id)}
+              style={{padding:'10px 12px',borderBottom:'1px solid var(--gray-100)',cursor:'pointer',background:selected===c.id?'#EEF2FF':'white',display:'flex',alignItems:'center',gap:8}}>
+              <div style={{flex:1}}>
+                <div style={{fontSize:12,fontWeight:500}}>{c.name}</div>
+                <div style={{fontSize:11,color:'var(--gray-500)'}}>{COMMUNICATIONS.filter(m=>m.customerId===c.id).length} messages</div>
+              </div>
+              {unread>0&&<span style={{background:'var(--orange)',color:'white',borderRadius:10,fontSize:9,fontWeight:700,padding:'1px 5px'}}>{unread}</span>}
+            </div>
+          );
+        })}
+      </div>
+      <div style={{display:'flex',flexDirection:'column',background:'white'}}>
+        <div className="section-header">
+          <div className="section-title">{getCustomer(selected)?.name} — Communication Thread</div>
+          <div className="section-actions">
+            <select value={filter} onChange={e=>setFilter(e.target.value)}><option value="All">All Channels</option><option value="sms">SMS</option><option value="email">Email</option><option value="note">Notes</option></select>
+            <button className="btn btn-ghost btn-sm" onClick={()=>exportCSV(custComms.map(m=>({time:m.time,type:m.type,sender:m.sender,content:m.content})),'communications')}>Export</button>
+          </div>
+        </div>
+        <div style={{flex:1,overflowY:'auto'}}>
+          {custComms.length===0?<div className="empty-state">No communications found.</div>:
+            custComms.map(msg=>(
+              <div key={msg.id} className={`comm-message comm-${msg.type}`}>
+                <div className="comm-meta">
+                  <span className="comm-sender">{msg.sender==='ADE'?<><span className="badge badge-ade">ADE</span> System</>:msg.sender==='Customer'?getCustomer(msg.customerId)?.name:'Staff'}</span>
+                  <span className="comm-time">{msg.time}</span>
+                  <span className="badge badge-gray" style={{fontSize:9}}>{msg.type.toUpperCase()}</span>
+                  <span style={{fontSize:11,color:'var(--gray-500)'}}>{msg.roId}</span>
+                  <span className={`badge ${msg.delivered?'badge-green':'badge-red'}`} style={{fontSize:9}}>{msg.delivered?'DELIVERED':'FAILED'}</span>
+                </div>
+                <div className="comm-text" style={{whiteSpace:'pre-wrap'}}>{msg.content}</div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── TAB 4: VEHICLE HISTORY ──────────────────────────────────────────────────
+function VehicleHistory(){
+  const [query,setQuery]=useState('');
+  const [selected,setSelected]=useState('V001');
+
+  const veh=VEHICLES.find(v=>v.id===selected);
+  const cust=veh?getCustomer(veh.customerId):null;
+  const recalls=veh?getRecalls(veh.id):[];
+  const vehicleROs = initialROs.filter(r=>r.vehicleId===selected);
+  const filtered=VEHICLES.filter(v=>{const q=query.toLowerCase();return !q||v.vin.toLowerCase().includes(q)||v.model.toLowerCase().includes(q)||getCustomer(v.customerId)?.name.toLowerCase().includes(q)});
+
+  return (
+    <div style={{display:'grid',gridTemplateColumns:'240px 1fr',height:'calc(100vh - 120px)'}}>
+      <div style={{borderRight:'1px solid var(--gray-100)',background:'white',overflowY:'auto'}}>
+        <div style={{padding:'10px 12px',background:'#F8F9FA',borderBottom:'1px solid var(--gray-100)'}}>
+          <input type="search" style={{width:'100%'}} placeholder="VIN or name..." value={query} onChange={e=>setQuery(e.target.value)}/>
+        </div>
+        {filtered.map(v=>{
+          const c=getCustomer(v.customerId);
+          const openRecalls=getRecalls(v.id).filter(r=>r.status==='OPEN').length;
+          return (
+            <div key={v.id} onClick={()=>setSelected(v.id)}
+              style={{padding:'10px 12px',borderBottom:'1px solid var(--gray-100)',cursor:'pointer',background:selected===v.id?'#EEF2FF':'white',display:'flex',alignItems:'center',gap:8}}>
+              <div style={{flex:1}}>
+                <div style={{fontSize:12,fontWeight:500}}>{v.year} {v.model}</div>
+                <div style={{fontSize:11,color:'var(--gray-500)'}}>{c?.name}</div>
+                <div style={{fontSize:10,color:'var(--gray-500)',fontFamily:'monospace'}}>{v.vin.slice(-8)}</div>
+              </div>
+              {openRecalls>0&&<span className="badge badge-red">⚠ {openRecalls}</span>}
+            </div>
+          );
+        })}
+      </div>
+
+      {veh&&<div style={{overflowY:'auto',background:'#F5F5F5'}}>
+        <div className="section-header">
+          <div><div className="section-title">{veh.year} {veh.make} {veh.model} {veh.trim}</div><div className="section-sub">{veh.vin}</div></div>
+          <div className="section-actions">
+            <span className="badge badge-navy">{veh.mileage.toLocaleString()} mi</span>
+            {recalls.filter(r=>r.status==='OPEN').length>0&&<span className="badge badge-red">⚠ {recalls.filter(r=>r.status==='OPEN').length} Open Recalls</span>}
+          </div>
+        </div>
+        <div className="tab-content">
+          <div className="grid-2" style={{marginBottom:16}}>
+            <div className="panel">
+              <div className="panel-header"><span className="panel-title">Vehicle Info</span></div>
+              <div style={{padding:12,display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
+                {[['Owner',cust?.name],['Phone',cust?.phone],['Color',veh.color],['Engine',veh.engine],['Transmission',veh.trans],['License',veh.licensePlate],['VIN',veh.vin]].map(([k,v])=>(
+                  <div key={k}>
+                    <div className="field-label">{k}</div>
+                    <div className="field-value" style={{fontSize:12,fontFamily:k==='VIN'?'monospace':undefined}}>{v}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="panel">
+              <div className="panel-header"><span className="panel-title">Warranty Coverage</span></div>
+              <div style={{padding:12}}>
+                <div style={{fontSize:11,color:'var(--gray-700)',lineHeight:1.8}}>{veh.warranty}</div>
+                <div className="divider"/>
+                <div className="field-label">Open Recalls</div>
+                {recalls.map(r=>(
+                  <div key={r.id} className={`recall-item ${r.status==='OPEN'?'recall-open':'recall-closed'}`}>
+                    <span className={`badge ${r.status==='OPEN'?'badge-red':'badge-green'}`}>{r.status}</span>
+                    <div>
+                      <div style={{fontSize:11,fontWeight:600}}>{r.nhtsa}</div>
+                      <div style={{fontSize:11,color:'var(--gray-500)'}}>{r.description}</div>
+                    </div>
+                  </div>
+                ))}
+                {recalls.length===0&&<div style={{fontSize:12,color:'var(--gray-500)'}}>No recalls on file</div>}
+              </div>
+            </div>
+          </div>
+
+          <div className="panel">
+            <div className="panel-header"><span className="panel-title">Service History at Liberty Ford</span></div>
+            <table>
+              <thead><tr><th>RO #</th><th>Date</th><th>Concern</th><th>Status</th><th>Pay Type</th><th>Total</th></tr></thead>
+              <tbody>
+                {vehicleROs.map(ro=>(
+                  <tr key={ro.id}>
+                    <td style={{fontFamily:'monospace',fontWeight:700,color:'var(--navy)'}}>{ro.id}</td>
+                    <td>{ro.opened}</td>
+                    <td style={{maxWidth:280,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{ro.concern}</td>
+                    <td><StatusBadge status={ro.status}/></td>
+                    <td>{ro.payType}</td>
+                    <td style={{fontWeight:600}}>${calcRO(ro).total.toFixed(2)}</td>
+                  </tr>
+                ))}
+                {vehicleROs.length===0&&<tr><td colSpan={6} style={{textAlign:'center',color:'var(--gray-500)',padding:20}}>No service history on file</td></tr>}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="panel" style={{marginTop:16}}>
+            <div className="panel-header"><span className="panel-title">Motorcraft Maintenance Schedule</span></div>
+            <table>
+              <thead><tr><th>Service</th><th>Interval</th><th>Last Done</th><th>Status</th></tr></thead>
+              <tbody>
+                {[
+                  ['Oil & Filter Change','Every 10,000 mi','~32k mi (est)',veh.mileage>40000?'OVERDUE':'Current'],
+                  ['Tire Rotation','Every 10,000 mi','Last visit',veh.mileage>40000?'Due':'Current'],
+                  ['Cabin Air Filter','Every 20,000 mi','Unknown',veh.mileage>20000?'Due':'Current'],
+                  ['Engine Air Filter','Every 30,000 mi','Unknown',veh.mileage>30000?'Due':'Current'],
+                  ['Spark Plugs (Platinum)','Every 60,000 mi','Never',veh.mileage>40000?'Upcoming':'Current'],
+                  ['Brake Fluid Flush','Every 2 years','Unknown','Due'],
+                  ['Coolant System Flush','Every 100,000 mi','Never',veh.mileage>80000?'Due':'Current'],
+                  ['Differential Fluid','Every 30,000 mi','Unknown',veh.mileage>30000?'Due':'Current'],
+                ].map(([svc,interval,last,status])=>(
+                  <tr key={svc}>
+                    <td>{svc}</td><td>{interval}</td><td>{last}</td>
+                    <td><span className={`badge ${status==='OVERDUE'?'badge-red':status==='Due'?'badge-orange':status==='Upcoming'?'badge-yellow':'badge-green'}`}>{status}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>}
+    </div>
+  );
+}
+
+// ─── TAB 5: DISPATCH BOARD ───────────────────────────────────────────────────
+function DispatchBoard({ros,setRos}){
+  const COLS=['Unassigned','Assigned','In Progress','Quality Check','Complete'];
+  const statusMap={'Intake':'Unassigned','Diagnosis':'Assigned','Awaiting Approval':'In Progress','In Progress':'In Progress','Quality Check':'Quality Check','Ready for Pickup':'Complete','Closed':'Complete'};
+
+  const getCards=(col)=>ros.filter(ro=>(statusMap[ro.status]||'Unassigned')===col&&ro.status!=='Closed');
+
+  const moveCard=(roId,toCol)=>{
+    const newStatus={Unassigned:'Intake',Assigned:'Diagnosis','In Progress':'In Progress','Quality Check':'Quality Check',Complete:'Ready for Pickup'};
+    setRos(prev=>prev.map(r=>r.id===roId?{...r,status:newStatus[toCol]||r.status}:r));
+  };
+
+  return (
+    <div>
+      <div className="section-header">
+        <div className="section-title">Technician Dispatch Board</div>
+        <div className="section-actions">
+          {TECHNICIANS.map(t=>{
+            const util=Math.round((t.flagged/t.available)*100);
+            return (
+              <div key={t.id} className="tech-util">
+                <span style={{fontSize:11,fontWeight:500,minWidth:90}}>{t.name.split(' ')[0]}</span>
+                <div className="util-bar"><div className={`util-fill ${util>=100?'util-red':util>=85?'util-yellow':'util-green'}`} style={{width:util+'%'}}/></div>
+                <span style={{fontSize:11,fontWeight:700,color:util>=100?'var(--red)':util>=85?'#d97706':'var(--green)',minWidth:32}}>{util}%</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <div className="kanban-board">
+        {COLS.map(col=>{
+          const cards=getCards(col);
+          return (
+            <div key={col} className="kanban-col"
+              onDragOver={e=>e.preventDefault()}
+              onDrop={e=>{e.preventDefault();const id=e.dataTransfer.getData('roId');moveCard(id,col);}}>
+              <div className="kanban-col-header">
+                <span>{col}</span>
+                <span style={{background:'rgba(0,0,0,0.1)',borderRadius:10,padding:'1px 7px',fontSize:11}}>{cards.length}</span>
+              </div>
+              <div className="kanban-cards">
+                {cards.map(ro=>{
+                  const c=getCustomer(ro.customerId),v=getVehicle(ro.vehicleId),t=getTech(ro.techId),tot=calcRO(ro);
+                  return (
+                    <div key={ro.id} className="kanban-card" draggable
+                      onDragStart={e=>e.dataTransfer.setData('roId',ro.id)}>
+                      <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
+                        <div className="kanban-card-ro">{ro.id}</div>
+                        <StatusBadge status={ro.status}/>
+                      </div>
+                      <div className="kanban-card-name">{c?.name}</div>
+                      <div className="kanban-card-vehicle">{v?.year} {v?.model} · {v?.mileage?.toLocaleString()} mi</div>
+                      <div className="kanban-card-job" style={{marginTop:6,borderTop:'1px solid var(--gray-100)',paddingTop:6}}>{ro.concern.slice(0,60)}{ro.concern.length>60?'…':''}</div>
+                      <div className="kanban-card-footer">
+                        <span style={{fontSize:11,color:'var(--gray-500)'}}>{t?.name||'Unassigned'}</span>
+                        <span style={{fontSize:11,fontWeight:700,color:'var(--navy)'}}>${tot.total.toFixed(0)}</span>
+                      </div>
+                      {ro.adeActive&&<div style={{marginTop:4}}><span className="badge badge-ade">ADE</span></div>}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── TAB 6: UPSELL ENGINE ────────────────────────────────────────────────────
+function UpsellEngine(){
+  const [filter,setFilter]=useState('All');
+  const [sort,setSort]=useState({col:'total',dir:-1});
+
+  const filtered=useMemo(()=>UPSELLS.filter(u=>filter==='All'||u.status===filter)
+    .sort((a,b)=>(a[sort.col]>b[sort.col]?1:-1)*sort.dir),[filter,sort]);
+
+  const totals={rec:UPSELLS.reduce((s,u)=>s+u.total,0),approved:UPSELLS.filter(u=>u.status==='Approved').reduce((s,u)=>s+u.total,0),declined:UPSELLS.filter(u=>u.status==='Declined').reduce((s,u)=>s+u.total,0),pending:UPSELLS.filter(u=>u.status==='Pending').reduce((s,u)=>s+u.total,0)};
+  const rate=UPSELLS.filter(u=>u.status!=='Pending').length?Math.round(UPSELLS.filter(u=>u.status==='Approved').length/UPSELLS.filter(u=>u.status!=='Pending').length*100):0;
+
+  return (
+    <div>
+      <div className="upsell-summary-bar">
+        {[['$'+totals.rec.toFixed(0),'Total Recommended'],['$'+totals.approved.toFixed(0),'Approved Revenue'],['$'+totals.declined.toFixed(0),'Declined'],['$'+totals.pending.toFixed(0),'Pending Approval']].map(([v,l])=>(
+          <div key={l} className="upsell-metric"><div className="upsell-metric-val">{v}</div><div className="upsell-metric-lbl">{l}</div></div>
+        ))}
+      </div>
+      <div className="section-header">
+        <div><div className="section-title">Upsell & Recommendations Engine</div><div className="section-sub">Conversion rate: {rate}% · {UPSELLS.filter(u=>u.status==='Approved').length}/{UPSELLS.filter(u=>u.status!=='Pending').length} approved</div></div>
+        <div className="section-actions">
+          <select value={filter} onChange={e=>setFilter(e.target.value)}><option>All</option><option>Pending</option><option>Approved</option><option>Declined</option></select>
+          <button className="btn btn-ghost btn-sm" onClick={()=>exportCSV(filtered.map(u=>({ro:u.roId,service:u.service,basis:u.basis,mileage:u.mileage,total:u.total.toFixed(2),status:u.status})),'upsells')}>Export CSV</button>
+        </div>
+      </div>
+      <table>
+        <thead><tr>
+          {[['roId','RO #'],['vehicleId','Vehicle'],['service','Service'],['basis','Motorcraft Basis'],['mileage','Mileage'],['laborAmt','Labor'],['partsAmt','Parts'],['total','Total'],['status','Status']].map(([col,lbl])=>(
+            <th key={col} onClick={()=>setSort(s=>({col,dir:s.col===col?-s.dir:-1}))}>{lbl}{sort.col===col&&<span className="sort-arrow">{sort.dir>0?'▲':'▼'}</span>}</th>
+          ))}
+        </tr></thead>
+        <tbody>
+          {filtered.map(u=>{
+            const v=getVehicle(u.vehicleId);
+            return (
+              <tr key={u.id}>
+                <td style={{fontFamily:'monospace',fontWeight:700,color:'var(--navy)'}}>{u.roId}</td>
+                <td>{v?.year} {v?.model}</td>
+                <td style={{fontWeight:500}}>{u.service}</td>
+                <td style={{fontSize:11,color:'var(--gray-500)'}}>{u.basis}</td>
+                <td>{u.mileage.toLocaleString()}</td>
+                <td>${u.laborAmt.toFixed(2)}</td>
+                <td>${(u.partsAmt||0).toFixed(2)}</td>
+                <td style={{fontWeight:700,color:'var(--navy)'}}>${u.total.toFixed(2)}</td>
+                <td><span className={`badge ${u.status==='Approved'?'badge-green':u.status==='Declined'?'badge-red':'badge-orange'}`}>{u.status}</span></td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// ─── TAB 7: CSI DASHBOARD ────────────────────────────────────────────────────
+function CSIDashboard(){
+  const last7=CSI_DATA.slice(-7),last30=CSI_DATA;
+  const avg=(arr,key)=>arr.reduce((s,d)=>s+d[key],0)/arr.length;
+  const latest=CSI_DATA[CSI_DATA.length-1],prev=CSI_DATA[CSI_DATA.length-8];
+
+  const metrics=[
+    {key:'csi',label:'CSI Score (30-day)',value:avg(last30,'csi').toFixed(1),target:90,unit:'',trend:((avg(last7,'csi')-avg(last30,'csi'))/avg(last30,'csi')*100).toFixed(1)},
+    {key:'roVolume',label:'RO Volume (daily avg)',value:Math.round(avg(last30,'roVolume')),target:22,unit:'',trend:((avg(last7,'roVolume')-avg(last30,'roVolume'))/avg(last30,'roVolume')*100).toFixed(1)},
+    {key:'avgRoValue',label:'Avg RO Value',value:'$'+Math.round(avg(last30,'avgRoValue')).toLocaleString(),target:900,unit:'$',trend:((avg(last7,'avgRoValue')-avg(last30,'avgRoValue'))/avg(last30,'avgRoValue')*100).toFixed(1)},
+    {key:'upsellRate',label:'Upsell Attachment Rate',value:Math.round(avg(last30,'upsellRate')*100)+'%',target:65,unit:'%',trend:((avg(last7,'upsellRate')-avg(last30,'upsellRate'))/avg(last30,'upsellRate')*100).toFixed(1)},
+    {key:'escalationRate',label:'Escalation Rate',value:Math.round(avg(last30,'escalationRate')*100)+'%',target:5,unit:'%',trend:((avg(last7,'escalationRate')-avg(last30,'escalationRate'))/avg(last30,'escalationRate')*100).toFixed(1),invertTrend:true},
+    {key:'handleTime',label:'Avg Handle Time (min)',value:Math.round(avg(last30,'handleTime')),target:45,unit:'min',trend:((avg(last7,'handleTime')-avg(last30,'handleTime'))/avg(last30,'handleTime')*100).toFixed(1),invertTrend:true},
+    {key:'responseRate',label:'Customer Response Rate',value:Math.round(avg(last30,'responseRate')*100)+'%',target:85,unit:'%',trend:((avg(last7,'responseRate')-avg(last30,'responseRate'))/avg(last30,'responseRate')*100).toFixed(1)},
+  ];
+
+  return (
+    <div>
+      <div className="section-header">
+        <div><div className="section-title">CSI & Performance Dashboard</div><div className="section-sub">Rolling 30-day · Updated: {CSI_DATA[CSI_DATA.length-1].date}</div></div>
+        <div className="section-actions"><button className="btn btn-ghost btn-sm" onClick={()=>exportCSV(CSI_DATA,'csi-performance')}>Export CSV</button></div>
+      </div>
+      <div className="tab-content">
+        <div className="grid-4" style={{marginBottom:16}}>
+          {metrics.map(m=>{
+            const trendNum=parseFloat(m.trend);
+            const positive = m.invertTrend ? trendNum<0 : trendNum>0;
+            return (
+              <div key={m.key} className="metric-card">
+                <div className="metric-value">{m.value}</div>
+                <div className="metric-label">{m.label}</div>
+                <div className={`metric-trend ${positive?'trend-up':'trend-down'}`}>
+                  {positive?'▲':'▼'} {Math.abs(trendNum)}% vs prior period
+                </div>
+                <div style={{marginTop:6}}>
+                  <div style={{fontSize:10,color:'var(--gray-500)',marginBottom:3}}>Target: {m.target}{m.unit}</div>
+                  <div className="progress-bar-wrap"><div className="progress-bar-fill" style={{width:'72%'}}/></div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="panel">
+          <div className="panel-header"><span className="panel-title">30-Day Performance Trend</span></div>
+          <table>
+            <thead><tr><th>Date</th><th>CSI</th><th>RO Volume</th><th>Avg RO Value</th><th>Upsell Rate</th><th>Escalation Rate</th><th>Handle Time</th><th>Response Rate</th></tr></thead>
+            <tbody>
+              {CSI_DATA.slice().reverse().map(d=>(
+                <tr key={d.date}>
+                  <td>{d.date}</td>
+                  <td style={{fontWeight:d.csi>=90?700:400,color:d.csi>=90?'var(--green)':d.csi>=85?'var(--yellow)':'var(--red)'}}>{d.csi}</td>
+                  <td>{d.roVolume}</td>
+                  <td>${d.avgRoValue.toLocaleString()}</td>
+                  <td>{Math.round(d.upsellRate*100)}%</td>
+                  <td style={{color:d.escalationRate>0.08?'var(--red)':'inherit'}}>{Math.round(d.escalationRate*100)}%</td>
+                  <td>{d.handleTime} min</td>
+                  <td>{Math.round(d.responseRate*100)}%</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── TAB 8: ESCALATION QUEUE ─────────────────────────────────────────────────
+function EscalationQueue({ros,setRos}){
+  const escalations=[
+    {id:'ESC-001',roId:'RO-24-8807',customerId:'C007',trigger:'Customer Requested Human',reason:'Customer expressed distrust about catalytic converter recommendation. References prior dealer dispute.',age:26,severity:'high',status:'Open'},
+    {id:'ESC-002',roId:'RO-24-8805',customerId:'C005',trigger:'Spend Threshold',reason:'60k service + recall repair total approaching $1,100. ADE spend threshold is $1,000 for auto-approval.',age:8,severity:'medium',status:'Open'},
+  ];
+
+  const takeOver=(escId,roId)=>{
+    setRos(prev=>prev.map(r=>r.id===roId?{...r,adeActive:false,status:r.status==='Escalation'?'Awaiting Approval':r.status}:r));
+    alert(`Escalation ${escId} assigned to human staff. ADE suspended for ${roId}.`);
+  };
+
+  return (
+    <div>
+      <div className="section-header">
+        <div className="section-title">Escalation & Exception Queue</div>
+        <div className="section-sub">{escalations.filter(e=>e.status==='Open').length} open escalations</div>
+      </div>
+      <div className="tab-content">
+        {escalations.map(esc=>{
+          const ro=ros.find(r=>r.id===esc.roId);
+          const c=getCustomer(esc.customerId);
+          const v=ro?getVehicle(ro.vehicleId):null;
+          return (
+            <div key={esc.id} className={`escalation-row ${esc.severity==='high'?'urgent':'warning'}`}>
+              <div style={{display:'flex',alignItems:'flex-start',gap:16,marginBottom:10}}>
+                <div style={{flex:1}}>
+                  <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:6}}>
+                    <span style={{fontWeight:700,fontSize:13,color:'var(--navy)'}}>{esc.id}</span>
+                    <span className={`badge ${esc.severity==='high'?'badge-red':'badge-orange'}`}>{esc.trigger}</span>
+                    <span className={`badge ${esc.age>15?'badge-red':'badge-yellow'}`}>⏱ {esc.age} min ago</span>
+                    {esc.age>15&&<span className="badge badge-red">OVERDUE REVIEW</span>}
+                  </div>
+                  <div style={{fontSize:12,color:'var(--gray-700)',marginBottom:4}}><strong>{c?.name}</strong> · {v?.year} {v?.model} · {esc.roId}</div>
+                  <div style={{fontSize:12,color:'var(--gray-500)'}}>{esc.reason}</div>
+                </div>
+                <div style={{display:'flex',flexDirection:'column',gap:6}}>
+                  <button className="btn btn-danger btn-sm" onClick={()=>takeOver(esc.id,esc.roId)}>Take Over</button>
+                  <button className="btn btn-ghost btn-sm">View Full Log</button>
+                </div>
+              </div>
+              <div style={{background:'#F8F9FA',border:'1px solid var(--gray-100)',borderRadius:3,padding:10}}>
+                <div style={{fontSize:11,fontWeight:700,color:'var(--navy)',textTransform:'uppercase',marginBottom:6}}>ADE Interaction Log</div>
+                {COMMUNICATIONS.filter(m=>m.roId===esc.roId).map(msg=>(
+                  <div key={msg.id} style={{fontSize:11,borderBottom:'1px solid var(--gray-100)',padding:'4px 0',display:'flex',gap:8}}>
+                    <span style={{color:'var(--gray-500)',minWidth:40}}>{msg.time}</span>
+                    <span className={`badge ${msg.sender==='ADE'?'badge-ade':'badge-gray'}`} style={{fontSize:9}}>{msg.sender}</span>
+                    <span style={{color:'var(--gray-700)'}}>{msg.content.slice(0,120)}{msg.content.length>120?'…':''}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+        {escalations.filter(e=>e.status==='Open').length===0&&<div className="empty-state">No open escalations.</div>}
+      </div>
+    </div>
+  );
+}
+
+// ─── TAB 9: ADE CONFIGURATION ────────────────────────────────────────────────
+function ADEConfig(){
+  const [isAdmin]=useState(true);
+
+  return (
+    <div>
+      <div className="section-header">
+        <div><div className="section-title">ADE Configuration & Operational Charter</div><div className="section-sub">Service Advisor ADE — Job Description & Governance</div></div>
+        <div className="section-actions">
+          {isAdmin&&<span className="badge badge-navy">ADMIN MODE</span>}
+          <span className="badge badge-green">ADE v2.4.1</span>
+        </div>
+      </div>
+      <div className="tab-content">
+        <div className="ade-config-section">
+          <h3>Role Title & Deployment Scope</h3>
+          <p><strong>Title:</strong> Service Advisor — Autonomous Digital Employee (ADE)</p>
+          <p><strong>Deployed By:</strong> Liberty Ford Auto Group · Northeast Ohio</p>
+          <p><strong>Deployment Model:</strong> Human-triggered, fully autonomous execution per customer interaction</p>
+          <p><strong>Platform:</strong> Neuralogic ADE Platform — Enterprise Edition</p>
+          <p><strong>Effective Date:</strong> January 1, 2024</p>
+        </div>
+        <div className="ade-config-section">
+          <h3>Core Responsibilities</h3>
+          <ul>
+            <li>Execute complete service advisor workflow from customer intake through RO closure without human intervention once activated</li>
+            <li>Pull and analyze customer and vehicle records, including full Ford service history, open recalls, and warranty coverage</li>
+            <li>Auto-generate draft Repair Orders with appropriate Ford labor operation codes, Motorcraft parts, and warranty flags</li>
+            <li>Coordinate with technician dispatch board to assign work based on skill tags and real-time utilization</li>
+            <li>Communicate with customers via SMS and email — confirmation, findings, estimates, approvals, pickup notifications</li>
+            <li>Present up to 3 Motorcraft-based upsell recommendations per RO with mileage-based justification</li>
+            <li>Track digital approval status and update RO in real time upon customer response</li>
+            <li>Monitor for escalation triggers and immediately transfer full context to human staff when conditions are met</li>
+            <li>Close ROs, trigger CSI surveys, and archive all interaction data upon completion</li>
+          </ul>
+        </div>
+        <div className="ade-config-section">
+          <h3>Operational Parameters</h3>
+          <ul>
+            <li><strong>Spend Threshold:</strong> ADE auto-proceeds on customer-pay work up to $1,000. Above $1,000 triggers escalation flag.</li>
+            <li><strong>Response Window:</strong> Customer approval timeout is 30 minutes simulated. No-response triggers escalation.</li>
+            <li><strong>Warranty Handling:</strong> All warranty lines auto-flagged and routed to warranty RO split. No customer approval required for warranty work.</li>
+            <li><strong>Upsell Cap:</strong> Maximum 3 upsell recommendations per RO. Recommendations must be Motorcraft interval-justified.</li>
+            <li><strong>Communication Channels:</strong> SMS (primary), email (secondary), call notes (tertiary via staff entry).</li>
+            <li><strong>Escalation Suspension:</strong> ADE fully suspends on escalation trigger. No resumption without human clearance.</li>
+          </ul>
+        </div>
+        <div className="ade-config-section">
+          <h3>Performance Metrics & Targets</h3>
+          <div className="grid-2">
+            {[['CSI Score Target','≥ 90.0 (30-day rolling)'],['RO Volume Target','≥ 22 ROs/day'],['Avg RO Value Target','≥ $900'],['Upsell Attachment Rate','≥ 65%'],['Escalation Rate Cap','≤ 5%'],['Avg Handle Time Target','≤ 45 minutes'],['Customer Response Rate','≥ 85%'],['First-Contact Resolution','≥ 80%']].map(([k,v])=>(
+              <div key={k} style={{padding:'8px 12px',background:'#F8F9FA',borderRadius:3,border:'1px solid var(--gray-100)'}}>
+                <div className="field-label">{k}</div>
+                <div className="field-value" style={{color:'var(--navy)'}}>{v}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="ade-config-section">
+          <h3>Integration Requirements</h3>
+          <ul>
+            <li><strong>DMS:</strong> Reynolds & Reynolds ERA — bi-directional RO sync, real-time status updates</li>
+            <li><strong>Ford OASIS:</strong> Service history, recall status, warranty coverage — read-only pull</li>
+            <li><strong>Motorcraft Catalog:</strong> Parts pricing, labor times, maintenance intervals — live reference</li>
+            <li><strong>Communication Gateway:</strong> Twilio SMS + SendGrid Email — ADE-authenticated sender</li>
+            <li><strong>Payment:</strong> Ford Payment Solutions — digital payment link generation on RO closure</li>
+            <li><strong>CSI Platform:</strong> Elead/CDK — post-close survey trigger, score ingestion</li>
+          </ul>
+        </div>
+        <div className="ade-config-section">
+          <h3>Governance & Escalation Terms</h3>
+          <ul>
+            <li>ADE operates under the direct oversight of the Service Manager at each Liberty Ford location</li>
+            <li>Human staff retains override authority at any point in the ADE workflow</li>
+            <li>All ADE actions are fully logged with timestamps, operator ID, and action type — immutable audit trail</li>
+            <li>Escalation queue must be reviewed within 15 minutes — unreviewed items generate management alert</li>
+            <li>ADE is not authorized to: approve warranty claims above dealership authority, negotiate pricing, issue goodwill adjustments, or communicate via phone call</li>
+            <li>ADE behavior rules are version-controlled and updated only by Neuralogic Group administrators</li>
+            <li>Monthly performance review conducted by Service Manager with ADE performance report from Neuralogic dashboard</li>
+          </ul>
+        </div>
+        {isAdmin&&(
+          <div className="ade-config-section" style={{borderLeft:'3px solid var(--orange)'}}>
+            <h3>Admin Controls</h3>
+            <div className="grid-3">
+              <div>
+                <div className="field-label">Spend Threshold</div>
+                <input type="text" defaultValue="$1,000.00" style={{width:'100%'}}/>
+              </div>
+              <div>
+                <div className="field-label">Response Timeout (min)</div>
+                <input type="text" defaultValue="30" style={{width:'100%'}}/>
+              </div>
+              <div>
+                <div className="field-label">Max Upsells Per RO</div>
+                <input type="text" defaultValue="3" style={{width:'100%'}}/>
+              </div>
+            </div>
+            <div style={{marginTop:12}}>
+              <button className="btn btn-primary btn-sm">Save Configuration</button>
+              <span style={{marginLeft:12,fontSize:11,color:'var(--gray-500)'}}>Changes take effect on next ADE activation</span>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── MAIN APP ─────────────────────────────────────────────────────────────────
+function App(){
+  const [activeTab,setActiveTab]=useState(0);
+  const [ros,setRos]=useState(initialROs);
+  const [demoOpen,setDemoOpen]=useState(false);
+  const [feedOpen,setFeedOpen]=useState(false);
+  const [activityFeed,setActivityFeed]=useState([
+    {text:'ADE activated for Angela Ferraro — Explorer ST brake service',time:'10:08',ro:'RO-24-8808'},
+    {text:'Customer approved repair — Diane Petrocelli · Mustang GT',time:'09:45',ro:'RO-24-8804'},
+    {text:'Upsell approved — Karen Hessler · engine air filter $81.45',time:'09:31',ro:'RO-24-8806'},
+    {text:'Escalation triggered — Robert Shimkus requested human advisor',time:'09:14',ro:'RO-24-8807'},
+    {text:'RO closed — Angela Ferraro · $521.27 collected',time:'10:18',ro:'RO-24-8808'},
+  ]);
+
+  const escalationCount=ros.filter(r=>r.status==='Escalation').length;
+
+  const activeROValue=ros.filter(r=>r.status!=='Closed').reduce((s,r)=>s+calcRO(r).total,0);
+  const todayRevenue=ros.filter(r=>r.status==='Closed'||r.status==='Ready for Pickup').reduce((s,r)=>s+calcRO(r).total,0);
+  const adeROCount=ros.filter(r=>r.adeActive).length;
+
+  const tabs=[
+    {label:'Service Drive',component:()=><ServiceDrive ros={ros} setRos={setRos}/>},
+    {label:'Appointment Queue',component:()=><AppointmentQueue ros={ros} setRos={setRos}/>},
+    {label:'Repair Orders',component:()=><RepairOrders ros={ros} setRos={setRos}/>},
+    {label:'Communication Hub',component:()=><CommHub/>},
+    {label:'Vehicle & Service History',component:()=><VehicleHistory/>},
+    {label:'Dispatch Board',component:()=><DispatchBoard ros={ros} setRos={setRos}/>},
+    {label:'Upsell Engine',component:()=><UpsellEngine/>},
+    {label:'CSI & Performance',component:()=><CSIDashboard/>},
+    {label:'Escalation Queue',component:()=><EscalationQueue ros={ros} setRos={setRos}/>,badge:escalationCount},
+    {label:'ADE Configuration',component:()=><ADEConfig/>},
+  ];
+
+  const ActiveComponent=tabs[activeTab].component;
+
+  return (
+    <ToastProvider>
+      <div className="app-shell">
+        <TopBar/>
+        {/* Revenue Ticker */}
+        <div className="revenue-ticker">
+          <div className="rev-item"><div className="rev-val">{adeROCount}</div><div className="rev-lbl">ADE Active ROs</div></div>
+          <div className="rev-item"><div className="rev-val">${activeROValue.toLocaleString(undefined,{maximumFractionDigits:0})}</div><div className="rev-lbl">Pipeline Value</div></div>
+          <div className="rev-item"><div className="rev-val">${todayRevenue.toLocaleString(undefined,{maximumFractionDigits:0})}</div><div className="rev-lbl">Collected Today</div></div>
+          <div className="rev-item"><div className="rev-val">{Math.round(UPSELLS.filter(u=>u.status==='Approved').length/Math.max(UPSELLS.filter(u=>u.status!=='Pending').length,1)*100)}%</div><div className="rev-lbl">Upsell Rate</div></div>
+          <div style={{marginLeft:'auto',display:'flex',alignItems:'center',gap:8}}>
+            <button className="demo-launch-btn" onClick={()=>setDemoOpen(true)}>
+              <div className="pulse-dot"/>
+              LAUNCH ADE DEMO
+            </button>
+            <button className="btn btn-ghost btn-sm" style={{color:'white',borderColor:'rgba(255,255,255,0.3)',fontSize:11}} onClick={()=>setFeedOpen(f=>!f)}>
+              ⚡ Live Feed
+            </button>
+          </div>
+        </div>
+        <div className="nav-tabs">
+          {tabs.map((tab,i)=>(
+            <div key={i} className={`nav-tab${activeTab===i?' active':''}`} onClick={()=>setActiveTab(i)}>
+              {tab.label}
+              {tab.badge>0&&<span className="badge">{tab.badge}</span>}
+            </div>
+          ))}
+        </div>
+        <div className="content-area">
+          <ActiveComponent/>
+        </div>
+        {demoOpen&&<ADEDemoMode onClose={()=>setDemoOpen(false)}/>}
+        <ActivityFeed entries={activityFeed} open={feedOpen} onToggle={()=>setFeedOpen(f=>!f)}/>
+      </div>
+    </ToastProvider>
+  );
+}
+
+const root=ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+</script>
+</body>
+</html>
