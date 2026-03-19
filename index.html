@@ -14,7 +14,7 @@ body{font-family:'Inter',system-ui,sans-serif;background:#F5F5F5;color:#1a1a2e;f
 :root{--navy:#003366;--orange:#FF6600;--white:#FFFFFF;--gray-50:#F5F5F5;--gray-100:#E0E0E0;--gray-200:#CCCCCC;--gray-500:#666666;--gray-700:#333333;--green:#1a7f37;--yellow:#b45309;--red:#c0392b;--blue:#003366;--purple:#6b21a8}
 .app-shell{display:flex;flex-direction:column;height:100vh;overflow:hidden}
 .top-bar{background:var(--navy);color:white;display:flex;align-items:center;padding:0 20px;height:52px;border-bottom:3px solid var(--orange);flex-shrink:0;gap:16px}
-.top-bar-logo{height:32px;object-fit:contain}
+.top-bar-logo{height:44px;object-fit:contain;mix-blend-mode:screen}
 .top-bar-brand{font-size:16px;font-weight:700;letter-spacing:0.5px;color:white}
 .top-bar-sub{font-size:11px;color:rgba(255,255,255,0.65);margin-left:2px}
 .top-bar-right{margin-left:auto;display:flex;align-items:center;gap:16px}
@@ -1147,10 +1147,10 @@ function ADEDemoMode({onClose,ro}){
 function TopBar(){
   return (
     <div className="top-bar">
-      <img className="top-bar-logo" src="https://www.libertyford.com/static/dealer-11898/LibertyFordLogo.png" alt="Liberty Ford"
+      <img className="top-bar-logo" src="https://pictures.dealer.com/l/libertyautogroup/0833/c19d57128143755473d972915ddc9483x.jpg" alt="Liberty Ford"
         onError={e=>{e.target.style.display='none'}} />
       <div>
-        <div className="top-bar-brand">LIBERTY FORD AUTO GROUP</div>
+        <div className="top-bar-brand">AutoIQ</div>
         <div className="top-bar-sub">Autonomous Enterprise Platform</div>
       </div>
       <div className="top-bar-right">
