@@ -356,7 +356,7 @@ input:checked+.toggle-slider:before{transform:translateX(16px)}
 <body>
 <div id="root"></div>
 <script type="text/babel">
-const {useState, useEffect, useRef, useCallback, useMemo} = React;
+const {useState, useEffect, useRef, useCallback, useMemo, useContext} = React;
 
 // ─── SIMULATED DATA ──────────────────────────────────────────────────────────
 
@@ -1909,7 +1909,7 @@ const MOTORCRAFT_DOCS={
 };
 
 function UpsellEngine(){
-  const {addToast}=useContext(ToastContext);
+  const addToast=useContext(ToastContext);
   const [filter,setFilter]=useState('All');
   const [sort,setSort]=useState({col:'total',dir:-1});
   const [selected,setSelected]=useState(null);
@@ -2480,7 +2480,7 @@ const STAFF=[
 ];
 
 function Settings(){
-  const {addToast}=useContext(ToastContext);
+  const addToast=useContext(ToastContext);
   const [activeSection,setActiveSection]=useState('ade');
   const [spendThreshold,setSpendThreshold]=useState(1000);
   const [responseTimeout,setResponseTimeout]=useState(90);
@@ -2512,6 +2512,236 @@ function Settings(){
 
   const save=()=>addToast('Settings saved successfully','success');
 
+  function renderSection(){
+    if(activeSection==='ade') return (
+      <div>
+        <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>ADE Behavior Rules</div>
+        <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:20}}>Control how the Autonomous Digital Employee operates across all service interactions</div>
+        <div className="panel" style={{marginBottom:16}}>
+          <div className="panel-header"><span className="panel-title">Spend Thresholds &amp; Approval Gates</span></div>
+          <div style={{padding:'16px 20px',display:'grid',gap:16}}>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:16}}>
+              <div>
+                <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>Auto-Approval Threshold</div>
+                <div style={{fontSize:11,color:'var(--gray-500)'}}>Digital Advisor can approve repairs up to this amount without human review</div>
+              </div>
+              <div style={{display:'flex',alignItems:'center',gap:8}}>
+                <span style={{fontSize:13,color:'var(--gray-500)'}}>$</span>
+                <input type="number" value={spendThreshold} onChange={e=>setSpendThreshold(parseInt(e.target.value))}
+                  style={{width:90,padding:'6px 10px',border:'1px solid var(--gray-200)',borderRadius:3,fontSize:14,fontWeight:700,color:'var(--navy)'}}/>
+              </div>
+            </div>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:16}}>
+              <div>
+                <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>Customer Response Timeout</div>
+                <div style={{fontSize:11,color:'var(--gray-500)'}}>Minutes before Digital Advisor escalates if customer does not respond to approval request</div>
+              </div>
+              <div style={{display:'flex',alignItems:'center',gap:8}}>
+                <input type="number" value={responseTimeout} onChange={e=>setResponseTimeout(parseInt(e.target.value))}
+                  style={{width:70,padding:'6px 10px',border:'1px solid var(--gray-200)',borderRadius:3,fontSize:14,fontWeight:700,color:'var(--navy)'}}/>
+                <span style={{fontSize:13,color:'var(--gray-500)'}}>min</span>
+              </div>
+            </div>
+            <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+              <div>
+                <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>Auto-Escalate on Sentiment Flag</div>
+                <div style={{fontSize:11,color:'var(--gray-500)'}}>Autopilot suspends and routes to human if negative sentiment detected in customer replies</div>
+              </div>
+              <div onClick={()=>setAutoEscalate(v=>!v)} style={{width:40,height:22,borderRadius:11,background:autoEscalate?'var(--navy)':'var(--gray-300)',cursor:'pointer',position:'relative',transition:'background 0.2s'}}>
+                <div style={{position:'absolute',top:3,left:autoEscalate?20:3,width:16,height:16,borderRadius:'50%',background:'white',transition:'left 0.2s'}}/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="panel" style={{marginBottom:16}}>
+          <div className="panel-header"><span className="panel-title">Digital Advisor Persona &amp; Communication Style</span></div>
+          <div style={{padding:'16px 20px',display:'grid',gap:12}}>
+            {[['Sender Name (SMS)','Liberty Ford Service','Display name shown in SMS messages'],
+              ['Advisor Signature','– Liberty Ford Service Team','Appended to all outgoing messages'],
+              ['Approval Link Domain','approve.libertyford.com','Base URL for customer digital approval portal']].map(([label,val,hint])=>(
+              <div key={label} style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:16}}>
+                <div>
+                  <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>{label}</div>
+                  <div style={{fontSize:11,color:'var(--gray-500)'}}>{hint}</div>
+                </div>
+                <input defaultValue={val} style={{width:220,padding:'6px 10px',border:'1px solid var(--gray-200)',borderRadius:3,fontSize:12}}/>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={{display:'flex',gap:8}}>
+          <button className="btn btn-primary" onClick={save}>Save Changes</button>
+          <button className="btn btn-ghost btn-sm">Reset to Defaults</button>
+        </div>
+      </div>
+    );
+    if(activeSection==='locations') return (
+      <div>
+        <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>Location Management</div>
+        <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:20}}>Multi-rooftop configuration — Digital Employee deploys independently per location</div>
+        {[
+          {name:'Liberty Ford — Strongsville',address:'14300 Pearl Rd, Strongsville OH 44136',bays:16,ade:'Active',primary:true,csi:'91.4',revenue:'$47,280'},
+          {name:'Liberty Ford — Medina',address:'3887 Medina Rd, Medina OH 44256',bays:10,ade:'Active',primary:false,csi:'89.1',revenue:'$31,190'},
+          {name:'Liberty Ford — Brunswick',address:'1400 Pearl Rd, Brunswick OH 44212',bays:8,ade:'Pending Setup',primary:false,csi:'—',revenue:'—'},
+        ].map(loc=>(
+          <div key={loc.name} className="panel" style={{marginBottom:12}}>
+            <div style={{padding:'14px 18px'}}>
+              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8}}>
+                <div>
+                  <div style={{fontSize:14,fontWeight:700,color:'var(--navy)'}}>{loc.name}</div>
+                  <div style={{fontSize:11,color:'var(--gray-500)'}}>{loc.address}</div>
+                </div>
+                <div style={{display:'flex',gap:8,alignItems:'center'}}>
+                  {loc.primary&&<span className="badge badge-navy">PRIMARY</span>}
+                  <span className={`badge ${loc.ade==='Active'?'badge-green':'badge-orange'}`}>{loc.ade}</span>
+                </div>
+              </div>
+              <div style={{display:'flex',gap:24,fontSize:12}}>
+                <div><span style={{color:'var(--gray-500)'}}>Bays:</span> <strong>{loc.bays}</strong></div>
+                <div><span style={{color:'var(--gray-500)'}}>30d CSI:</span> <strong style={{color:'var(--green)'}}>{loc.csi}</strong></div>
+                <div><span style={{color:'var(--gray-500)'}}>MTD Revenue:</span> <strong>{loc.revenue}</strong></div>
+              </div>
+              {loc.ade==='Pending Setup'&&<div style={{marginTop:10}}><button className="btn btn-primary btn-sm" onClick={()=>addToast('Beginning ADE setup for '+loc.name,'info')}>Begin Setup</button></div>}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+    if(activeSection==='integrations') return (
+      <div>
+        <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>Integration Status</div>
+        <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:20}}>Live connection health for all DMS, warranty, and communication systems</div>
+        <div style={{display:'grid',gap:10}}>
+          {integrationsStatus.map(intg=>(
+            <div key={intg.name} className="panel">
+              <div style={{padding:'12px 18px',display:'flex',alignItems:'center',gap:16}}>
+                <div style={{width:10,height:10,borderRadius:'50%',background:intg.status==='live'?'var(--green)':intg.status==='warn'?'var(--orange)':'var(--red)',flexShrink:0}}/>
+                <div style={{flex:1}}>
+                  <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:2}}>
+                    <span style={{fontSize:13,fontWeight:700,color:'var(--navy)'}}>{intg.name}</span>
+                    <span className="badge badge-gray" style={{fontSize:9}}>{intg.type}</span>
+                    <span className={`badge ${intg.status==='live'?'badge-green':intg.status==='warn'?'badge-orange':'badge-red'}`} style={{fontSize:9}}>
+                      {intg.status==='live'?'LIVE':intg.status==='warn'?'WARNING':'ERROR'}
+                    </span>
+                  </div>
+                  <div style={{fontSize:11,color:'var(--gray-500)'}}>{intg.detail}</div>
+                </div>
+                <div style={{textAlign:'right',fontSize:11,color:'var(--gray-500)'}}>
+                  <div>Last sync</div>
+                  <div style={{fontWeight:600,color:'var(--gray-700)'}}>{intg.lastSync}</div>
+                </div>
+                {intg.status!=='live'&&<button className="btn btn-ghost btn-sm" onClick={()=>addToast('Reconnecting '+intg.name+'…','info')}>Reconnect</button>}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+    if(activeSection==='users') return (
+      <div>
+        <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>User Management</div>
+        <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:20}}>Staff roles and Autopilot access permissions</div>
+        <div style={{marginBottom:12,display:'flex',gap:8,justifyContent:'flex-end'}}>
+          <button className="btn btn-primary btn-sm" onClick={()=>addToast('Invite sent','success')}>+ Invite User</button>
+        </div>
+        <table>
+          <thead><tr><th>Name</th><th>Role</th><th>Email</th><th>Access Level</th><th>Status</th><th>Last Login</th><th>Actions</th></tr></thead>
+          <tbody>
+            {STAFF.map(staff=>(
+              <tr key={staff.name}>
+                <td style={{fontWeight:600,color:'var(--navy)'}}>{staff.name}</td>
+                <td>{staff.role}</td>
+                <td style={{fontSize:11,color:'var(--gray-500)'}}>{staff.email}</td>
+                <td><span className={`badge ${staff.adeAccess==='Full Admin'?'badge-navy':staff.adeAccess==='View Only'?'badge-gray':'badge-orange'}`} style={{fontSize:9}}>{staff.adeAccess}</span></td>
+                <td><span className={`badge ${staff.status==='Active'?'badge-green':'badge-gray'}`} style={{fontSize:9}}>{staff.status}</span></td>
+                <td style={{fontSize:11,color:'var(--gray-500)'}}>{staff.lastLogin}</td>
+                <td>
+                  <div style={{display:'flex',gap:6}}>
+                    <button className="btn btn-ghost btn-sm" style={{fontSize:10}} onClick={()=>addToast('Opening user settings…','info')}>Edit</button>
+                    {staff.status==='Active'
+                      ?<button className="btn btn-ghost btn-sm" style={{fontSize:10,color:'var(--red)',borderColor:'var(--red)'}} onClick={()=>addToast(staff.name+' deactivated','info')}>Deactivate</button>
+                      :<button className="btn btn-ghost btn-sm" style={{fontSize:10}} onClick={()=>addToast(staff.name+' reactivated','success')}>Activate</button>}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+    if(activeSection==='notifications') return (
+      <div>
+        <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>Notification Configuration</div>
+        <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:20}}>Control when and how alerts are sent to staff and customers</div>
+        <div className="panel" style={{marginBottom:16}}>
+          <div className="panel-header"><span className="panel-title">Customer Channels</span></div>
+          <div style={{padding:'16px 20px',display:'grid',gap:14}}>
+            {[['SMS Notifications',smsEnabled,setSmsEnabled,'Send status updates and approval requests via SMS'],
+              ['Email Notifications',emailEnabled,setEmailEnabled,'Send estimates and RO summaries via email'],
+              ['Digital Approval Links',approvalLink,setApprovalLink,'Include Liberty Ford Pay approval portal link in estimates'],
+            ].map(([label,val,setter,hint])=>(
+              <div key={label} style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                <div>
+                  <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>{label}</div>
+                  <div style={{fontSize:11,color:'var(--gray-500)'}}>{hint}</div>
+                </div>
+                <div onClick={()=>setter(v=>!v)} style={{width:40,height:22,borderRadius:11,background:val?'var(--navy)':'var(--gray-300)',cursor:'pointer',position:'relative',transition:'background 0.2s'}}>
+                  <div style={{position:'absolute',top:3,left:val?20:3,width:16,height:16,borderRadius:'50%',background:'white',transition:'left 0.2s'}}/>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="panel" style={{marginBottom:16}}>
+          <div className="panel-header"><span className="panel-title">Staff Alert Rules</span></div>
+          <div style={{padding:'16px 20px',display:'grid',gap:10}}>
+            {[['Escalation opened','Immediate push + SMS to SM on call','badge-red'],
+              ['Spend threshold breach','Immediate push to Service Manager','badge-orange'],
+              ['Customer no-response','Push to advisor team after 90 min','badge-orange'],
+              ['RO closed','Activity feed entry only','badge-gray'],
+              ['Daily CSI summary','Email to SM at 6:00 PM daily','badge-navy'],
+            ].map(([ev,action,cls])=>(
+              <div key={ev} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 0',borderBottom:'1px solid var(--gray-100)'}}>
+                <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>{ev}</div>
+                <div style={{display:'flex',alignItems:'center',gap:8}}>
+                  <span className={'badge '+cls} style={{fontSize:10}}>{action}</span>
+                  <button className="btn btn-ghost btn-sm" style={{fontSize:10}} onClick={()=>addToast('Alert rule updated','success')}>Edit</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <button className="btn btn-primary" onClick={save}>Save Notification Settings</button>
+      </div>
+    );
+    if(activeSection==='audit') return (
+      <div>
+        <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>Audit Log</div>
+        <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:16}}>Timestamped record of all Autopilot and human actions — immutable, exportable</div>
+        <div style={{display:'flex',gap:8,marginBottom:14,alignItems:'center'}}>
+          <select value={auditFilter} onChange={e=>setAuditFilter(e.target.value)} style={{padding:'6px 10px',border:'1px solid var(--gray-200)',borderRadius:3,fontSize:12}}>
+            <option value="All">All</option>
+            <option value="ADE System">Digital Advisor</option>
+            <option value="Human">Human Staff</option>
+          </select>
+          <button className="btn btn-ghost btn-sm" onClick={()=>exportCSV(AUDIT_LOG,'audit-log')}>Export CSV</button>
+        </div>
+        <div style={{display:'grid',gap:1}}>
+          {AUDIT_LOG.filter(a=>auditFilter==='All'||(auditFilter==='ADE System'&&a.user==='ADE System')||(auditFilter==='Human'&&a.user!=='ADE System')).map((a,i)=>(
+            <div key={i} style={{display:'flex',gap:12,padding:'9px 12px',background:i%2===0?'white':'#FAFBFC',borderRadius:2,border:'1px solid var(--gray-100)',alignItems:'flex-start'}}>
+              <div style={{fontSize:11,color:'var(--gray-500)',minWidth:130,fontFamily:'monospace'}}>{a.ts}</div>
+              <div style={{fontSize:11}}>
+                <span className={'badge '+(a.user==='ADE System'?'badge-ade':'badge-navy')} style={{fontSize:9,marginRight:6}}>{a.user==='ADE System'?'Digital Advisor':a.user}</span>
+                {a.action}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+    return null;
+  }
+
   return (
     <div style={{display:'grid',gridTemplateColumns:'200px 1fr',gap:0,minHeight:600}}>
       {/* Sidebar Nav */}
@@ -2536,248 +2766,7 @@ function Settings(){
 
       {/* Main Content */}
       <div style={{padding:24,overflowY:'auto'}}>
-
-        {/* ADE BEHAVIOR RULES */}
-        {activeSection==='ade'&&(
-          <div>
-            <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>ADE Behavior Rules</div>
-            <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:20}}>Control how the ADE operates autonomously across all service interactions</div>
-
-            <div className="panel" style={{marginBottom:16}}>
-              <div className="panel-header"><span className="panel-title">Spend Thresholds &amp; Approval Gates</span></div>
-              <div style={{padding:'16px 20px',display:'grid',gap:16}}>
-                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:16}}>
-                  <div>
-                    <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>Auto-Approval Threshold</div>
-                    <div style={{fontSize:11,color:'var(--gray-500)'}}>ADE can approve repairs up to this amount without human review</div>
-                  </div>
-                  <div style={{display:'flex',alignItems:'center',gap:8}}>
-                    <span style={{fontSize:13,color:'var(--gray-500)'}}>$</span>
-                    <input type="number" value={spendThreshold} onChange={e=>setSpendThreshold(parseInt(e.target.value))}
-                      style={{width:90,padding:'6px 10px',border:'1px solid var(--gray-200)',borderRadius:3,fontSize:14,fontWeight:700,color:'var(--navy)'}}/>
-                  </div>
-                </div>
-                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:16}}>
-                  <div>
-                    <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>Customer Response Timeout</div>
-                    <div style={{fontSize:11,color:'var(--gray-500)'}}>Minutes before ADE escalates if customer does not respond to approval request</div>
-                  </div>
-                  <div style={{display:'flex',alignItems:'center',gap:8}}>
-                    <input type="number" value={responseTimeout} onChange={e=>setResponseTimeout(parseInt(e.target.value))}
-                      style={{width:70,padding:'6px 10px',border:'1px solid var(--gray-200)',borderRadius:3,fontSize:14,fontWeight:700,color:'var(--navy)'}}/>
-                    <span style={{fontSize:13,color:'var(--gray-500)'}}>min</span>
-                  </div>
-                </div>
-                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                  <div>
-                    <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>Auto-Escalate on Sentiment Flag</div>
-                    <div style={{fontSize:11,color:'var(--gray-500)'}}>ADE suspends and routes to human if negative sentiment detected in customer replies</div>
-                  </div>
-                  <label style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer'}}>
-                    <div onClick={()=>setAutoEscalate(v=>!v)} style={{width:40,height:22,borderRadius:11,background:autoEscalate?'var(--navy)':'var(--gray-300)',cursor:'pointer',position:'relative',transition:'background 0.2s'}}>
-                      <div style={{position:'absolute',top:3,left:autoEscalate?20:3,width:16,height:16,borderRadius:'50%',background:'white',transition:'left 0.2s'}}/>
-                    </div>
-                    <span style={{fontSize:12,color:autoEscalate?'var(--navy)':'var(--gray-500)',fontWeight:autoEscalate?700:400}}>{autoEscalate?'Enabled':'Disabled'}</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div className="panel" style={{marginBottom:16}}>
-              <div className="panel-header"><span className="panel-title">ADE Persona &amp; Communication Style</span></div>
-              <div style={{padding:'16px 20px',display:'grid',gap:12}}>
-                {[['Sender Name (SMS)','Liberty Ford Service','Display name shown in SMS messages'],['ADE Signature','– Liberty Ford Service Team','Appended to all outgoing messages'],['Approval Link Domain','approve.libertyford.com','Base URL for customer digital approval portal']].map(([label,val,hint])=>(
-                  <div key={label} style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:16}}>
-                    <div>
-                      <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>{label}</div>
-                      <div style={{fontSize:11,color:'var(--gray-500)'}}>{hint}</div>
-                    </div>
-                    <input defaultValue={val} style={{width:220,padding:'6px 10px',border:'1px solid var(--gray-200)',borderRadius:3,fontSize:12}}/>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div style={{display:'flex',gap:8}}>
-              <button className="btn btn-primary" onClick={save}>Save Changes</button>
-              <button className="btn btn-ghost btn-sm">Reset to Defaults</button>
-            </div>
-          </div>
-        )}
-
-        {/* LOCATION MANAGEMENT */}
-        {activeSection==='locations'&&(
-          <div>
-            <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>Location Management</div>
-            <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:20}}>Multi-rooftop configuration — ADE deploys independently per location</div>
-            {[
-              {name:'Liberty Ford — Strongsville',address:'14300 Pearl Rd, Strongsville OH 44136',bays:16,ade:'Active',primary:true,csi:'91.4',revenue:'$47,280'},
-              {name:'Liberty Ford — Medina',address:'3887 Medina Rd, Medina OH 44256',bays:10,ade:'Active',primary:false,csi:'89.1',revenue:'$31,190'},
-              {name:'Liberty Ford — Brunswick',address:'1400 Pearl Rd, Brunswick OH 44212',bays:8,ade:'Pending Setup',primary:false,csi:'—',revenue:'—'},
-            ].map(loc=>(
-              <div key={loc.name} className="panel" style={{marginBottom:12}}>
-                <div style={{padding:'14px 18px'}}>
-                  <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8}}>
-                    <div>
-                      <div style={{fontSize:14,fontWeight:700,color:'var(--navy)'}}>{loc.name}</div>
-                      <div style={{fontSize:11,color:'var(--gray-500)'}}>{loc.address}</div>
-                    </div>
-                    <div style={{display:'flex',gap:8,alignItems:'center'}}>
-                      {loc.primary&&<span className="badge badge-navy">PRIMARY</span>}
-                      <span className={`badge ${loc.ade==='Active'?'badge-green':'badge-orange'}`}>{loc.ade}</span>
-                    </div>
-                  </div>
-                  <div style={{display:'flex',gap:24,fontSize:12}}>
-                    <div><span style={{color:'var(--gray-500)'}}>Bays:</span> <strong>{loc.bays}</strong></div>
-                    <div><span style={{color:'var(--gray-500)'}}>30d CSI:</span> <strong style={{color:'var(--green)'}}>{loc.csi}</strong></div>
-                    <div><span style={{color:'var(--gray-500)'}}>MTD Revenue:</span> <strong>{loc.revenue}</strong></div>
-                  </div>
-                  {loc.ade==='Pending Setup'&&<div style={{marginTop:10}}><button className="btn btn-primary btn-sm">Begin ADE Setup</button></div>}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* INTEGRATION STATUS */}
-        {activeSection==='integrations'&&(
-          <div>
-            <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>Integration Status</div>
-            <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:20}}>Live connection health for all DMS, warranty, and communication systems</div>
-            <div style={{display:'grid',gap:10}}>
-              {integrationsStatus.map(int=>(
-                <div key={int.name} className="panel">
-                  <div style={{padding:'12px 18px',display:'flex',alignItems:'center',gap:16}}>
-                    <div style={{width:10,height:10,borderRadius:'50%',background:int.status==='live'?'var(--green)':int.status==='warn'?'var(--orange)':'var(--red)',flexShrink:0}}/>
-                    <div style={{flex:1}}>
-                      <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:2}}>
-                        <span style={{fontSize:13,fontWeight:700,color:'var(--navy)'}}>{int.name}</span>
-                        <span className="badge badge-gray" style={{fontSize:9}}>{int.type}</span>
-                        <span className={`badge ${int.status==='live'?'badge-green':int.status==='warn'?'badge-orange':'badge-red'}`} style={{fontSize:9}}>
-                          {int.status==='live'?'LIVE':int.status==='warn'?'WARNING':'ERROR'}
-                        </span>
-                      </div>
-                      <div style={{fontSize:11,color:'var(--gray-500)'}}>{int.detail}</div>
-                    </div>
-                    <div style={{textAlign:'right',fontSize:11,color:'var(--gray-500)'}}>
-                      <div>Last sync</div>
-                      <div style={{fontWeight:600,color:'var(--gray-700)'}}>{int.lastSync}</div>
-                    </div>
-                    {int.status!=='live'&&<button className="btn btn-ghost btn-sm" onClick={()=>addToast(`Reconnecting ${int.name}…`,'info')}>Reconnect</button>}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* USER MANAGEMENT */}
-        {activeSection==='users'&&(
-          <div>
-            <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>User Management</div>
-            <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:20}}>Staff roles and ADE access permissions</div>
-            <div style={{marginBottom:12,display:'flex',gap:8,justifyContent:'flex-end'}}>
-              <button className="btn btn-primary btn-sm" onClick={()=>addToast('Invite sent','success')}>+ Invite User</button>
-            </div>
-            <table>
-              <thead><tr><th>Name</th><th>Role</th><th>Email</th><th>ADE Access</th><th>Status</th><th>Last Login</th><th>Actions</th></tr></thead>
-              <tbody>
-                {STAFF.map(s=>(
-                  <tr key={s.name}>
-                    <td style={{fontWeight:600,color:'var(--navy)'}}>{s.name}</td>
-                    <td>{s.role}</td>
-                    <td style={{fontSize:11,color:'var(--gray-500)'}}>{s.email}</td>
-                    <td><span className={`badge ${s.adeAccess==='Full Admin'?'badge-navy':s.adeAccess==='View Only'?'badge-gray':'badge-orange'}`} style={{fontSize:9}}>{s.adeAccess}</span></td>
-                    <td><span className={`badge ${s.status==='Active'?'badge-green':'badge-gray'}`} style={{fontSize:9}}>{s.status}</span></td>
-                    <td style={{fontSize:11,color:'var(--gray-500)'}}>{s.lastLogin}</td>
-                    <td style={{display:'flex',gap:6}}>
-                      <button className="btn btn-ghost btn-sm" style={{fontSize:10}} onClick={()=>addToast('Opening user settings…','info')}>Edit</button>
-                      {s.status==='Active'?<button className="btn btn-ghost btn-sm" style={{fontSize:10,color:'var(--red)',borderColor:'var(--red)'}} onClick={()=>addToast(`${s.name} deactivated`,'info')}>Deactivate</button>:
-                        <button className="btn btn-ghost btn-sm" style={{fontSize:10}} onClick={()=>addToast(`${s.name} reactivated`,'success')}>Activate</button>}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {/* NOTIFICATIONS */}
-        {activeSection==='notifications'&&(
-          <div>
-            <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>Notification Configuration</div>
-            <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:20}}>Control when and how alerts are sent to staff and customers</div>
-            <div className="panel" style={{marginBottom:16}}>
-              <div className="panel-header"><span className="panel-title">Customer Channels</span></div>
-              <div style={{padding:'16px 20px',display:'grid',gap:14}}>
-                {[
-                  ['SMS Notifications',smsEnabled,setSmsEnabled,'Send status updates and approval requests via SMS'],
-                  ['Email Notifications',emailEnabled,setEmailEnabled,'Send estimates and RO summaries via email'],
-                  ['Digital Approval Links',approvalLink,setApprovalLink,'Include Liberty Ford Pay approval portal link in estimates'],
-                ].map(([label,val,setter,hint])=>(
-                  <div key={label} style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-                    <div>
-                      <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>{label}</div>
-                      <div style={{fontSize:11,color:'var(--gray-500)'}}>{hint}</div>
-                    </div>
-                    <div onClick={()=>setter(v=>!v)} style={{width:40,height:22,borderRadius:11,background:val?'var(--navy)':'var(--gray-300)',cursor:'pointer',position:'relative',transition:'background 0.2s'}}>
-                      <div style={{position:'absolute',top:3,left:val?20:3,width:16,height:16,borderRadius:'50%',background:'white',transition:'left 0.2s'}}/>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="panel" style={{marginBottom:16}}>
-              <div className="panel-header"><span className="panel-title">Staff Alert Rules</span></div>
-              <div style={{padding:'16px 20px',display:'grid',gap:10}}>
-                {[
-                  ['Escalation opened','Immediate push + SMS to SM on call','badge-red'],
-                  ['Spend threshold breach','Immediate push to Service Manager','badge-orange'],
-                  ['Customer no-response (>90 min)','Push to advisor team','badge-orange'],
-                  ['RO closed','Activity feed entry only','badge-gray'],
-                  ['Daily CSI summary','Email to SM at 6:00 PM daily','badge-navy'],
-                ].map(([ev,action,cls])=>(
-                  <div key={ev} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 0',borderBottom:'1px solid var(--gray-100)'}}>
-                    <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>{ev}</div>
-                    <div style={{display:'flex',alignItems:'center',gap:8}}>
-                      <span className={`badge ${cls}`} style={{fontSize:10}}>{action}</span>
-                      <button className="btn btn-ghost btn-sm" style={{fontSize:10}} onClick={()=>addToast('Alert rule updated','success')}>Edit</button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <button className="btn btn-primary" onClick={save}>Save Notification Settings</button>
-          </div>
-        )}
-
-        {/* AUDIT LOG */}
-        {activeSection==='audit'&&(
-          <div>
-            <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>Audit Log</div>
-            <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:16}}>Timestamped record of all ADE and human actions — immutable, exportable</div>
-            <div style={{display:'flex',gap:8,marginBottom:14,alignItems:'center'}}>
-              <select value={auditFilter} onChange={e=>setAuditFilter(e.target.value)} style={{padding:'6px 10px',border:'1px solid var(--gray-200)',borderRadius:3,fontSize:12}}>
-                <option>All</option><option>ADE System</option><option value="Human">Human Staff</option>
-              </select>
-              <button className="btn btn-ghost btn-sm" onClick={()=>exportCSV(AUDIT_LOG,'audit-log')}>Export CSV</button>
-            </div>
-            <div style={{display:'grid',gap:1}}>
-              {AUDIT_LOG.filter(a=>auditFilter==='All'||(auditFilter==='ADE System'&&a.user==='ADE System')||(auditFilter==='Human'&&a.user!=='ADE System')).map((a,i)=>(
-                <div key={i} style={{display:'flex',gap:12,padding:'9px 12px',background:i%2===0?'white':'#FAFBFC',borderRadius:2,border:'1px solid var(--gray-100)',alignItems:'flex-start'}}>
-                  <div style={{fontSize:11,color:'var(--gray-500)',minWidth:130,fontFamily:'monospace'}}>{a.ts}</div>
-                  <div>
-                    <div style={{fontSize:11}}>
-                      <span className={`badge ${a.user==='ADE System'?'badge-ade':'badge-navy'}`} style={{fontSize:9,marginRight:6}}>{a.user==='ADE System'?'Digital Advisor':a.user}</span>
-                      {a.action}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
+        {renderSection()}
       </div>
     </div>
   );
