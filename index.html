@@ -250,6 +250,104 @@ input[type=text]:focus,input[type=search]:focus,select:focus,textarea:focus{bord
 .rev-item{text-align:center}
 .rev-val{font-size:16px;font-weight:700;color:var(--orange)}
 .rev-lbl{font-size:9px;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.5px}
+/* ── ADE FLYOUT ── */
+.ade-flyout-wrap{position:relative}
+.ade-flyout{position:absolute;top:calc(100% + 6px);right:0;width:320px;background:white;border:1px solid var(--gray-200);border-radius:4px;box-shadow:0 8px 24px rgba(0,0,0,0.15);z-index:400;overflow:hidden}
+.ade-flyout-header{background:var(--navy);color:white;padding:9px 14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;display:flex;align-items:center;gap:6px}
+.ade-flyout-item{padding:10px 14px;border-bottom:1px solid var(--gray-100);cursor:pointer;display:flex;align-items:center;gap:10px;transition:background 0.1s}
+.ade-flyout-item:hover{background:#F0F4FF}
+.ade-flyout-item:last-child{border-bottom:none}
+.ade-flyout-customer{font-size:12px;font-weight:600;color:var(--navy)}
+.ade-flyout-vehicle{font-size:11px;color:var(--gray-500);margin-top:1px}
+.ade-flyout-new{color:var(--orange);font-weight:700;font-size:12px;padding:11px 14px;border-top:2px solid var(--gray-100);cursor:pointer;display:flex;align-items:center;gap:6px}
+.ade-flyout-new:hover{background:#FFF3EB}
+/* ── DRILL MODALS ── */
+.drill-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:150;display:flex;align-items:flex-start;justify-content:center;padding:32px 16px;overflow:auto}
+.drill-modal{background:white;border-radius:4px;width:100%;max-width:860px;max-height:90vh;overflow:auto;box-shadow:0 16px 48px rgba(0,0,0,0.2);border:1px solid var(--gray-200)}
+.drill-modal-lg{max-width:1080px}
+.drill-modal-header{background:var(--navy);color:white;padding:13px 20px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10}
+.drill-modal-title{font-size:14px;font-weight:700}
+.drill-modal-sub{font-size:11px;opacity:0.7;margin-top:1px}
+.drill-tabs{display:flex;background:#F8F9FA;border-bottom:1px solid var(--gray-100)}
+.drill-tab{padding:9px 16px;font-size:12px;font-weight:500;cursor:pointer;color:var(--gray-500);border-bottom:2px solid transparent}
+.drill-tab.active{color:var(--navy);border-bottom-color:var(--orange);background:white}
+.drill-body{padding:20px}
+.drill-section{margin-bottom:20px}
+.drill-section-title{font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--gray-100)}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:12px}
+.info-cell{background:#F8F9FA;border-radius:3px;padding:9px 12px;border:1px solid var(--gray-100)}
+.info-cell-label{font-size:10px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px}
+.info-cell-value{font-size:12px;font-weight:600;color:var(--navy)}
+/* ── SPARKLINES ── */
+.sparkline{display:flex;align-items:flex-end;gap:2px;height:28px;margin-top:8px}
+.spark-bar{flex:1;border-radius:1px 1px 0 0;min-width:4px;transition:height 0.3s}
+.spark-bar.good{background:#D1FAE5}
+.spark-bar.warn{background:#FFF3CD}
+.spark-bar.bad{background:#FEE2E2}
+.spark-bar.active{background:var(--orange)}
+/* ── SLA INDICATORS ── */
+.sla-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:3px;font-size:10px;font-weight:700}
+.sla-green{background:#D1FAE5;color:#065f46}
+.sla-yellow{background:#FFF3CD;color:#856404}
+.sla-red{background:#FEE2E2;color:#991b1b;animation:pulse 2s infinite}
+/* ── PARTS AVAILABILITY ── */
+.parts-status{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:3px}
+.parts-instock{background:#D1FAE5;color:#065f46}
+.parts-order{background:#FFF3CD;color:#856404}
+.parts-na{background:#F3F4F6;color:#6B7280}
+/* ── UPSELL DETAIL ── */
+.upsell-action-bar{display:flex;gap:8px;padding:14px 16px;background:#F8F9FA;border-top:1px solid var(--gray-100);border-radius:0 0 4px 4px}
+.motorcraft-doc{background:#EEF2FF;border:1px solid #C7D2FE;border-radius:4px;padding:12px;margin:10px 0}
+.motorcraft-doc-title{font-size:11px;font-weight:700;color:#3730a3;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.motorcraft-doc-row{display:flex;justify-content:space-between;font-size:11px;padding:3px 0;border-bottom:1px solid rgba(199,210,254,0.5)}
+/* ── CSI DRILL ── */
+.csi-metric-card{cursor:pointer;transition:all 0.15s;border-left-width:3px}
+.csi-metric-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,51,102,0.12)}
+.csi-metric-card.selected{border-left-color:var(--orange);background:#FFF8F5}
+.benchmark-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--gray-100);font-size:12px}
+.benchmark-bar-wrap{flex:1;height:8px;background:var(--gray-100);border-radius:4px;overflow:hidden}
+.benchmark-bar{height:100%;border-radius:4px;background:var(--navy)}
+.benchmark-target{width:2px;height:8px;background:var(--orange);position:relative;margin-left:-2px}
+/* ── SETTINGS ── */
+.settings-layout{display:grid;grid-template-columns:200px 1fr;height:calc(100vh - 130px)}
+.settings-nav{background:#F8F9FA;border-right:1px solid var(--gray-100);overflow-y:auto}
+.settings-nav-item{padding:10px 16px;font-size:12px;font-weight:500;cursor:pointer;color:var(--gray-700);border-left:3px solid transparent;border-bottom:1px solid var(--gray-100)}
+.settings-nav-item:hover{background:white;color:var(--navy)}
+.settings-nav-item.active{background:white;color:var(--navy);border-left-color:var(--orange);font-weight:600}
+.settings-content{overflow-y:auto;padding:20px}
+.settings-card{background:white;border:1px solid var(--gray-100);border-radius:4px;padding:20px;margin-bottom:16px}
+.settings-card-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;justify-content:space-between}
+.settings-field{margin-bottom:14px}
+.settings-field label{display:block;font-size:11px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:5px}
+.settings-field input,.settings-field select,.settings-field textarea{width:100%;padding:7px 10px;border:1px solid var(--gray-200);border-radius:3px;font-size:12px;font-family:inherit;color:var(--gray-700);outline:none}
+.settings-field input:focus,.settings-field select:focus{border-color:var(--navy);box-shadow:0 0 0 2px rgba(0,51,102,0.1)}
+.integration-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--gray-100)}
+.integration-row:last-child{border-bottom:none}
+.integration-status{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.int-live{background:var(--green);animation:pulse 2s infinite}
+.int-warn{background:#d97706}
+.int-error{background:var(--red)}
+.user-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--gray-100)}
+.user-row:last-child{border-bottom:none}
+.user-avatar{width:30px;height:30px;border-radius:50%;background:var(--navy);color:white;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.audit-row{display:flex;gap:12px;padding:7px 0;border-bottom:1px solid var(--gray-100);font-size:11px}
+.audit-time{color:var(--gray-500);min-width:70px;flex-shrink:0;font-family:monospace}
+.audit-actor{color:var(--navy);font-weight:600;min-width:90px;flex-shrink:0}
+.audit-action{color:var(--gray-700);flex:1}
+.toggle-switch{position:relative;width:36px;height:20px;flex-shrink:0}
+.toggle-switch input{opacity:0;width:0;height:0;position:absolute}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:#ccc;border-radius:20px;transition:.3s}
+.toggle-slider:before{content:'';position:absolute;height:14px;width:14px;left:3px;bottom:3px;background:white;border-radius:50%;transition:.3s}
+input:checked+.toggle-slider{background:var(--orange)}
+input:checked+.toggle-slider:before{transform:translateX(16px)}
+/* ── TECH PROFILE ── */
+.tech-profile-header{display:flex;align-items:center;gap:14px;padding:16px;background:#F8F9FA;border-bottom:1px solid var(--gray-100);border-radius:4px 4px 0 0}
+.tech-avatar{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:white;flex-shrink:0}
+/* ── APPT DETAIL ── */
+.appt-detail-panel{background:#F8F9FA;border-left:1px solid var(--gray-100);overflow-y:auto;display:flex;flex-direction:column}
+.ade-pre-intake{background:#FFF3EB;border:1px solid #FFD4B3;border-radius:4px;padding:12px;margin:10px 0}
+.ade-pre-intake-title{font-size:11px;font-weight:700;color:var(--orange);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.pre-intake-item{display:flex;align-items:flex-start;gap:8px;padding:4px 0;font-size:11px;color:var(--gray-700)}
 </style>
 </head>
 <body>
@@ -670,57 +768,165 @@ function ActivityFeed({entries,open,onToggle}){
 // ─── APPOINTMENT QUEUE ────────────────────────────────────────────────────────
 function AppointmentQueue({ros,setRos}){
   const [filter,setFilter]=useState('All');
-  const filtered=APPOINTMENTS.filter(a=>filter==='All'||a.type===filter);
+  const [selected,setSelected]=useState(null);
+  const [checkedIn,setCheckedIn]=useState([]);
   const toast=React.useContext(ToastContext);
+  const filtered=APPOINTMENTS.filter(a=>filter==='All'||a.type===filter);
+  const selAppt=APPOINTMENTS.find(a=>a.id===selected);
+  const selCust=selAppt?getCustomer(selAppt.customerId):null;
+  const selVeh=selAppt?getVehicle(selAppt.vehicleId):null;
+  const selRecalls=selVeh?getRecalls(selVeh.id):[];
+  const selROs=selVeh?ros.filter(r=>r.vehicleId===selVeh.id):[];
 
-  const checkIn=(appt)=>{
-    toast('Customer Checked In',`${appt.customer||getCustomer(appt.customerId)?.name} — ADE activated`,'ade');
+  const handleCheckIn=(appt)=>{
+    setCheckedIn(c=>[...c,appt.id]);
+    const newRO={
+      id:`RO-24-${8900+APPOINTMENTS.indexOf(appt)}`,customerId:appt.customerId,vehicleId:appt.vehicleId,
+      status:'Intake',advisorId:'ADE',techId:null,checkIn:new Date().toTimeString().slice(0,5),
+      concern:appt.concern,labors:[],parts:[],payType:'Customer',tax:0.0725,
+      opened:new Date().toISOString().slice(0,10),adeActive:true,adeStep:1,communications:[],upsells:[]
+    };
+    setRos(prev=>[...prev,newRO]);
+    toast('ADE Activated',`${getCustomer(appt.customerId)?.name} — RO ${newRO.id} created`,'ade');
+    setSelected(null);
   };
 
+  const maint=(v)=>{if(!v)return[];const m=v.mileage;return[
+    {svc:'Oil & Filter Change',interval:'Every 10k mi',status:m%10000>8000?'Due':'Current'},
+    {svc:'Tire Rotation',interval:'Every 10k mi',status:m%10000>8000?'Due':'Current'},
+    {svc:'Cabin Air Filter',interval:'Every 20k mi',status:m>20000&&m%20000>16000?'Due':'Current'},
+    {svc:'Engine Air Filter',interval:'Every 30k mi',status:m>30000&&m%30000>25000?'Due':'Current'},
+    {svc:'Brake Fluid Flush',interval:'Every 2 years',status:'Due'},
+    {svc:'Spark Plugs (Platinum)',interval:'Every 60k mi',status:m>55000?'Due':m>45000?'Upcoming':'Current'},
+  ];};
+
   return (
-    <div>
-      <div style={{background:'var(--navy)',color:'white',padding:'10px 20px',display:'flex',gap:24,alignItems:'center'}}>
-        <div><div style={{fontSize:18,fontWeight:700}}>{APPOINTMENTS.length}</div><div style={{fontSize:10,opacity:0.6,textTransform:'uppercase',letterSpacing:'0.5px'}}>Total Today</div></div>
-        <div><div style={{fontSize:18,fontWeight:700,color:'var(--orange)'}}>{APPOINTMENTS.filter(a=>a.type==='walkin').length}</div><div style={{fontSize:10,opacity:0.6,textTransform:'uppercase',letterSpacing:'0.5px'}}>Walk-Ins</div></div>
-        <div><div style={{fontSize:18,fontWeight:700,color:'#3fb950'}}>{APPOINTMENTS.filter(a=>a.confirmed).length}</div><div style={{fontSize:10,opacity:0.6,textTransform:'uppercase',letterSpacing:'0.5px'}}>Confirmed</div></div>
-        <div style={{marginLeft:'auto',display:'flex',gap:8}}>
-          <select value={filter} onChange={e=>setFilter(e.target.value)} style={{background:'rgba(255,255,255,0.1)',color:'white',border:'1px solid rgba(255,255,255,0.2)'}}>
-            <option value="All">All</option><option value="scheduled">Scheduled</option><option value="walkin">Walk-Ins</option>
-          </select>
+    <div style={{display:'grid',gridTemplateColumns:selected?'1fr 420px':'1fr',height:'calc(100vh - 130px)'}}>
+      <div style={{display:'flex',flexDirection:'column',overflow:'hidden'}}>
+        {/* Header stats */}
+        <div style={{background:'var(--navy)',color:'white',padding:'10px 20px',display:'flex',gap:24,alignItems:'center',flexShrink:0}}>
+          {[['Total Today',APPOINTMENTS.length,'white'],['Walk-Ins',APPOINTMENTS.filter(a=>a.type==='walkin').length,'var(--orange)'],['Confirmed',APPOINTMENTS.filter(a=>a.confirmed).length,'#6EE7B7'],['Checked In',checkedIn.length,'#93C5FD']].map(([l,v,c])=>(
+            <div key={l}><div style={{fontSize:18,fontWeight:700,color:c}}>{v}</div><div style={{fontSize:10,opacity:0.6,textTransform:'uppercase',letterSpacing:'0.5px'}}>{l}</div></div>
+          ))}
+          <div style={{marginLeft:'auto',display:'flex',gap:8}}>
+            <select value={filter} onChange={e=>setFilter(e.target.value)} style={{background:'rgba(255,255,255,0.1)',color:'white',border:'1px solid rgba(255,255,255,0.2)'}}>
+              <option value="All">All</option><option value="scheduled">Scheduled</option><option value="walkin">Walk-Ins</option>
+            </select>
+          </div>
+        </div>
+        <div style={{flex:1,overflowY:'auto',padding:16}}>
+          {filtered.map(appt=>{
+            const c=getCustomer(appt.customerId),v=getVehicle(appt.vehicleId);
+            const isCheckedIn=checkedIn.includes(appt.id);
+            const isSelected=selected===appt.id;
+            return (
+              <div key={appt.id} className={`appt-card ${appt.type}`}
+                style={{opacity:isCheckedIn?0.5:1,background:isSelected?'#EEF2FF':'white',cursor:'pointer'}}
+                onClick={()=>setSelected(isSelected?null:appt.id)}>
+                <div className="appt-time-block">
+                  <div className="appt-time-hour">{appt.time}</div>
+                  <div className="appt-time-ampm">{appt.ampm}</div>
+                </div>
+                <div className="appt-details">
+                  <div style={{display:'flex',alignItems:'center',gap:8,flexWrap:'wrap'}}>
+                    <div className="appt-name">{c?.name}</div>
+                    <span className={`badge ${appt.type==='walkin'?'badge-orange':'badge-green'}`}>{appt.type==='walkin'?'Walk-In':'Scheduled'}</span>
+                    {appt.confirmed&&<span className="badge badge-blue">Confirmed</span>}
+                    {isCheckedIn&&<span className="badge badge-dark">Checked In</span>}
+                    {selRecalls.filter(r=>r.status==='OPEN').length>0&&appt.vehicleId===selVeh?.id&&<span className="badge badge-red">⚠ Open Recall</span>}
+                  </div>
+                  <div className="appt-vehicle">{v?.year} {v?.make} {v?.model} · {v?.mileage?.toLocaleString()} mi · VIN …{v?.vin?.slice(-8)}</div>
+                  <div className="appt-concern" style={{marginTop:4}}>{appt.concern}</div>
+                </div>
+                <div style={{display:'flex',flexDirection:'column',gap:6,flexShrink:0}}>
+                  {!isCheckedIn
+                    ?<button className="btn btn-orange btn-sm" onClick={e=>{e.stopPropagation();handleCheckIn(appt);}}>Check In + ADE ▶</button>
+                    :<span className="badge badge-green" style={{padding:'4px 10px'}}>✓ In System</span>}
+                  <button className="btn btn-ghost btn-sm" onClick={e=>{e.stopPropagation();setSelected(isSelected?null:appt.id);}}>
+                    {isSelected?'Close ▲':'View Details ▼'}
+                  </button>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
-      <div style={{padding:16}}>
-        {filtered.map(appt=>{
-          const c=getCustomer(appt.customerId),v=getVehicle(appt.vehicleId);
-          return (
-            <div key={appt.id} className={`appt-card ${appt.type}`}>
-              <div className="appt-time-block">
-                <div className="appt-time-hour">{appt.time}</div>
-                <div className="appt-time-ampm">{appt.ampm}</div>
-              </div>
-              <div className="appt-details">
-                <div style={{display:'flex',alignItems:'center',gap:8}}>
-                  <div className="appt-name">{c?.name}</div>
-                  <span className={`badge ${appt.type==='walkin'?'badge-orange':'badge-green'}`}>{appt.type==='walkin'?'Walk-In':'Scheduled'}</span>
-                  {appt.confirmed&&<span className="badge badge-blue">Confirmed</span>}
-                </div>
-                <div className="appt-vehicle">{v?.year} {v?.model} · {v?.mileage?.toLocaleString()} mi · {v?.vin?.slice(-8)}</div>
-                <div className="appt-concern">{appt.concern}</div>
-              </div>
-              <div style={{display:'flex',flexDirection:'column',gap:6,flexShrink:0}}>
-                <button className="btn btn-orange btn-sm" onClick={()=>checkIn(appt)}>Check In + ADE</button>
-                <button className="btn btn-ghost btn-sm">View History</button>
+      {/* Detail panel */}
+      {selAppt&&(
+        <div className="appt-detail-panel">
+          <div style={{background:'var(--navy)',color:'white',padding:'12px 16px',display:'flex',alignItems:'center',gap:8}}>
+            <div style={{flex:1}}>
+              <div style={{fontWeight:700,fontSize:14}}>{selCust?.name}</div>
+              <div style={{fontSize:11,opacity:0.7}}>{selVeh?.year} {selVeh?.make} {selVeh?.model}</div>
+            </div>
+            <button className="btn btn-orange btn-sm" onClick={()=>handleCheckIn(selAppt)} disabled={checkedIn.includes(selAppt.id)}>
+              {checkedIn.includes(selAppt.id)?'✓ Checked In':'Check In + ADE'}
+            </button>
+            <button style={{background:'none',border:'none',color:'white',cursor:'pointer',fontSize:16}} onClick={()=>setSelected(null)}>×</button>
+          </div>
+          <div style={{padding:14,overflowY:'auto',flex:1}}>
+            {/* Customer + Vehicle */}
+            <div className="drill-section">
+              <div className="drill-section-title">Customer & Vehicle</div>
+              <div className="info-grid">
+                {[['Phone',selCust?.phone],['Email',selCust?.email],['VIN',selVeh?.vin?.slice(-8)],['Mileage',selVeh?.mileage?.toLocaleString()+' mi'],['Engine',selVeh?.engine],['Warranty',selVeh?.warranty?.slice(0,30)+'…']].map(([k,v])=>(
+                  <div key={k} className="info-cell"><div className="info-cell-label">{k}</div><div className="info-cell-value" style={{fontSize:11}}>{v||'—'}</div></div>
+                ))}
               </div>
             </div>
-          );
-        })}
-      </div>
+            {/* ADE Pre-Intake */}
+            <div className="drill-section">
+              <div className="ade-pre-intake">
+                <div className="ade-pre-intake-title">⚡ ADE Pre-Intake Analysis</div>
+                <div className="pre-intake-item"><span style={{color:'var(--orange)',fontWeight:700}}>→</span> Customer stated concern: <em>{selAppt.concern}</em></div>
+                {selRecalls.filter(r=>r.status==='OPEN').map(r=>(
+                  <div key={r.id} className="pre-intake-item"><span style={{color:'var(--red)',fontWeight:700}}>⚠</span> Open recall: {r.nhtsa} — {r.description.slice(0,60)}</div>
+                ))}
+                <div className="pre-intake-item"><span style={{color:'var(--green)',fontWeight:700}}>✓</span> {selVeh?.warranty?.includes('ACTIVE')||selVeh?.warranty?.includes('active')?'Powertrain warranty active — verify coverage before RO creation':'Warranty status: verify in DMS'}</div>
+                <div className="pre-intake-item"><span style={{color:'var(--navy)',fontWeight:700}}>ℹ</span> Prior ROs at Liberty Ford: {selROs.length} found</div>
+                <div className="pre-intake-item"><span style={{color:'var(--navy)',fontWeight:700}}>ℹ</span> Recommended tech skill: {selAppt.concern.toLowerCase().includes('hybrid')||selAppt.concern.toLowerCase().includes('battery')?'Hybrid/EV — Darnell Washington':selAppt.concern.toLowerCase().includes('brake')?'Brakes — Kevin O\'Brien':selAppt.concern.toLowerCase().includes('engine')||selAppt.concern.toLowerCase().includes('vibration')?'Engine/Diag — Marcus Chen':'General — assign by availability'}</div>
+              </div>
+            </div>
+            {/* Maintenance due */}
+            <div className="drill-section">
+              <div className="drill-section-title">Motorcraft Maintenance Status</div>
+              {maint(selVeh).map(m=>(
+                <div key={m.svc} style={{display:'flex',justifyContent:'space-between',padding:'5px 0',borderBottom:'1px solid var(--gray-100)',fontSize:12,alignItems:'center'}}>
+                  <span>{m.svc}</span>
+                  <div style={{display:'flex',gap:8,alignItems:'center'}}>
+                    <span style={{fontSize:11,color:'var(--gray-500)'}}>{m.interval}</span>
+                    <span className={`badge ${m.status==='Due'?'badge-orange':m.status==='Upcoming'?'badge-yellow':'badge-green'}`}>{m.status}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            {/* Prior ROs */}
+            {selROs.length>0&&(
+              <div className="drill-section">
+                <div className="drill-section-title">Prior ROs at Liberty Ford ({selROs.length})</div>
+                {selROs.slice(0,4).map(ro=>(
+                  <div key={ro.id} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'6px 0',borderBottom:'1px solid var(--gray-100)',fontSize:12}}>
+                    <div>
+                      <span style={{fontFamily:'monospace',fontWeight:700,color:'var(--navy)',marginRight:8}}>{ro.id}</span>
+                      <span style={{color:'var(--gray-500)',fontSize:11}}>{ro.opened}</span>
+                    </div>
+                    <div style={{display:'flex',alignItems:'center',gap:8}}>
+                      <StatusBadge status={ro.status}/>
+                      <span style={{fontWeight:600,color:'var(--navy)'}}>${calcRO(ro).total.toFixed(0)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 // ─── ADE DEMO MODE ────────────────────────────────────────────────────────────
-function ADEDemoMode({onClose}){
+function ADEDemoMode({onClose,ro}){
   const [scenarioIdx,setScenarioIdx]=useState(0);
   const [speed,setSpeed]=useState(2);
   const [running,setRunning]=useState(false);
@@ -800,6 +1006,7 @@ function ADEDemoMode({onClose}){
         <div style={{width:8,height:8,background:'#6EE7B7',borderRadius:'50%',animation:'pulse 1s infinite'}}/>
         <div className="demo-title">ADE LIVE DEMO</div>
         <div className="demo-scenario-badge">{scenario.label}</div>
+        {ro&&<div style={{background:'rgba(255,102,0,0.25)',border:'1px solid var(--orange)',color:'white',borderRadius:3,padding:'2px 8px',fontSize:10,fontWeight:700}}>▶ {ro.id} · {getCustomer(ro.customerId)?.name}</div>}
         <div style={{marginLeft:'auto',display:'flex',alignItems:'center',gap:10}}>
           {!started&&(
             <select value={scenarioIdx} onChange={e=>setScenarioIdx(+e.target.value)}
@@ -1411,24 +1618,56 @@ function VehicleHistory(){
 function DispatchBoard({ros,setRos}){
   const COLS=['Unassigned','Assigned','In Progress','Quality Check','Complete'];
   const statusMap={'Intake':'Unassigned','Diagnosis':'Assigned','Awaiting Approval':'In Progress','In Progress':'In Progress','Quality Check':'Quality Check','Ready for Pickup':'Complete','Closed':'Complete'};
+  const [selectedRO,setSelectedRO]=useState(null);
+  const [selectedTech,setSelectedTech]=useState(null);
+  const [drillTab,setDrillTab]=useState('overview');
+  const [techNotes,setTechNotes]=useState({});
+  const toast=React.useContext(ToastContext);
 
   const getCards=(col)=>ros.filter(ro=>(statusMap[ro.status]||'Unassigned')===col&&ro.status!=='Closed');
 
   const moveCard=(roId,toCol)=>{
     const newStatus={Unassigned:'Intake',Assigned:'Diagnosis','In Progress':'In Progress','Quality Check':'Quality Check',Complete:'Ready for Pickup'};
     setRos(prev=>prev.map(r=>r.id===roId?{...r,status:newStatus[toCol]||r.status}:r));
+    toast('Status Updated',`${roId} → ${newStatus[toCol]}`,'info');
   };
+
+  const SLA=(ro)=>{
+    if(!ro.checkIn||ro.checkIn==='—')return null;
+    const [h,m]=ro.checkIn.split(':').map(Number);
+    const now=new Date(); const then=new Date(); then.setHours(h,m,0);
+    const mins=Math.round((now-then)/60000);
+    if(mins<120)return{label:`${mins}m`,cls:'sla-green'};
+    if(mins<240)return{label:`${Math.floor(mins/60)}h ${mins%60}m`,cls:'sla-yellow'};
+    return{label:`${Math.floor(mins/60)}h ${mins%60}m`,cls:'sla-red'};
+  };
+
+  const partsStatus=(ro)=>{
+    if(!ro.parts.length)return null;
+    const statuses=['In Stock','In Stock','Special Order'];
+    return statuses[ro.parts.length%3];
+  };
+
+  const drillRO=ros.find(r=>r.id===selectedRO);
+  const drillCust=drillRO?getCustomer(drillRO.customerId):null;
+  const drillVeh=drillRO?getVehicle(drillRO.vehicleId):null;
+  const drillTech=drillRO?getTech(drillRO.techId):null;
+  const drillTotals=drillRO?calcRO(drillRO):null;
+
+  const techProfile=selectedTech?getTech(selectedTech):null;
+  const techROs=selectedTech?ros.filter(r=>r.techId===selectedTech&&r.status!=='Closed'):[];
 
   return (
     <div>
-      <div className="section-header">
+      {/* Tech utilization header */}
+      <div className="section-header" style={{flexWrap:'wrap',gap:8}}>
         <div className="section-title">Technician Dispatch Board</div>
-        <div className="section-actions">
+        <div className="section-actions" style={{flexWrap:'wrap'}}>
           {TECHNICIANS.map(t=>{
             const util=Math.round((t.flagged/t.available)*100);
             return (
-              <div key={t.id} className="tech-util">
-                <span style={{fontSize:11,fontWeight:500,minWidth:90}}>{t.name.split(' ')[0]}</span>
+              <div key={t.id} className="tech-util" style={{cursor:'pointer'}} onClick={()=>setSelectedTech(t.id)}>
+                <span style={{fontSize:11,fontWeight:600,minWidth:72,color:'var(--navy)',textDecoration:'underline dotted'}}>{t.name.split(' ')[0]}</span>
                 <div className="util-bar"><div className={`util-fill ${util>=100?'util-red':util>=85?'util-yellow':'util-green'}`} style={{width:util+'%'}}/></div>
                 <span style={{fontSize:11,fontWeight:700,color:util>=100?'var(--red)':util>=85?'#d97706':'var(--green)',minWidth:32}}>{util}%</span>
               </div>
@@ -1436,6 +1675,8 @@ function DispatchBoard({ros,setRos}){
           })}
         </div>
       </div>
+
+      {/* Kanban */}
       <div className="kanban-board">
         {COLS.map(col=>{
           const cards=getCards(col);
@@ -1450,8 +1691,11 @@ function DispatchBoard({ros,setRos}){
               <div className="kanban-cards">
                 {cards.map(ro=>{
                   const c=getCustomer(ro.customerId),v=getVehicle(ro.vehicleId),t=getTech(ro.techId),tot=calcRO(ro);
+                  const sla=SLA(ro); const ps=partsStatus(ro);
                   return (
                     <div key={ro.id} className="kanban-card" draggable
+                      style={{borderLeft:selectedRO===ro.id?'3px solid var(--orange)':undefined}}
+                      onClick={()=>{setSelectedRO(ro.id);setDrillTab('overview');}}
                       onDragStart={e=>e.dataTransfer.setData('roId',ro.id)}>
                       <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
                         <div className="kanban-card-ro">{ro.id}</div>
@@ -1459,12 +1703,16 @@ function DispatchBoard({ros,setRos}){
                       </div>
                       <div className="kanban-card-name">{c?.name}</div>
                       <div className="kanban-card-vehicle">{v?.year} {v?.model} · {v?.mileage?.toLocaleString()} mi</div>
-                      <div className="kanban-card-job" style={{marginTop:6,borderTop:'1px solid var(--gray-100)',paddingTop:6}}>{ro.concern.slice(0,60)}{ro.concern.length>60?'…':''}</div>
+                      <div className="kanban-card-job" style={{marginTop:5,borderTop:'1px solid var(--gray-100)',paddingTop:5,fontSize:11}}>{ro.concern.slice(0,55)}{ro.concern.length>55?'…':''}</div>
                       <div className="kanban-card-footer">
-                        <span style={{fontSize:11,color:'var(--gray-500)'}}>{t?.name||'Unassigned'}</span>
+                        <span style={{fontSize:11,color:'var(--gray-500)'}}>{t?.name||<span style={{color:'var(--red)'}}>Unassigned</span>}</span>
                         <span style={{fontSize:11,fontWeight:700,color:'var(--navy)'}}>${tot.total.toFixed(0)}</span>
                       </div>
-                      {ro.adeActive&&<div style={{marginTop:4}}><span className="badge badge-ade">ADE</span></div>}
+                      <div style={{display:'flex',alignItems:'center',gap:4,marginTop:5,flexWrap:'wrap'}}>
+                        {ro.adeActive&&<span className="badge badge-ade">ADE</span>}
+                        {sla&&<span className={`sla-badge ${sla.cls}`}>⏱ {sla.label}</span>}
+                        {ps&&<span className={`parts-status ${ps==='In Stock'?'parts-instock':'parts-order'}`}>{ps==='In Stock'?'✓':'⏳'} {ps}</span>}
+                      </div>
                     </div>
                   );
                 })}
@@ -1473,123 +1721,558 @@ function DispatchBoard({ros,setRos}){
           );
         })}
       </div>
+
+      {/* RO Drill Modal */}
+      {drillRO&&(
+        <div className="drill-modal-overlay" onClick={()=>setSelectedRO(null)}>
+          <div className="drill-modal drill-modal-lg" onClick={e=>e.stopPropagation()}>
+            <div className="drill-modal-header">
+              <div style={{flex:1}}>
+                <div className="drill-modal-title">{drillRO.id} · {drillCust?.name}</div>
+                <div className="drill-modal-sub">{drillVeh?.year} {drillVeh?.make} {drillVeh?.model} · {drillVeh?.mileage?.toLocaleString()} mi · Check-in: {drillRO.checkIn}</div>
+              </div>
+              <StatusBadge status={drillRO.status}/>
+              {drillRO.adeActive&&<span className="badge badge-ade">ADE</span>}
+              <button style={{background:'none',border:'none',color:'white',cursor:'pointer',fontSize:20,marginLeft:8}} onClick={()=>setSelectedRO(null)}>×</button>
+            </div>
+            <div className="drill-tabs">
+              {['overview','labor & parts','customer','assign'].map(t=>(
+                <div key={t} className={`drill-tab ${drillTab===t?'active':''}`} onClick={()=>setDrillTab(t)} style={{textTransform:'capitalize'}}>{t}</div>
+              ))}
+            </div>
+            <div className="drill-body">
+              {drillTab==='overview'&&(
+                <>
+                  <div className="info-grid">
+                    {[['Pay Type',drillRO.payType],['Opened',drillRO.opened],['Technician',drillTech?.name||'Unassigned'],['Check-In',drillRO.checkIn],['ADE Step',`Step ${drillRO.adeStep}/10`],['RO Total',`$${drillTotals?.total.toFixed(2)}`]].map(([k,v])=>(
+                      <div key={k} className="info-cell"><div className="info-cell-label">{k}</div><div className="info-cell-value">{v}</div></div>
+                    ))}
+                  </div>
+                  <div className="drill-section">
+                    <div className="drill-section-title">Customer Concern</div>
+                    <p style={{fontSize:12,color:'var(--gray-700)',lineHeight:1.6,background:'#F8F9FA',padding:'10px 12px',borderRadius:3,border:'1px solid var(--gray-100)'}}>{drillRO.concern}</p>
+                  </div>
+                  <div className="drill-section">
+                    <div className="drill-section-title">Tech Notes</div>
+                    <textarea style={{width:'100%',height:80,fontSize:12,padding:'8px 10px',border:'1px solid var(--gray-200)',borderRadius:3,fontFamily:'inherit',resize:'vertical'}}
+                      placeholder="Enter technician findings here..."
+                      value={techNotes[drillRO.id]||''}
+                      onChange={e=>setTechNotes(n=>({...n,[drillRO.id]:e.target.value}))}/>
+                    <div style={{display:'flex',gap:8,marginTop:8}}>
+                      {COLS.map(col=>(
+                        <button key={col} className="btn btn-ghost btn-sm" onClick={()=>moveCard(drillRO.id,col)}>→ {col}</button>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+              {drillTab==='labor & parts'&&(
+                <>
+                  <div className="drill-section">
+                    <div className="drill-section-title">Labor Lines</div>
+                    {drillRO.labors.map((l,i)=>(
+                      <div key={i} style={{display:'grid',gridTemplateColumns:'2fr 1fr 80px 80px 80px',gap:8,padding:'8px 0',borderBottom:'1px solid var(--gray-100)',fontSize:12,alignItems:'center'}}>
+                        <span style={{fontWeight:500}}>{l.desc}</span>
+                        <span style={{fontFamily:'monospace',color:'var(--navy)',fontSize:11}}>{l.code}</span>
+                        <span>{l.hours}h flagged</span>
+                        <span style={{fontWeight:600}}>${(l.hours*l.rate).toFixed(2)}</span>
+                        <span className={`badge ${l.warranty?'badge-blue':l.approved===true?'badge-green':l.approved===false?'badge-red':'badge-orange'}`}>{l.warranty?'Warranty':l.approved===true?'Approved':l.approved===false?'Declined':'Pending'}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="drill-section">
+                    <div className="drill-section-title">Parts</div>
+                    {drillRO.parts.map((p,i)=>(
+                      <div key={i} style={{display:'grid',gridTemplateColumns:'2fr 80px 80px 100px',gap:8,padding:'8px 0',borderBottom:'1px solid var(--gray-100)',fontSize:12,alignItems:'center'}}>
+                        <span>{p.desc}</span>
+                        <span style={{fontFamily:'monospace',fontSize:11}}>{p.part}</span>
+                        <span style={{fontWeight:600}}>${(p.qty*p.unit).toFixed(2)}</span>
+                        <span className={`parts-status ${i%2===0?'parts-instock':'parts-order'}`}>{i%2===0?'✓ In Stock':'⏳ Special Order'}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{background:'#F8F9FA',border:'1px solid var(--gray-100)',borderRadius:4,padding:'12px 16px'}}>
+                    {[['Labor',`$${drillTotals?.labor.toFixed(2)}`],['Parts',`$${drillTotals?.parts.toFixed(2)}`],['Tax',`$${drillTotals?.tax.toFixed(2)}`]].map(([k,v])=>(
+                      <div key={k} style={{display:'flex',justifyContent:'space-between',fontSize:12,padding:'3px 0'}}><span>{k}</span><span>{v}</span></div>
+                    ))}
+                    <div style={{display:'flex',justifyContent:'space-between',fontSize:14,fontWeight:700,color:'var(--navy)',padding:'8px 0 0',borderTop:'2px solid var(--gray-200)',marginTop:4}}><span>Total</span><span>${drillTotals?.total.toFixed(2)}</span></div>
+                  </div>
+                </>
+              )}
+              {drillTab==='customer'&&(
+                <div className="info-grid" style={{gridTemplateColumns:'repeat(2,1fr)'}}>
+                  {[['Name',drillCust?.name],['Phone',drillCust?.phone],['Email',drillCust?.email],['Address',drillCust?.address],['VIN',drillVeh?.vin],['License',drillVeh?.licensePlate],['Color',drillVeh?.color],['Warranty',drillVeh?.warranty]].map(([k,v])=>(
+                    <div key={k} className="info-cell"><div className="info-cell-label">{k}</div><div className="info-cell-value" style={{fontSize:11,fontWeight:400}}>{v||'—'}</div></div>
+                  ))}
+                </div>
+              )}
+              {drillTab==='assign'&&(
+                <div>
+                  <div className="drill-section-title">Reassign Technician</div>
+                  {TECHNICIANS.map(t=>{
+                    const util=Math.round((t.flagged/t.available)*100);
+                    const isCurrent=drillRO.techId===t.id;
+                    return (
+                      <div key={t.id} style={{display:'flex',alignItems:'center',gap:12,padding:'10px 0',borderBottom:'1px solid var(--gray-100)'}}>
+                        <div style={{width:32,height:32,borderRadius:'50%',background:t.color,color:'white',display:'flex',alignItems:'center',justifyContent:'center',fontSize:12,fontWeight:700,flexShrink:0}}>{t.name[0]}</div>
+                        <div style={{flex:1}}>
+                          <div style={{fontWeight:600,fontSize:12}}>{t.name} {isCurrent&&<span className="badge badge-navy" style={{fontSize:9}}>CURRENT</span>}</div>
+                          <div style={{fontSize:11,color:'var(--gray-500)'}}>{t.skills.join(' · ')}</div>
+                          <div className="tech-util" style={{marginTop:4}}>
+                            <div className="util-bar" style={{width:120}}><div className={`util-fill ${util>=100?'util-red':util>=85?'util-yellow':'util-green'}`} style={{width:util+'%'}}/></div>
+                            <span style={{fontSize:11,fontWeight:700,color:util>=100?'var(--red)':util>=85?'#d97706':'var(--green)'}}>{util}% utilized</span>
+                          </div>
+                        </div>
+                        <button className="btn btn-sm" style={{background:isCurrent?'var(--gray-100)':'var(--navy)',color:isCurrent?'var(--gray-500)':'white'}}
+                          disabled={isCurrent}
+                          onClick={()=>{setRos(p=>p.map(r=>r.id===drillRO.id?{...r,techId:t.id}:r));toast('Tech Reassigned',`${drillRO.id} → ${t.name}`,'success');}}>
+                          {isCurrent?'Assigned':'Assign'}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Tech Profile Modal */}
+      {techProfile&&(
+        <div className="drill-modal-overlay" onClick={()=>setSelectedTech(null)}>
+          <div className="drill-modal" onClick={e=>e.stopPropagation()} style={{maxWidth:600}}>
+            <div className="drill-modal-header">
+              <div style={{width:40,height:40,borderRadius:'50%',background:techProfile.color,color:'white',display:'flex',alignItems:'center',justifyContent:'center',fontSize:16,fontWeight:700,flexShrink:0}}>{techProfile.name[0]}</div>
+              <div style={{flex:1}}>
+                <div className="drill-modal-title">{techProfile.name}</div>
+                <div className="drill-modal-sub">{techProfile.certifications.join(' · ')}</div>
+              </div>
+              <button style={{background:'none',border:'none',color:'white',cursor:'pointer',fontSize:20}} onClick={()=>setSelectedTech(null)}>×</button>
+            </div>
+            <div className="drill-body">
+              <div className="info-grid">
+                {[['Flagged Hours',techProfile.flagged+' hrs'],['Available Hours',techProfile.available+' hrs'],['Utilization',Math.round(techProfile.flagged/techProfile.available*100)+'%'],['Active ROs',techROs.length]].map(([k,v])=>(
+                  <div key={k} className="info-cell"><div className="info-cell-label">{k}</div><div className="info-cell-value">{v}</div></div>
+                ))}
+              </div>
+              <div className="drill-section">
+                <div className="drill-section-title">Skill Tags</div>
+                <div style={{display:'flex',gap:6,flexWrap:'wrap',marginTop:4}}>{techProfile.skills.map(s=><span key={s} className="tag">{s}</span>)}</div>
+              </div>
+              <div className="drill-section">
+                <div className="drill-section-title">Active ROs ({techROs.length})</div>
+                {techROs.map(ro=>{
+                  const c=getCustomer(ro.customerId),v=getVehicle(ro.vehicleId),tot=calcRO(ro);
+                  return (
+                    <div key={ro.id} style={{display:'flex',alignItems:'center',gap:10,padding:'7px 0',borderBottom:'1px solid var(--gray-100)'}}>
+                      <span style={{fontFamily:'monospace',fontWeight:700,color:'var(--navy)',fontSize:11}}>{ro.id}</span>
+                      <span style={{fontSize:12,flex:1}}>{c?.name} · {v?.year} {v?.model}</span>
+                      <StatusBadge status={ro.status}/>
+                      <span style={{fontWeight:600,fontSize:12}}>${tot.total.toFixed(0)}</span>
+                    </div>
+                  );
+                })}
+                {techROs.length===0&&<div style={{color:'var(--gray-500)',fontSize:12}}>No active ROs assigned</div>}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 // ─── TAB 6: UPSELL ENGINE ────────────────────────────────────────────────────
+const UPSELL_HISTORY={
+  'Fuel System Clean — High Mileage':{acceptRate:61,avgRevenue:138,presentations:89,lastDeclineReason:'Customer declined — "will do it next time"'},
+  'Cabin Air Filter Replacement':{acceptRate:78,avgRevenue:75,presentations:134,lastDeclineReason:'Customer DIFM at AutoZone'},
+  'Rear Shock Absorber Inspection':{acceptRate:42,avgRevenue:87,presentations:31,lastDeclineReason:'Customer wants second opinion'},
+  'Differential fluid service — rear':{acceptRate:71,avgRevenue:122,presentations:56,lastDeclineReason:'Customer unaware of requirement'},
+  'Serpentine belt replacement':{acceptRate:66,avgRevenue:185,presentations:48,lastDeclineReason:'Recently replaced elsewhere'},
+  'Coolant system flush':{acceptRate:55,avgRevenue:168,presentations:73,lastDeclineReason:'Customer deferred to next visit'},
+  'Engine air filter replacement':{acceptRate:82,avgRevenue:79,presentations:112,lastDeclineReason:'Price sensitivity'},
+  'Brake rotors front — turning/resurface':{acceptRate:49,avgRevenue:140,presentations:41,lastDeclineReason:'Customer declined rotor work — pads only'},
+};
+const MOTORCRAFT_DOCS={
+  'Fuel System Clean — High Mileage':'Ford Owner\'s Manual specifies Motorcraft fuel system service at 45,000-mile intervals for vehicles showing injector deposits or idle irregularity. PM-22A Motorcraft Fuel System Cleaner is the OEM-specified treatment per TSB 17-0062.',
+  'Cabin Air Filter Replacement':'Motorcraft FP-67 or equivalent required per Ford Scheduled Maintenance Guide at 15,000–20,000 mile intervals. Failure to replace degrades HVAC airflow and can introduce allergens into cabin. Customer vehicle is 2.8× overdue.',
+  'Rear Shock Absorber Inspection':'Ford Service Manual Section 204-01 recommends shock inspection concurrent with any front suspension R&R. Symptom-driven recommendation based on customer-reported rear handling complaint during intake.',
+  'Differential fluid service — rear':'Ford Motor Company Schedule B Maintenance: rear differential fluid every 30,000 miles on F-150/Mustang GT platforms. Fluid degradation accelerates during towing/performance use. Concurrent service during transmission R&R saves 0.6 labor hours.',
+  'Serpentine belt replacement':'Motorcraft JK6-810 replacement interval: 60,000–90,000 miles per Ford Maintenance Schedule B. Vehicle at 62k — within high-risk window. Belt failure causes loss of power steering, A/C, and charging. Proactive replacement strongly advised.',
+  'Coolant system flush':'Ford orange-dye DEX-COOL equivalent specified per Service Manual 303-03B. 100,000-mile or 10-year interval. Tech noted discoloration during recall work — early degradation indicator. Failure to flush can cause radiator scale and water pump failure.',
+  'Engine air filter replacement':'Motorcraft FA-1883 per Ford Scheduled Maintenance Guide at 15,000–30,000 miles. Vehicle at 27,190 miles — exactly at interval. Restricted filter reduces MPG up to 10% and increases emissions per EPA testing.',
+  'Brake rotors front — turning/resurface':'Ford Service Manual 206-04 specifies rotor measurement during pad R&R. Tech measured 0.8mm scoring. Rotor resurfacing extends life 18–24 months vs full replacement. Included in brake R&R labor window — minimal add-on cost.',
+};
+
 function UpsellEngine(){
+  const {addToast}=useContext(ToastContext);
   const [filter,setFilter]=useState('All');
   const [sort,setSort]=useState({col:'total',dir:-1});
+  const [selected,setSelected]=useState(null);
+  const [upsells,setUpsells]=useState(UPSELLS.map(u=>({...u})));
 
-  const filtered=useMemo(()=>UPSELLS.filter(u=>filter==='All'||u.status===filter)
-    .sort((a,b)=>(a[sort.col]>b[sort.col]?1:-1)*sort.dir),[filter,sort]);
+  const filtered=useMemo(()=>upsells.filter(u=>filter==='All'||u.status===filter)
+    .sort((a,b)=>(a[sort.col]>b[sort.col]?1:-1)*sort.dir),[filter,sort,upsells]);
 
-  const totals={rec:UPSELLS.reduce((s,u)=>s+u.total,0),approved:UPSELLS.filter(u=>u.status==='Approved').reduce((s,u)=>s+u.total,0),declined:UPSELLS.filter(u=>u.status==='Declined').reduce((s,u)=>s+u.total,0),pending:UPSELLS.filter(u=>u.status==='Pending').reduce((s,u)=>s+u.total,0)};
-  const rate=UPSELLS.filter(u=>u.status!=='Pending').length?Math.round(UPSELLS.filter(u=>u.status==='Approved').length/UPSELLS.filter(u=>u.status!=='Pending').length*100):0;
+  const totals={
+    rec:upsells.reduce((s,u)=>s+u.total,0),
+    approved:upsells.filter(u=>u.status==='Approved').reduce((s,u)=>s+u.total,0),
+    declined:upsells.filter(u=>u.status==='Declined').reduce((s,u)=>s+u.total,0),
+    pending:upsells.filter(u=>u.status==='Pending').reduce((s,u)=>s+u.total,0)
+  };
+  const rate=upsells.filter(u=>u.status!=='Pending').length?Math.round(upsells.filter(u=>u.status==='Approved').length/Math.max(upsells.filter(u=>u.status!=='Pending').length,1)*100):0;
+
+  const updateStatus=(id,status)=>{
+    setUpsells(prev=>prev.map(u=>u.id===id?{...u,status}:u));
+    if(selected?.id===id) setSelected(s=>({...s,status}));
+    addToast(status==='Approved'?`Upsell approved — revenue captured`:`Upsell ${status.toLowerCase()}`,'success');
+  };
+
+  const sel=selected?upsells.find(u=>u.id===selected.id):null;
+  const hist=sel?UPSELL_HISTORY[sel.service]:null;
+  const doc=sel?MOTORCRAFT_DOCS[sel.service]:null;
+  const selV=sel?getVehicle(sel.vehicleId):null;
+  const revenueImpact=hist?{
+    expectedRevenue:(hist.acceptRate/100*sel.total).toFixed(2),
+    annualizedDelta:((hist.acceptRate/100*sel.total)*(sel.mileage/10000)).toFixed(0),
+    vsAvg:(sel.total-hist.avgRevenue).toFixed(2)
+  }:null;
+
+  const metricTiles=[
+    {v:'$'+totals.rec.toFixed(0),l:'Total Recommended',f:'All',cls:''},
+    {v:'$'+totals.approved.toFixed(0),l:'Approved Revenue',f:'Approved',cls:'badge-green'},
+    {v:'$'+totals.declined.toFixed(0),l:'Declined',f:'Declined',cls:'badge-red'},
+    {v:'$'+totals.pending.toFixed(0),l:'Pending Approval',f:'Pending',cls:'badge-orange'},
+    {v:rate+'%',l:'Conversion Rate',f:'All',cls:''},
+  ];
 
   return (
     <div>
-      <div className="upsell-summary-bar">
-        {[['$'+totals.rec.toFixed(0),'Total Recommended'],['$'+totals.approved.toFixed(0),'Approved Revenue'],['$'+totals.declined.toFixed(0),'Declined'],['$'+totals.pending.toFixed(0),'Pending Approval']].map(([v,l])=>(
-          <div key={l} className="upsell-metric"><div className="upsell-metric-val">{v}</div><div className="upsell-metric-lbl">{l}</div></div>
+      <div className="upsell-summary-bar" style={{cursor:'pointer'}}>
+        {metricTiles.map(({v,l,f,cls})=>(
+          <div key={l} className={`upsell-metric${filter===f?' selected':''}`}
+            style={{cursor:'pointer',outline:filter===f?'2px solid var(--orange)':'none',borderRadius:4}}
+            onClick={()=>setFilter(f)}>
+            <div className="upsell-metric-val" style={{color:cls==='badge-green'?'var(--green)':cls==='badge-red'?'var(--red)':cls==='badge-orange'?'var(--orange)':'var(--orange)'}}>{v}</div>
+            <div className="upsell-metric-lbl">{l}</div>
+          </div>
         ))}
       </div>
+
       <div className="section-header">
-        <div><div className="section-title">Upsell & Recommendations Engine</div><div className="section-sub">Conversion rate: {rate}% · {UPSELLS.filter(u=>u.status==='Approved').length}/{UPSELLS.filter(u=>u.status!=='Pending').length} approved</div></div>
+        <div><div className="section-title">Upsell &amp; Recommendations Engine</div><div className="section-sub">Conversion rate: {rate}% · {upsells.filter(u=>u.status==='Approved').length}/{upsells.filter(u=>u.status!=='Pending').length} closed · Click any row to drill in</div></div>
         <div className="section-actions">
           <select value={filter} onChange={e=>setFilter(e.target.value)}><option>All</option><option>Pending</option><option>Approved</option><option>Declined</option></select>
           <button className="btn btn-ghost btn-sm" onClick={()=>exportCSV(filtered.map(u=>({ro:u.roId,service:u.service,basis:u.basis,mileage:u.mileage,total:u.total.toFixed(2),status:u.status})),'upsells')}>Export CSV</button>
         </div>
       </div>
-      <table>
-        <thead><tr>
-          {[['roId','RO #'],['vehicleId','Vehicle'],['service','Service'],['basis','Motorcraft Basis'],['mileage','Mileage'],['laborAmt','Labor'],['partsAmt','Parts'],['total','Total'],['status','Status']].map(([col,lbl])=>(
-            <th key={col} onClick={()=>setSort(s=>({col,dir:s.col===col?-s.dir:-1}))}>{lbl}{sort.col===col&&<span className="sort-arrow">{sort.dir>0?'▲':'▼'}</span>}</th>
-          ))}
-        </tr></thead>
-        <tbody>
-          {filtered.map(u=>{
-            const v=getVehicle(u.vehicleId);
-            return (
-              <tr key={u.id}>
-                <td style={{fontFamily:'monospace',fontWeight:700,color:'var(--navy)'}}>{u.roId}</td>
-                <td>{v?.year} {v?.model}</td>
-                <td style={{fontWeight:500}}>{u.service}</td>
-                <td style={{fontSize:11,color:'var(--gray-500)'}}>{u.basis}</td>
-                <td>{u.mileage.toLocaleString()}</td>
-                <td>${u.laborAmt.toFixed(2)}</td>
-                <td>${(u.partsAmt||0).toFixed(2)}</td>
-                <td style={{fontWeight:700,color:'var(--navy)'}}>${u.total.toFixed(2)}</td>
-                <td><span className={`badge ${u.status==='Approved'?'badge-green':u.status==='Declined'?'badge-red':'badge-orange'}`}>{u.status}</span></td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+
+      <div style={{display:'grid',gridTemplateColumns:sel?'1fr 400px':'1fr',gap:0,alignItems:'start'}}>
+        <div style={{overflowX:'auto'}}>
+          <table>
+            <thead><tr>
+              {[['roId','RO #'],['vehicleId','Vehicle'],['service','Service'],['mileage','Mileage'],['laborAmt','Labor'],['partsAmt','Parts'],['total','Total'],['status','Status']].map(([col,lbl])=>(
+                <th key={col} onClick={()=>setSort(s=>({col,dir:s.col===col?-s.dir:-1}))}>{lbl}{sort.col===col&&<span className="sort-arrow">{sort.dir>0?'▲':'▼'}</span>}</th>
+              ))}
+            </tr></thead>
+            <tbody>
+              {filtered.map(u=>{
+                const v=getVehicle(u.vehicleId);
+                const isActive=sel?.id===u.id;
+                return (
+                  <tr key={u.id} onClick={()=>setSelected(isActive?null:u)}
+                    style={{cursor:'pointer',background:isActive?'#EEF2FF':'',borderLeft:isActive?'3px solid var(--navy)':''}}>
+                    <td style={{fontFamily:'monospace',fontWeight:700,color:'var(--navy)'}}>{u.roId}</td>
+                    <td>{v?.year} {v?.model}</td>
+                    <td style={{fontWeight:500}}>{u.service}</td>
+                    <td>{u.mileage.toLocaleString()}</td>
+                    <td>${u.laborAmt.toFixed(2)}</td>
+                    <td>${(u.partsAmt||0).toFixed(2)}</td>
+                    <td style={{fontWeight:700,color:'var(--navy)'}}>${u.total.toFixed(2)}</td>
+                    <td><span className={`badge ${u.status==='Approved'?'badge-green':u.status==='Declined'?'badge-red':'badge-orange'}`}>{u.status}</span></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        {sel&&(
+          <div style={{borderLeft:'2px solid var(--gray-200)',background:'#FAFBFC',padding:20,position:'sticky',top:0,maxHeight:'80vh',overflowY:'auto'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:16}}>
+              <div>
+                <div style={{fontSize:14,fontWeight:700,color:'var(--navy)',marginBottom:2}}>{sel.service}</div>
+                <div style={{fontSize:11,color:'var(--gray-500)'}}>{sel.roId} · {selV?.year} {selV?.model}</div>
+              </div>
+              <button className="btn btn-ghost btn-sm" onClick={()=>setSelected(null)} style={{fontSize:16,lineHeight:1}}>×</button>
+            </div>
+
+            <div style={{display:'flex',gap:6,marginBottom:16}}>
+              <span className={`badge ${sel.status==='Approved'?'badge-green':sel.status==='Declined'?'badge-red':'badge-orange'}`} style={{fontSize:11}}>{sel.status}</span>
+              <span className="badge badge-navy" style={{fontSize:11}}>${sel.total.toFixed(2)}</span>
+            </div>
+
+            {/* Revenue Impact */}
+            {hist&&<div className="panel" style={{marginBottom:12}}>
+              <div className="panel-header"><span className="panel-title">Revenue Impact Analysis</span></div>
+              <div style={{padding:'10px 14px',display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
+                <div style={{textAlign:'center',padding:'8px 0',background:'#F0FFF4',borderRadius:4}}>
+                  <div style={{fontSize:18,fontWeight:700,color:'var(--green)'}}>{hist.acceptRate}%</div>
+                  <div style={{fontSize:10,color:'var(--gray-500)'}}>Historical Accept Rate</div>
+                </div>
+                <div style={{textAlign:'center',padding:'8px 0',background:'#EEF2FF',borderRadius:4}}>
+                  <div style={{fontSize:18,fontWeight:700,color:'var(--navy)'}}>{hist.presentations}</div>
+                  <div style={{fontSize:10,color:'var(--gray-500)'}}>Total Presentations</div>
+                </div>
+                <div style={{textAlign:'center',padding:'8px 0',background:'#FFF3EB',borderRadius:4}}>
+                  <div style={{fontSize:16,fontWeight:700,color:'var(--orange)'}}>${hist.avgRevenue}</div>
+                  <div style={{fontSize:10,color:'var(--gray-500)'}}>Avg Captured Revenue</div>
+                </div>
+                <div style={{textAlign:'center',padding:'8px 0',background:'#FFF8F0',borderRadius:4}}>
+                  <div style={{fontSize:16,fontWeight:700,color:'var(--navy)'}}>${(hist.acceptRate/100*sel.total*12).toFixed(0)}</div>
+                  <div style={{fontSize:10,color:'var(--gray-500)'}}>Annual Revenue Potential</div>
+                </div>
+              </div>
+              {hist.lastDeclineReason&&<div style={{padding:'6px 14px 10px',fontSize:11,color:'var(--gray-500)'}}>
+                <strong>Common decline reason:</strong> {hist.lastDeclineReason}
+              </div>}
+            </div>}
+
+            {/* Motorcraft Documentation */}
+            {doc&&<div className="panel" style={{marginBottom:12}}>
+              <div className="panel-header"><span className="panel-title">Motorcraft Maintenance Basis</span></div>
+              <div style={{padding:'10px 14px',fontSize:12,color:'var(--gray-700)',lineHeight:1.6}}>{doc}</div>
+              <div style={{padding:'0 14px 10px',display:'flex',gap:6}}>
+                <span className="badge badge-navy" style={{fontSize:10}}>OEM Documented</span>
+                <span className="badge badge-gray" style={{fontSize:10}}>{sel.basis}</span>
+              </div>
+            </div>}
+
+            {/* Trigger Context */}
+            <div className="panel" style={{marginBottom:16}}>
+              <div className="panel-header"><span className="panel-title">ADE Trigger Logic</span></div>
+              <div style={{padding:'10px 14px'}}>
+                <div style={{fontSize:12,color:'var(--gray-700)',marginBottom:8}}>{sel.trigger}</div>
+                <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:6,fontSize:11}}>
+                  <div><span style={{color:'var(--gray-500)'}}>Labor:</span> <strong>${sel.laborAmt.toFixed(2)} ({sel.laborHrs}h)</strong></div>
+                  <div><span style={{color:'var(--gray-500)'}}>Parts:</span> <strong>${(sel.partsAmt||0).toFixed(2)}</strong></div>
+                  <div><span style={{color:'var(--gray-500)'}}>Mileage:</span> <strong>{sel.mileage.toLocaleString()}</strong></div>
+                  <div><span style={{color:'var(--gray-500)'}}>Total:</span> <strong style={{color:'var(--navy)'}}>${sel.total.toFixed(2)}</strong></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            {sel.status==='Pending'&&(
+              <div style={{display:'flex',gap:8,flexDirection:'column'}}>
+                <button className="btn btn-primary" onClick={()=>updateStatus(sel.id,'Approved')} style={{width:'100%',justifyContent:'center',padding:'10px 0',fontSize:13}}>
+                  ✓ Approve Upsell — ${sel.total.toFixed(2)}
+                </button>
+                <button className="btn btn-ghost btn-sm" onClick={()=>updateStatus(sel.id,'Presented')} style={{width:'100%',justifyContent:'center',background:'#EEF2FF',borderColor:'var(--navy)',color:'var(--navy)'}}>
+                  Present to Customer (SMS)
+                </button>
+                <button className="btn btn-ghost btn-sm" onClick={()=>updateStatus(sel.id,'Declined')} style={{width:'100%',justifyContent:'center',color:'var(--red)',borderColor:'var(--red)'}}>
+                  ✕ Decline
+                </button>
+              </div>
+            )}
+            {sel.status!=='Pending'&&(
+              <div style={{display:'flex',gap:8}}>
+                <button className="btn btn-ghost btn-sm" onClick={()=>updateStatus(sel.id,'Pending')} style={{flex:1,justifyContent:'center'}}>Reset to Pending</button>
+                {sel.status==='Declined'&&<button className="btn btn-primary btn-sm" onClick={()=>updateStatus(sel.id,'Approved')} style={{flex:1,justifyContent:'center'}}>Override — Approve</button>}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
 // ─── TAB 7: CSI DASHBOARD ────────────────────────────────────────────────────
+function Sparkline({data,color,width=80,height=28}){
+  const min=Math.min(...data),max=Math.max(...data),range=max-min||1;
+  const pts=data.map((v,i)=>{
+    const x=(i/(data.length-1))*width;
+    const y=height-((v-min)/range)*(height-4)-2;
+    return `${x},${y}`;
+  }).join(' ');
+  return (
+    <svg width={width} height={height} style={{display:'block',overflow:'visible'}}>
+      <polyline points={pts} fill="none" stroke={color||'var(--navy)'} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"/>
+      <circle cx={pts.split(' ').pop().split(',')[0]} cy={pts.split(' ').pop().split(',')[1]} r="3" fill={color||'var(--navy)'}/>
+    </svg>
+  );
+}
+
 function CSIDashboard(){
   const last7=CSI_DATA.slice(-7),last30=CSI_DATA;
   const avg=(arr,key)=>arr.reduce((s,d)=>s+d[key],0)/arr.length;
-  const latest=CSI_DATA[CSI_DATA.length-1],prev=CSI_DATA[CSI_DATA.length-8];
+  const [selMetric,setSelMetric]=useState(null);
+  const [selDay,setSelDay]=useState(null);
 
   const metrics=[
-    {key:'csi',label:'CSI Score (30-day)',value:avg(last30,'csi').toFixed(1),target:90,unit:'',trend:((avg(last7,'csi')-avg(last30,'csi'))/avg(last30,'csi')*100).toFixed(1)},
-    {key:'roVolume',label:'RO Volume (daily avg)',value:Math.round(avg(last30,'roVolume')),target:22,unit:'',trend:((avg(last7,'roVolume')-avg(last30,'roVolume'))/avg(last30,'roVolume')*100).toFixed(1)},
-    {key:'avgRoValue',label:'Avg RO Value',value:'$'+Math.round(avg(last30,'avgRoValue')).toLocaleString(),target:900,unit:'$',trend:((avg(last7,'avgRoValue')-avg(last30,'avgRoValue'))/avg(last30,'avgRoValue')*100).toFixed(1)},
-    {key:'upsellRate',label:'Upsell Attachment Rate',value:Math.round(avg(last30,'upsellRate')*100)+'%',target:65,unit:'%',trend:((avg(last7,'upsellRate')-avg(last30,'upsellRate'))/avg(last30,'upsellRate')*100).toFixed(1)},
-    {key:'escalationRate',label:'Escalation Rate',value:Math.round(avg(last30,'escalationRate')*100)+'%',target:5,unit:'%',trend:((avg(last7,'escalationRate')-avg(last30,'escalationRate'))/avg(last30,'escalationRate')*100).toFixed(1),invertTrend:true},
-    {key:'handleTime',label:'Avg Handle Time (min)',value:Math.round(avg(last30,'handleTime')),target:45,unit:'min',trend:((avg(last7,'handleTime')-avg(last30,'handleTime'))/avg(last30,'handleTime')*100).toFixed(1),invertTrend:true},
-    {key:'responseRate',label:'Customer Response Rate',value:Math.round(avg(last30,'responseRate')*100)+'%',target:85,unit:'%',trend:((avg(last7,'responseRate')-avg(last30,'responseRate'))/avg(last30,'responseRate')*100).toFixed(1)},
+    {key:'csi',label:'CSI Score',unit:'',target:90,invertTrend:false,format:v=>v.toFixed(1),color:'var(--navy)'},
+    {key:'roVolume',label:'RO Volume / Day',unit:'',target:22,invertTrend:false,format:v=>Math.round(v),color:'var(--orange)'},
+    {key:'avgRoValue',label:'Avg RO Value',unit:'$',target:900,invertTrend:false,format:v=>'$'+Math.round(v).toLocaleString(),color:'var(--green)'},
+    {key:'upsellRate',label:'Upsell Rate',unit:'%',target:65,invertTrend:false,format:v=>Math.round(v*100)+'%',color:'var(--navy)'},
+    {key:'escalationRate',label:'Escalation Rate',unit:'%',target:5,invertTrend:true,format:v=>Math.round(v*100)+'%',color:'var(--red)'},
+    {key:'handleTime',label:'Avg Handle Time',unit:'min',target:45,invertTrend:true,format:v=>Math.round(v)+' min',color:'var(--orange)'},
+    {key:'responseRate',label:'Response Rate',unit:'%',target:85,invertTrend:false,format:v=>Math.round(v*100)+'%',color:'var(--green)'},
+  ];
+
+  // Simulated ROs driving each day's numbers
+  const dayROs=(d)=>[
+    {id:'RO-'+d.date+'-1',customer:'Michael Donovan',vehicle:'2022 F-150 XLT',total:'$1,482',csi:d.csi>=90?'5.0':'4.2',status:'Closed'},
+    {id:'RO-'+d.date+'-2',customer:'Sandra Kowalski',vehicle:'2021 Explorer',total:'$768',csi:d.csi>=90?'4.8':'3.9',status:'Closed'},
+    {id:'RO-'+d.date+'-3',customer:'Travis Burnett',vehicle:'2023 Escape Hybrid',total:'$0',csi:'5.0',status:'Warranty'},
+    {id:'RO-'+d.date+'-4',customer:'James Polito',vehicle:'2022 Transit 250',total:'$809',csi:d.csi>=90?'4.7':'4.1',status:'Closed'},
   ];
 
   return (
     <div>
       <div className="section-header">
-        <div><div className="section-title">CSI & Performance Dashboard</div><div className="section-sub">Rolling 30-day · Updated: {CSI_DATA[CSI_DATA.length-1].date}</div></div>
+        <div><div className="section-title">CSI &amp; Performance Dashboard</div><div className="section-sub">Rolling 30-day · Updated: {CSI_DATA[CSI_DATA.length-1].date} · Click any card or row to drill in</div></div>
         <div className="section-actions"><button className="btn btn-ghost btn-sm" onClick={()=>exportCSV(CSI_DATA,'csi-performance')}>Export CSV</button></div>
       </div>
       <div className="tab-content">
-        <div className="grid-4" style={{marginBottom:16}}>
+        {/* Metric Cards */}
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(200px,1fr))',gap:12,marginBottom:16}}>
           {metrics.map(m=>{
-            const trendNum=parseFloat(m.trend);
-            const positive = m.invertTrend ? trendNum<0 : trendNum>0;
+            const val30=m.key==='csi'||m.key==='roVolume'||m.key==='avgRoValue'||m.key==='handleTime'?avg(last30,m.key):avg(last30,m.key);
+            const val7=avg(last7,m.key);
+            const trendPct=((val7-val30)/val30*100);
+            const positive=m.invertTrend?trendPct<0:trendPct>0;
+            const rawTarget=m.unit==='%'?m.target/100:m.target;
+            const pct=m.key==='escalationRate'||m.key==='handleTime'
+              ?Math.min(100,Math.max(0,(1-(val30/rawTarget))*100+50))
+              :Math.min(100,Math.max(0,(val30/rawTarget)*100));
+            const sparkData=last7.map(d=>d[m.key]);
+            const isActive=selMetric===m.key;
             return (
-              <div key={m.key} className="metric-card">
-                <div className="metric-value">{m.value}</div>
+              <div key={m.key} className="metric-card"
+                onClick={()=>setSelMetric(isActive?null:m.key)}
+                style={{cursor:'pointer',outline:isActive?'2px solid var(--orange)':'none',position:'relative'}}>
+                <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:6}}>
+                  <div className="metric-value" style={{fontSize:22}}>{m.format(val30)}</div>
+                  <Sparkline data={sparkData} color={m.color} width={64} height={24}/>
+                </div>
                 <div className="metric-label">{m.label}</div>
-                <div className={`metric-trend ${positive?'trend-up':'trend-down'}`}>
-                  {positive?'▲':'▼'} {Math.abs(trendNum)}% vs prior period
+                <div className={`metric-trend ${positive?'trend-up':'trend-down'}`} style={{fontSize:10}}>
+                  {positive?'▲':'▼'} {Math.abs(trendPct).toFixed(1)}% vs prior 30d
                 </div>
                 <div style={{marginTop:6}}>
-                  <div style={{fontSize:10,color:'var(--gray-500)',marginBottom:3}}>Target: {m.target}{m.unit}</div>
-                  <div className="progress-bar-wrap"><div className="progress-bar-fill" style={{width:'72%'}}/></div>
+                  <div style={{display:'flex',justifyContent:'space-between',fontSize:10,color:'var(--gray-500)',marginBottom:3}}>
+                    <span>Target: {m.target}{m.unit}</span>
+                    <span style={{color:pct>=85?'var(--green)':pct>=70?'var(--orange)':'var(--red)',fontWeight:700}}>{Math.round(pct)}%</span>
+                  </div>
+                  <div className="progress-bar-wrap">
+                    <div className="progress-bar-fill" style={{width:pct+'%',background:pct>=85?'var(--green)':pct>=70?'var(--orange)':'var(--red)'}}/>
+                  </div>
                 </div>
+                {isActive&&<div style={{position:'absolute',top:6,right:6,fontSize:9,color:'var(--orange)',fontWeight:700}}>▼ DRILLED</div>}
               </div>
             );
           })}
         </div>
 
+        {/* Metric drill-down panel */}
+        {selMetric&&(()=>{
+          const m=metrics.find(x=>x.key===selMetric);
+          const sorted=[...CSI_DATA].sort((a,b)=>b[selMetric]-a[selMetric]);
+          const top5=sorted.slice(0,5);
+          const bottom5=sorted.slice(-5);
+          return (
+            <div className="panel" style={{marginBottom:16,borderTop:'3px solid var(--orange)'}}>
+              <div className="panel-header">
+                <span className="panel-title">Drill-down: {m.label}</span>
+                <button className="btn btn-ghost btn-sm" onClick={()=>setSelMetric(null)}>Close ×</button>
+              </div>
+              <div style={{padding:'12px 16px',display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
+                <div>
+                  <div style={{fontSize:11,fontWeight:700,color:'var(--navy)',textTransform:'uppercase',marginBottom:8}}>Best 5 Days</div>
+                  {top5.map(d=>(
+                    <div key={d.date} style={{display:'flex',justifyContent:'space-between',padding:'4px 0',borderBottom:'1px solid var(--gray-100)',cursor:'pointer'}}
+                      onClick={()=>setSelDay(selDay?.date===d.date?null:d)}>
+                      <span style={{fontSize:12,color:'var(--gray-700)'}}>{d.date}</span>
+                      <span style={{fontSize:12,fontWeight:700,color:'var(--green)'}}>{m.format(d[m.key])}</span>
+                    </div>
+                  ))}
+                </div>
+                <div>
+                  <div style={{fontSize:11,fontWeight:700,color:'var(--red)',textTransform:'uppercase',marginBottom:8}}>Watch Days</div>
+                  {bottom5.map(d=>(
+                    <div key={d.date} style={{display:'flex',justifyContent:'space-between',padding:'4px 0',borderBottom:'1px solid var(--gray-100)',cursor:'pointer'}}
+                      onClick={()=>setSelDay(selDay?.date===d.date?null:d)}>
+                      <span style={{fontSize:12,color:'var(--gray-700)'}}>{d.date}</span>
+                      <span style={{fontSize:12,fontWeight:700,color:'var(--red)'}}>{m.format(d[m.key])}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {selDay&&(
+                <div style={{margin:'0 16px 16px',background:'#F8F9FA',borderRadius:4,padding:12,border:'1px solid var(--gray-200)'}}>
+                  <div style={{fontSize:12,fontWeight:700,color:'var(--navy)',marginBottom:8}}>ROs driving {selDay.date} · {m.label}: {m.format(selDay[m.key])}</div>
+                  <table style={{width:'100%',fontSize:11}}>
+                    <thead><tr><th style={{textAlign:'left',padding:'3px 6px'}}>RO ID</th><th style={{textAlign:'left',padding:'3px 6px'}}>Customer</th><th style={{textAlign:'left',padding:'3px 6px'}}>Vehicle</th><th style={{padding:'3px 6px'}}>Total</th><th style={{padding:'3px 6px'}}>CSI</th><th style={{padding:'3px 6px'}}>Status</th></tr></thead>
+                    <tbody>
+                      {dayROs(selDay).map(r=>(
+                        <tr key={r.id}>
+                          <td style={{padding:'3px 6px',fontFamily:'monospace',fontWeight:700,color:'var(--navy)'}}>{r.id}</td>
+                          <td style={{padding:'3px 6px'}}>{r.customer}</td>
+                          <td style={{padding:'3px 6px',color:'var(--gray-500)'}}>{r.vehicle}</td>
+                          <td style={{padding:'3px 6px',textAlign:'center',fontWeight:700}}>{r.total}</td>
+                          <td style={{padding:'3px 6px',textAlign:'center',fontWeight:700,color:parseFloat(r.csi)>=4.5?'var(--green)':'var(--orange)'}}>{r.csi}</td>
+                          <td style={{padding:'3px 6px',textAlign:'center'}}><span className="badge badge-green" style={{fontSize:9}}>{r.status}</span></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          );
+        })()}
+
+        {/* 30-day Table */}
         <div className="panel">
-          <div className="panel-header"><span className="panel-title">30-Day Performance Trend</span></div>
+          <div className="panel-header"><span className="panel-title">30-Day Performance Trend · Click any row for RO detail</span></div>
           <table>
-            <thead><tr><th>Date</th><th>CSI</th><th>RO Volume</th><th>Avg RO Value</th><th>Upsell Rate</th><th>Escalation Rate</th><th>Handle Time</th><th>Response Rate</th></tr></thead>
+            <thead><tr><th>Date</th><th>CSI</th><th>RO Vol</th><th>Avg RO Value</th><th>Upsell %</th><th>Escalation %</th><th>Handle Time</th><th>Response %</th></tr></thead>
             <tbody>
               {CSI_DATA.slice().reverse().map(d=>(
-                <tr key={d.date}>
-                  <td>{d.date}</td>
-                  <td style={{fontWeight:d.csi>=90?700:400,color:d.csi>=90?'var(--green)':d.csi>=85?'var(--yellow)':'var(--red)'}}>{d.csi}</td>
-                  <td>{d.roVolume}</td>
-                  <td>${d.avgRoValue.toLocaleString()}</td>
-                  <td>{Math.round(d.upsellRate*100)}%</td>
-                  <td style={{color:d.escalationRate>0.08?'var(--red)':'inherit'}}>{Math.round(d.escalationRate*100)}%</td>
-                  <td>{d.handleTime} min</td>
-                  <td>{Math.round(d.responseRate*100)}%</td>
-                </tr>
+                <React.Fragment key={d.date}>
+                  <tr onClick={()=>setSelDay(selDay?.date===d.date?null:d)} style={{cursor:'pointer',background:selDay?.date===d.date?'#EEF2FF':''}}>
+                    <td style={{fontWeight:600}}>{d.date}</td>
+                    <td style={{fontWeight:d.csi>=90?700:400,color:d.csi>=90?'var(--green)':d.csi>=85?'var(--orange)':'var(--red)'}}>{d.csi}</td>
+                    <td>{d.roVolume}</td>
+                    <td>${d.avgRoValue.toLocaleString()}</td>
+                    <td>{Math.round(d.upsellRate*100)}%</td>
+                    <td style={{color:d.escalationRate>0.08?'var(--red)':'inherit'}}>{Math.round(d.escalationRate*100)}%</td>
+                    <td style={{color:d.handleTime>50?'var(--orange)':'inherit'}}>{d.handleTime} min</td>
+                    <td>{Math.round(d.responseRate*100)}%</td>
+                  </tr>
+                  {selDay?.date===d.date&&(
+                    <tr><td colSpan={8} style={{padding:0}}>
+                      <div style={{background:'#EEF2FF',padding:'10px 16px',borderLeft:'3px solid var(--navy)'}}>
+                        <div style={{fontSize:11,fontWeight:700,color:'var(--navy)',marginBottom:6}}>ROs contributing to {d.date}</div>
+                        <div style={{display:'flex',gap:12,flexWrap:'wrap'}}>
+                          {dayROs(d).map(r=>(
+                            <div key={r.id} style={{background:'white',borderRadius:3,padding:'6px 10px',border:'1px solid var(--gray-200)',fontSize:11}}>
+                              <div style={{fontWeight:700,color:'var(--navy)',fontFamily:'monospace'}}>{r.id}</div>
+                              <div>{r.customer} · {r.vehicle}</div>
+                              <div style={{display:'flex',gap:8,marginTop:4}}>
+                                <span style={{color:'var(--green)',fontWeight:700}}>{r.total}</span>
+                                <span className="badge badge-green" style={{fontSize:9}}>CSI {r.csi}</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </td></tr>
+                  )}
+                </React.Fragment>
               ))}
             </tbody>
           </table>
@@ -1768,11 +2451,390 @@ function ADEConfig(){
   );
 }
 
+// ─── TAB 10: SETTINGS ────────────────────────────────────────────────────────
+const AUDIT_LOG=[
+  {ts:'2024-03-19 10:41',user:'ADE System',action:'ADE activated for RO-24-8812 · Angela Ferraro A/C diagnosis'},
+  {ts:'2024-03-19 10:18',user:'ADE System',action:'RO-24-8808 closed · $521.27 collected · CSI survey sent'},
+  {ts:'2024-03-19 10:08',user:'ADE System',action:'SMS sent to Angela Ferraro — RO-24-8808 ready for pickup'},
+  {ts:'2024-03-19 09:31',user:'ADE System',action:'Upsell approved — Karen Hessler engine air filter $81.45'},
+  {ts:'2024-03-19 09:14',user:'ADE System',action:'Escalation ESC-001 triggered — Robert Shimkus requested human'},
+  {ts:'2024-03-19 09:14',user:'Jordan Malik (SM)',action:'Escalation ESC-001 acknowledged — assigned to Beth Ramirez'},
+  {ts:'2024-03-19 08:29',user:'ADE System',action:'Customer approval received — Sandra Kowalski RO-24-8802 $768.30'},
+  {ts:'2024-03-19 08:17',user:'ADE System',action:'Estimate sent to Sandra Kowalski — strut assembly R&R'},
+  {ts:'2024-03-19 07:44',user:'ADE System',action:'ADE activated for RO-24-8801 · Michael Donovan F-150 intake'},
+  {ts:'2024-03-18 17:22',user:'Jordan Malik (SM)',action:'ADE spend threshold updated: $800 → $1,000'},
+  {ts:'2024-03-18 15:10',user:'Admin',action:'User Beth Ramirez promoted to Senior Advisor role'},
+  {ts:'2024-03-17 09:00',user:'Admin',action:'DMS integration reconnected — DealerTrack API token refreshed'},
+];
+
+const STAFF=[
+  {name:'Jordan Malik',role:'Service Manager',email:'jmalik@libertyford.com',adeAccess:'Full Admin',status:'Active',lastLogin:'Today 08:02'},
+  {name:'Beth Ramirez',role:'Senior Advisor',email:'bramirez@libertyford.com',adeAccess:'Override & Escalation',status:'Active',lastLogin:'Today 07:48'},
+  {name:'Carlos Tran',role:'Service Advisor',email:'ctran@libertyford.com',adeAccess:'View Only',status:'Active',lastLogin:'Today 09:15'},
+  {name:'Priya Nair',role:'Service Advisor',email:'pnair@libertyford.com',adeAccess:'Override & Escalation',status:'Active',lastLogin:'Yesterday'},
+  {name:'Mike Ostrowski',role:'BDC Coordinator',email:'mostrowski@libertyford.com',adeAccess:'Appointment View',status:'Active',lastLogin:'Today 07:30'},
+  {name:'Lisa Chen',role:'Parts Manager',email:'lchen@libertyford.com',adeAccess:'Parts View',status:'Inactive',lastLogin:'3 days ago'},
+];
+
+function Settings(){
+  const {addToast}=useContext(ToastContext);
+  const [activeSection,setActiveSection]=useState('ade');
+  const [spendThreshold,setSpendThreshold]=useState(1000);
+  const [responseTimeout,setResponseTimeout]=useState(90);
+  const [autoEscalate,setAutoEscalate]=useState(true);
+  const [smsEnabled,setSmsEnabled]=useState(true);
+  const [emailEnabled,setEmailEnabled]=useState(true);
+  const [approvalLink,setApprovalLink]=useState(true);
+  const [auditFilter,setAuditFilter]=useState('All');
+
+  const integrationsStatus=[
+    {name:'DealerTrack DMS',type:'DMS',status:'live',lastSync:'10:41 AM',detail:'v3.2.1 · Syncronized 847 ROs'},
+    {name:'Ford OASIS / STARS',type:'Recall & Warranty',status:'live',lastSync:'10:22 AM',detail:'Connected · 5 open recalls loaded'},
+    {name:'Twilio SMS Gateway',type:'Messaging',status:'live',lastSync:'10:41 AM',detail:'+1 (440) 555-0192 · 98.7% delivery rate'},
+    {name:'Reynolds & Reynolds',type:'Accounting DMS',status:'warn',lastSync:'08:14 AM',detail:'Token expiring in 3 days — action required'},
+    {name:'Autosoft Lane',type:'Lane Control',status:'live',lastSync:'10:40 AM',detail:'3 lanes active · all cameras online'},
+    {name:'CRM: VinSolutions',type:'CRM',status:'error',lastSync:'Yesterday',detail:'OAuth error — reconnect required'},
+    {name:'Ford Pass Rewards API',type:'Loyalty',status:'live',lastSync:'10:35 AM',detail:'Connected · points balance accessible'},
+    {name:'Mitchell 1 ProDemand',type:'Labor Guide',status:'live',lastSync:'Static',detail:'Labor time guide v2024.Q1'},
+  ];
+
+  const sections=[
+    {id:'ade',label:'ADE Behavior Rules'},
+    {id:'locations',label:'Location Management'},
+    {id:'integrations',label:'Integration Status'},
+    {id:'users',label:'User Management'},
+    {id:'notifications',label:'Notifications'},
+    {id:'audit',label:'Audit Log'},
+  ];
+
+  const save=()=>addToast('Settings saved successfully','success');
+
+  return (
+    <div style={{display:'grid',gridTemplateColumns:'200px 1fr',gap:0,minHeight:600}}>
+      {/* Sidebar Nav */}
+      <div style={{borderRight:'1px solid var(--gray-200)',background:'#FAFBFC',padding:'16px 0'}}>
+        <div style={{padding:'0 16px 12px',fontSize:10,fontWeight:700,textTransform:'uppercase',color:'var(--gray-500)',letterSpacing:.5}}>Settings</div>
+        {sections.map(s=>(
+          <div key={s.id} onClick={()=>setActiveSection(s.id)}
+            style={{padding:'9px 16px',cursor:'pointer',fontSize:13,fontWeight:activeSection===s.id?700:400,
+              color:activeSection===s.id?'var(--navy)':'var(--gray-700)',
+              background:activeSection===s.id?'#EEF2FF':'',
+              borderLeft:activeSection===s.id?'3px solid var(--navy)':'3px solid transparent'}}>
+            {s.label}
+          </div>
+        ))}
+        <div style={{padding:'16px 16px 0',marginTop:16,borderTop:'1px solid var(--gray-200)'}}>
+          <div style={{fontSize:10,color:'var(--gray-500)'}}>ADE Platform</div>
+          <div style={{fontSize:11,fontWeight:700,color:'var(--navy)'}}>v2.4.1</div>
+          <div style={{fontSize:10,color:'var(--gray-500)',marginTop:4}}>Liberty Ford Auto Group</div>
+          <div style={{fontSize:10,color:'var(--gray-500)'}}>Strongsville, OH 44136</div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div style={{padding:24,overflowY:'auto'}}>
+
+        {/* ADE BEHAVIOR RULES */}
+        {activeSection==='ade'&&(
+          <div>
+            <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>ADE Behavior Rules</div>
+            <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:20}}>Control how the ADE operates autonomously across all service interactions</div>
+
+            <div className="panel" style={{marginBottom:16}}>
+              <div className="panel-header"><span className="panel-title">Spend Thresholds &amp; Approval Gates</span></div>
+              <div style={{padding:'16px 20px',display:'grid',gap:16}}>
+                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:16}}>
+                  <div>
+                    <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>Auto-Approval Threshold</div>
+                    <div style={{fontSize:11,color:'var(--gray-500)'}}>ADE can approve repairs up to this amount without human review</div>
+                  </div>
+                  <div style={{display:'flex',alignItems:'center',gap:8}}>
+                    <span style={{fontSize:13,color:'var(--gray-500)'}}>$</span>
+                    <input type="number" value={spendThreshold} onChange={e=>setSpendThreshold(parseInt(e.target.value))}
+                      style={{width:90,padding:'6px 10px',border:'1px solid var(--gray-200)',borderRadius:3,fontSize:14,fontWeight:700,color:'var(--navy)'}}/>
+                  </div>
+                </div>
+                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:16}}>
+                  <div>
+                    <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>Customer Response Timeout</div>
+                    <div style={{fontSize:11,color:'var(--gray-500)'}}>Minutes before ADE escalates if customer does not respond to approval request</div>
+                  </div>
+                  <div style={{display:'flex',alignItems:'center',gap:8}}>
+                    <input type="number" value={responseTimeout} onChange={e=>setResponseTimeout(parseInt(e.target.value))}
+                      style={{width:70,padding:'6px 10px',border:'1px solid var(--gray-200)',borderRadius:3,fontSize:14,fontWeight:700,color:'var(--navy)'}}/>
+                    <span style={{fontSize:13,color:'var(--gray-500)'}}>min</span>
+                  </div>
+                </div>
+                <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                  <div>
+                    <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>Auto-Escalate on Sentiment Flag</div>
+                    <div style={{fontSize:11,color:'var(--gray-500)'}}>ADE suspends and routes to human if negative sentiment detected in customer replies</div>
+                  </div>
+                  <label style={{display:'flex',alignItems:'center',gap:8,cursor:'pointer'}}>
+                    <div onClick={()=>setAutoEscalate(v=>!v)} style={{width:40,height:22,borderRadius:11,background:autoEscalate?'var(--navy)':'var(--gray-300)',cursor:'pointer',position:'relative',transition:'background 0.2s'}}>
+                      <div style={{position:'absolute',top:3,left:autoEscalate?20:3,width:16,height:16,borderRadius:'50%',background:'white',transition:'left 0.2s'}}/>
+                    </div>
+                    <span style={{fontSize:12,color:autoEscalate?'var(--navy)':'var(--gray-500)',fontWeight:autoEscalate?700:400}}>{autoEscalate?'Enabled':'Disabled'}</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div className="panel" style={{marginBottom:16}}>
+              <div className="panel-header"><span className="panel-title">ADE Persona &amp; Communication Style</span></div>
+              <div style={{padding:'16px 20px',display:'grid',gap:12}}>
+                {[['Sender Name (SMS)','Liberty Ford Service','Display name shown in SMS messages'],['ADE Signature','– Liberty Ford Service Team','Appended to all outgoing messages'],['Approval Link Domain','approve.libertyford.com','Base URL for customer digital approval portal']].map(([label,val,hint])=>(
+                  <div key={label} style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',gap:16}}>
+                    <div>
+                      <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>{label}</div>
+                      <div style={{fontSize:11,color:'var(--gray-500)'}}>{hint}</div>
+                    </div>
+                    <input defaultValue={val} style={{width:220,padding:'6px 10px',border:'1px solid var(--gray-200)',borderRadius:3,fontSize:12}}/>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{display:'flex',gap:8}}>
+              <button className="btn btn-primary" onClick={save}>Save Changes</button>
+              <button className="btn btn-ghost btn-sm">Reset to Defaults</button>
+            </div>
+          </div>
+        )}
+
+        {/* LOCATION MANAGEMENT */}
+        {activeSection==='locations'&&(
+          <div>
+            <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>Location Management</div>
+            <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:20}}>Multi-rooftop configuration — ADE deploys independently per location</div>
+            {[
+              {name:'Liberty Ford — Strongsville',address:'14300 Pearl Rd, Strongsville OH 44136',bays:16,ade:'Active',primary:true,csi:'91.4',revenue:'$47,280'},
+              {name:'Liberty Ford — Medina',address:'3887 Medina Rd, Medina OH 44256',bays:10,ade:'Active',primary:false,csi:'89.1',revenue:'$31,190'},
+              {name:'Liberty Ford — Brunswick',address:'1400 Pearl Rd, Brunswick OH 44212',bays:8,ade:'Pending Setup',primary:false,csi:'—',revenue:'—'},
+            ].map(loc=>(
+              <div key={loc.name} className="panel" style={{marginBottom:12}}>
+                <div style={{padding:'14px 18px'}}>
+                  <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8}}>
+                    <div>
+                      <div style={{fontSize:14,fontWeight:700,color:'var(--navy)'}}>{loc.name}</div>
+                      <div style={{fontSize:11,color:'var(--gray-500)'}}>{loc.address}</div>
+                    </div>
+                    <div style={{display:'flex',gap:8,alignItems:'center'}}>
+                      {loc.primary&&<span className="badge badge-navy">PRIMARY</span>}
+                      <span className={`badge ${loc.ade==='Active'?'badge-green':'badge-orange'}`}>{loc.ade}</span>
+                    </div>
+                  </div>
+                  <div style={{display:'flex',gap:24,fontSize:12}}>
+                    <div><span style={{color:'var(--gray-500)'}}>Bays:</span> <strong>{loc.bays}</strong></div>
+                    <div><span style={{color:'var(--gray-500)'}}>30d CSI:</span> <strong style={{color:'var(--green)'}}>{loc.csi}</strong></div>
+                    <div><span style={{color:'var(--gray-500)'}}>MTD Revenue:</span> <strong>{loc.revenue}</strong></div>
+                  </div>
+                  {loc.ade==='Pending Setup'&&<div style={{marginTop:10}}><button className="btn btn-primary btn-sm">Begin ADE Setup</button></div>}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* INTEGRATION STATUS */}
+        {activeSection==='integrations'&&(
+          <div>
+            <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>Integration Status</div>
+            <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:20}}>Live connection health for all DMS, warranty, and communication systems</div>
+            <div style={{display:'grid',gap:10}}>
+              {integrationsStatus.map(int=>(
+                <div key={int.name} className="panel">
+                  <div style={{padding:'12px 18px',display:'flex',alignItems:'center',gap:16}}>
+                    <div style={{width:10,height:10,borderRadius:'50%',background:int.status==='live'?'var(--green)':int.status==='warn'?'var(--orange)':'var(--red)',flexShrink:0}}/>
+                    <div style={{flex:1}}>
+                      <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:2}}>
+                        <span style={{fontSize:13,fontWeight:700,color:'var(--navy)'}}>{int.name}</span>
+                        <span className="badge badge-gray" style={{fontSize:9}}>{int.type}</span>
+                        <span className={`badge ${int.status==='live'?'badge-green':int.status==='warn'?'badge-orange':'badge-red'}`} style={{fontSize:9}}>
+                          {int.status==='live'?'LIVE':int.status==='warn'?'WARNING':'ERROR'}
+                        </span>
+                      </div>
+                      <div style={{fontSize:11,color:'var(--gray-500)'}}>{int.detail}</div>
+                    </div>
+                    <div style={{textAlign:'right',fontSize:11,color:'var(--gray-500)'}}>
+                      <div>Last sync</div>
+                      <div style={{fontWeight:600,color:'var(--gray-700)'}}>{int.lastSync}</div>
+                    </div>
+                    {int.status!=='live'&&<button className="btn btn-ghost btn-sm" onClick={()=>addToast(`Reconnecting ${int.name}…`,'info')}>Reconnect</button>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* USER MANAGEMENT */}
+        {activeSection==='users'&&(
+          <div>
+            <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>User Management</div>
+            <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:20}}>Staff roles and ADE access permissions</div>
+            <div style={{marginBottom:12,display:'flex',gap:8,justifyContent:'flex-end'}}>
+              <button className="btn btn-primary btn-sm" onClick={()=>addToast('Invite sent','success')}>+ Invite User</button>
+            </div>
+            <table>
+              <thead><tr><th>Name</th><th>Role</th><th>Email</th><th>ADE Access</th><th>Status</th><th>Last Login</th><th>Actions</th></tr></thead>
+              <tbody>
+                {STAFF.map(s=>(
+                  <tr key={s.name}>
+                    <td style={{fontWeight:600,color:'var(--navy)'}}>{s.name}</td>
+                    <td>{s.role}</td>
+                    <td style={{fontSize:11,color:'var(--gray-500)'}}>{s.email}</td>
+                    <td><span className={`badge ${s.adeAccess==='Full Admin'?'badge-navy':s.adeAccess==='View Only'?'badge-gray':'badge-orange'}`} style={{fontSize:9}}>{s.adeAccess}</span></td>
+                    <td><span className={`badge ${s.status==='Active'?'badge-green':'badge-gray'}`} style={{fontSize:9}}>{s.status}</span></td>
+                    <td style={{fontSize:11,color:'var(--gray-500)'}}>{s.lastLogin}</td>
+                    <td style={{display:'flex',gap:6}}>
+                      <button className="btn btn-ghost btn-sm" style={{fontSize:10}} onClick={()=>addToast('Opening user settings…','info')}>Edit</button>
+                      {s.status==='Active'?<button className="btn btn-ghost btn-sm" style={{fontSize:10,color:'var(--red)',borderColor:'var(--red)'}} onClick={()=>addToast(`${s.name} deactivated`,'info')}>Deactivate</button>:
+                        <button className="btn btn-ghost btn-sm" style={{fontSize:10}} onClick={()=>addToast(`${s.name} reactivated`,'success')}>Activate</button>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* NOTIFICATIONS */}
+        {activeSection==='notifications'&&(
+          <div>
+            <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>Notification Configuration</div>
+            <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:20}}>Control when and how alerts are sent to staff and customers</div>
+            <div className="panel" style={{marginBottom:16}}>
+              <div className="panel-header"><span className="panel-title">Customer Channels</span></div>
+              <div style={{padding:'16px 20px',display:'grid',gap:14}}>
+                {[
+                  ['SMS Notifications',smsEnabled,setSmsEnabled,'Send status updates and approval requests via SMS'],
+                  ['Email Notifications',emailEnabled,setEmailEnabled,'Send estimates and RO summaries via email'],
+                  ['Digital Approval Links',approvalLink,setApprovalLink,'Include Liberty Ford Pay approval portal link in estimates'],
+                ].map(([label,val,setter,hint])=>(
+                  <div key={label} style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+                    <div>
+                      <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>{label}</div>
+                      <div style={{fontSize:11,color:'var(--gray-500)'}}>{hint}</div>
+                    </div>
+                    <div onClick={()=>setter(v=>!v)} style={{width:40,height:22,borderRadius:11,background:val?'var(--navy)':'var(--gray-300)',cursor:'pointer',position:'relative',transition:'background 0.2s'}}>
+                      <div style={{position:'absolute',top:3,left:val?20:3,width:16,height:16,borderRadius:'50%',background:'white',transition:'left 0.2s'}}/>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="panel" style={{marginBottom:16}}>
+              <div className="panel-header"><span className="panel-title">Staff Alert Rules</span></div>
+              <div style={{padding:'16px 20px',display:'grid',gap:10}}>
+                {[
+                  ['Escalation opened','Immediate push + SMS to SM on call','badge-red'],
+                  ['Spend threshold breach','Immediate push to Service Manager','badge-orange'],
+                  ['Customer no-response (>90 min)','Push to advisor team','badge-orange'],
+                  ['RO closed','Activity feed entry only','badge-gray'],
+                  ['Daily CSI summary','Email to SM at 6:00 PM daily','badge-navy'],
+                ].map(([ev,action,cls])=>(
+                  <div key={ev} style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 0',borderBottom:'1px solid var(--gray-100)'}}>
+                    <div style={{fontSize:13,fontWeight:600,color:'var(--navy)'}}>{ev}</div>
+                    <div style={{display:'flex',alignItems:'center',gap:8}}>
+                      <span className={`badge ${cls}`} style={{fontSize:10}}>{action}</span>
+                      <button className="btn btn-ghost btn-sm" style={{fontSize:10}} onClick={()=>addToast('Alert rule updated','success')}>Edit</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <button className="btn btn-primary" onClick={save}>Save Notification Settings</button>
+          </div>
+        )}
+
+        {/* AUDIT LOG */}
+        {activeSection==='audit'&&(
+          <div>
+            <div style={{fontSize:18,fontWeight:700,color:'var(--navy)',marginBottom:4}}>Audit Log</div>
+            <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:16}}>Timestamped record of all ADE and human actions — immutable, exportable</div>
+            <div style={{display:'flex',gap:8,marginBottom:14,alignItems:'center'}}>
+              <select value={auditFilter} onChange={e=>setAuditFilter(e.target.value)} style={{padding:'6px 10px',border:'1px solid var(--gray-200)',borderRadius:3,fontSize:12}}>
+                <option>All</option><option>ADE System</option><option>Human</option>
+              </select>
+              <button className="btn btn-ghost btn-sm" onClick={()=>exportCSV(AUDIT_LOG,'audit-log')}>Export CSV</button>
+            </div>
+            <div style={{display:'grid',gap:1}}>
+              {AUDIT_LOG.filter(a=>auditFilter==='All'||(auditFilter==='ADE System'&&a.user==='ADE System')||(auditFilter==='Human'&&a.user!=='ADE System')).map((a,i)=>(
+                <div key={i} style={{display:'flex',gap:12,padding:'9px 12px',background:i%2===0?'white':'#FAFBFC',borderRadius:2,border:'1px solid var(--gray-100)',alignItems:'flex-start'}}>
+                  <div style={{fontSize:11,color:'var(--gray-500)',minWidth:130,fontFamily:'monospace'}}>{a.ts}</div>
+                  <div>
+                    <div style={{fontSize:11}}>
+                      <span className={`badge ${a.user==='ADE System'?'badge-ade':'badge-navy'}`} style={{fontSize:9,marginRight:6}}>{a.user}</span>
+                      {a.action}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+}
+
 // ─── MAIN APP ─────────────────────────────────────────────────────────────────
+function ADEFlyout({ros,onLaunch}){
+  const [open,setOpen]=useState(false);
+  const ref=useRef(null);
+
+  useEffect(()=>{
+    const handler=(e)=>{if(ref.current&&!ref.current.contains(e.target))setOpen(false);};
+    document.addEventListener('mousedown',handler);
+    return ()=>document.removeEventListener('mousedown',handler);
+  },[]);
+
+  const activeROs=ros.filter(r=>r.status!=='Closed'&&r.status!=='Ready for Pickup');
+
+  return (
+    <div className="ade-flyout-wrap" ref={ref}>
+      <button className="demo-launch-btn" onClick={()=>setOpen(o=>!o)}>
+        <div className="pulse-dot"/>
+        LAUNCH ADE ▾
+      </button>
+      {open&&(
+        <div className="ade-flyout">
+          <div className="ade-flyout-header">
+            <div className="pulse-dot" style={{width:6,height:6}}/>
+            Select RO to Activate ADE
+          </div>
+          {activeROs.map(ro=>{
+            const c=getCustomer(ro.customerId);
+            const v=getVehicle(ro.vehicleId);
+            return (
+              <div key={ro.id} className="ade-flyout-item" onClick={()=>{setOpen(false);onLaunch(ro);}}>
+                <div style={{flex:1}}>
+                  <div className="ade-flyout-customer">{c?.name}</div>
+                  <div className="ade-flyout-vehicle">{v?.year} {v?.model} · {ro.id}</div>
+                </div>
+                <div style={{display:'flex',flexDirection:'column',alignItems:'flex-end',gap:3}}>
+                  <span className={`badge ${ro.status==='Diagnosis'?'badge-orange':ro.status==='Awaiting Approval'?'badge-red':ro.status==='In Progress'?'badge-green':'badge-gray'}`} style={{fontSize:9}}>{ro.status}</span>
+                  {ro.adeActive&&<span className="badge badge-ade" style={{fontSize:9}}>ADE ON</span>}
+                </div>
+              </div>
+            );
+          })}
+          <div className="ade-flyout-new" onClick={()=>{setOpen(false);onLaunch(null);}}>
+            ▶ Run Full Demo Scenario
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function App(){
   const [activeTab,setActiveTab]=useState(0);
   const [ros,setRos]=useState(initialROs);
   const [demoOpen,setDemoOpen]=useState(false);
+  const [demoRO,setDemoRO]=useState(null);
   const [feedOpen,setFeedOpen]=useState(false);
   const [activityFeed,setActivityFeed]=useState([
     {text:'ADE activated for Angela Ferraro — Explorer ST brake service',time:'10:08',ro:'RO-24-8808'},
@@ -1783,10 +2845,17 @@ function App(){
   ]);
 
   const escalationCount=ros.filter(r=>r.status==='Escalation').length;
-
   const activeROValue=ros.filter(r=>r.status!=='Closed').reduce((s,r)=>s+calcRO(r).total,0);
   const todayRevenue=ros.filter(r=>r.status==='Closed'||r.status==='Ready for Pickup').reduce((s,r)=>s+calcRO(r).total,0);
   const adeROCount=ros.filter(r=>r.adeActive).length;
+
+  const launchDemo=(ro)=>{
+    setDemoRO(ro);
+    setDemoOpen(true);
+    if(ro){
+      setActivityFeed(prev=>[{text:`ADE Demo launched — ${getCustomer(ro.customerId)?.name} · ${ro.id}`,time:new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}),ro:ro.id},...prev]);
+    }
+  };
 
   const tabs=[
     {label:'Service Drive',component:()=><ServiceDrive ros={ros} setRos={setRos}/>},
@@ -1799,6 +2868,7 @@ function App(){
     {label:'CSI & Performance',component:()=><CSIDashboard/>},
     {label:'Escalation Queue',component:()=><EscalationQueue ros={ros} setRos={setRos}/>,badge:escalationCount},
     {label:'ADE Configuration',component:()=><ADEConfig/>},
+    {label:'Settings',component:()=><Settings/>},
   ];
 
   const ActiveComponent=tabs[activeTab].component;
@@ -1807,17 +2877,13 @@ function App(){
     <ToastProvider>
       <div className="app-shell">
         <TopBar/>
-        {/* Revenue Ticker */}
         <div className="revenue-ticker">
           <div className="rev-item"><div className="rev-val">{adeROCount}</div><div className="rev-lbl">ADE Active ROs</div></div>
           <div className="rev-item"><div className="rev-val">${activeROValue.toLocaleString(undefined,{maximumFractionDigits:0})}</div><div className="rev-lbl">Pipeline Value</div></div>
           <div className="rev-item"><div className="rev-val">${todayRevenue.toLocaleString(undefined,{maximumFractionDigits:0})}</div><div className="rev-lbl">Collected Today</div></div>
           <div className="rev-item"><div className="rev-val">{Math.round(UPSELLS.filter(u=>u.status==='Approved').length/Math.max(UPSELLS.filter(u=>u.status!=='Pending').length,1)*100)}%</div><div className="rev-lbl">Upsell Rate</div></div>
           <div style={{marginLeft:'auto',display:'flex',alignItems:'center',gap:8}}>
-            <button className="demo-launch-btn" onClick={()=>setDemoOpen(true)}>
-              <div className="pulse-dot"/>
-              LAUNCH ADE DEMO
-            </button>
+            <ADEFlyout ros={ros} onLaunch={launchDemo}/>
             <button className="btn btn-ghost btn-sm" style={{color:'white',borderColor:'rgba(255,255,255,0.3)',fontSize:11}} onClick={()=>setFeedOpen(f=>!f)}>
               ⚡ Live Feed
             </button>
@@ -1834,7 +2900,7 @@ function App(){
         <div className="content-area">
           <ActiveComponent/>
         </div>
-        {demoOpen&&<ADEDemoMode onClose={()=>setDemoOpen(false)}/>}
+        {demoOpen&&<ADEDemoMode ro={demoRO} onClose={()=>{setDemoOpen(false);setDemoRO(null);}}/>}
         <ActivityFeed entries={activityFeed} open={feedOpen} onToggle={()=>setFeedOpen(f=>!f)}/>
       </div>
     </ToastProvider>
