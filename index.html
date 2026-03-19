@@ -962,7 +962,7 @@ function ADEDemoMode({onClose,ro}){
     if(a.type==='labor') setDemoLabors(l=>[...l,{desc:a.v,hours:a.h,rate:a.r}]);
     if(a.type==='part') setDemoParts(p=>[...p,{desc:a.v,price:a.p}]);
     if(a.type==='sms') setDemoComms(c=>[...c,{sender:a.sender,text:a.text,time:new Date().toTimeString().slice(0,5)}]);
-    if(a.type==='step') {setCurrentStep(a.n); toast(`ADE Step ${a.n} Complete`,DEMO_SCENARIOS[scenarioIdx].steps[a.n-1]?.label,'ade');}
+    if(a.type==='step') {setCurrentStep(a.n); toast(`Automation Step ${a.n} Complete`,DEMO_SCENARIOS[scenarioIdx].steps[a.n-1]?.label,'ade');}
   };
 
   const run=async()=>{
@@ -1151,10 +1151,10 @@ function TopBar(){
         onError={e=>{e.target.style.display='none'}} />
       <div>
         <div className="top-bar-brand">LIBERTY FORD AUTO GROUP</div>
-        <div className="top-bar-sub">Service Advisor ADE Platform — Enterprise Edition</div>
+        <div className="top-bar-sub">Autonomous Digital Employee Platform — Enterprise Edition</div>
       </div>
       <div className="top-bar-right">
-        <span className="ade-status-badge">● ADE ACTIVE</span>
+        <span className="ade-status-badge">● AUTOPILOT ACTIVE</span>
         <span className="top-bar-user">Admin: Service Manager</span>
       </div>
     </div>
@@ -1190,11 +1190,11 @@ function DrillPanel({ro,onClose,ros,setRos}){
       {/* ADE Workflow */}
       <div className="detail-section">
         <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:10}}>
-          <div className="detail-section-title" style={{margin:0}}>ADE Workflow</div>
+          <div className="detail-section-title" style={{margin:0}}>Digital Advisor Workflow</div>
           {!ro.adeActive && ro.status!=='Closed' && (
-            <button className="btn btn-orange btn-sm" onClick={activateADE}>▶ Activate ADE</button>
+            <button className="btn btn-orange btn-sm" onClick={activateADE}>▶ Enable Autopilot</button>
           )}
-          {ro.adeActive && <span className="badge badge-ade">ADE RUNNING</span>}
+          {ro.adeActive && <span className="badge badge-ade">● Autopilot Running</span>}
         </div>
         <div className="ade-workflow">
           {ADE_STEPS.map(step=>{
@@ -1275,7 +1275,7 @@ function DrillPanel({ro,onClose,ros,setRos}){
           {comms.map(msg=>(
             <div key={msg.id} className={`comm-message comm-${msg.type}`}>
               <div className="comm-meta">
-                <span className="comm-sender">{msg.sender==='ADE'?<><span className="badge badge-ade">ADE</span> System</>:msg.sender==='Customer'?getCustomer(msg.customerId)?.name:'Staff'}</span>
+                <span className="comm-sender">{msg.sender==='ADE'?<><span className="badge badge-ade">Digital Advisor</span></>:msg.sender==='Customer'?getCustomer(msg.customerId)?.name:'Staff'}</span>
                 <span className="comm-time">{msg.time}</span>
                 <span className="badge badge-gray" style={{fontSize:9}}>{msg.type.toUpperCase()}</span>
               </div>
@@ -1349,7 +1349,7 @@ function ServiceDrive({ros,setRos}){
         </div>
         <table>
           <thead><tr>
-            {[['id','RO #'],['customerId','Customer'],['vehicleId','Vehicle'],['checkIn','Check-In'],['status','Status'],['techId','Technician'],['adeActive','ADE'],['','Actions']].map(([col,lbl])=>(
+            {[['id','RO #'],['customerId','Customer'],['vehicleId','Vehicle'],['checkIn','Check-In'],['status','Status'],['techId','Technician'],['adeActive','Autopilot'],['','Actions']].map(([col,lbl])=>(
               <th key={col} onClick={()=>col&&sortBy(col)}>{lbl}{sort.col===col&&<span className="sort-arrow">{sort.dir>0?'▲':'▼'}</span>}</th>
             ))}
           </tr></thead>
@@ -1364,10 +1364,10 @@ function ServiceDrive({ros,setRos}){
                   <td>{ro.checkIn}</td>
                   <td><StatusBadge status={ro.status}/></td>
                   <td>{t?.name||<span style={{color:'var(--gray-500)'}}>Unassigned</span>}</td>
-                  <td>{ro.adeActive?<span className="badge badge-ade">ADE</span>:<span className="badge badge-gray">—</span>}</td>
+                  <td>{ro.adeActive?<span className="badge badge-ade">Autopilot On</span>:<span className="badge badge-gray">Manual</span>}</td>
                   <td onClick={e=>e.stopPropagation()}>
                     {!ro.adeActive&&ro.status!=='Closed'?
-                      <button className="btn btn-orange btn-sm" onClick={e=>activateADE(e,ro.id)}>Activate ADE</button>:
+                      <button className="btn btn-orange btn-sm" onClick={e=>activateADE(e,ro.id)}>Enable Autopilot</button>:
                       <button className="btn btn-ghost btn-sm" onClick={()=>setSelectedRO(ro.id)}>View</button>}
                   </td>
                 </tr>
@@ -1477,7 +1477,7 @@ function CommHub(){
             custComms.map(msg=>(
               <div key={msg.id} className={`comm-message comm-${msg.type}`}>
                 <div className="comm-meta">
-                  <span className="comm-sender">{msg.sender==='ADE'?<><span className="badge badge-ade">ADE</span> System</>:msg.sender==='Customer'?getCustomer(msg.customerId)?.name:'Staff'}</span>
+                  <span className="comm-sender">{msg.sender==='ADE'?<><span className="badge badge-ade">Digital Advisor</span></>:msg.sender==='Customer'?getCustomer(msg.customerId)?.name:'Staff'}</span>
                   <span className="comm-time">{msg.time}</span>
                   <span className="badge badge-gray" style={{fontSize:9}}>{msg.type.toUpperCase()}</span>
                   <span style={{fontSize:11,color:'var(--gray-500)'}}>{msg.roId}</span>
@@ -1712,7 +1712,7 @@ function DispatchBoard({ros,setRos}){
                         <span style={{fontSize:11,fontWeight:700,color:'var(--navy)'}}>${tot.total.toFixed(0)}</span>
                       </div>
                       <div style={{display:'flex',alignItems:'center',gap:4,marginTop:5,flexWrap:'wrap'}}>
-                        {ro.adeActive&&<span className="badge badge-ade">ADE</span>}
+                        {ro.adeActive&&<span className="badge badge-ade">Autopilot</span>}
                         {sla&&<span className={`sla-badge ${sla.cls}`}>⏱ {sla.label}</span>}
                         {ps&&<span className={`parts-status ${ps==='In Stock'?'parts-instock':'parts-order'}`}>{ps==='In Stock'?'✓':'⏳'} {ps}</span>}
                       </div>
@@ -1747,7 +1747,7 @@ function DispatchBoard({ros,setRos}){
               {drillTab==='overview'&&(
                 <>
                   <div className="info-grid">
-                    {[['Pay Type',drillRO.payType],['Opened',drillRO.opened],['Technician',drillTech?.name||'Unassigned'],['Check-In',drillRO.checkIn],['ADE Step',`Step ${drillRO.adeStep}/10`],['RO Total',`$${drillTotals?.total.toFixed(2)}`]].map(([k,v])=>(
+                    {[['Pay Type',drillRO.payType],['Opened',drillRO.opened],['Technician',drillTech?.name||'Unassigned'],['Check-In',drillRO.checkIn],['Automation Step',`Step ${drillRO.adeStep}/10`],['RO Total',`$${drillTotals?.total.toFixed(2)}`]].map(([k,v])=>(
                       <div key={k} className="info-cell"><div className="info-cell-label">{k}</div><div className="info-cell-value">{v}</div></div>
                     ))}
                   </div>
@@ -2527,7 +2527,7 @@ function Settings(){
           </div>
         ))}
         <div style={{padding:'16px 16px 0',marginTop:16,borderTop:'1px solid var(--gray-200)'}}>
-          <div style={{fontSize:10,color:'var(--gray-500)'}}>ADE Platform</div>
+          <div style={{fontSize:10,color:'var(--gray-500)'}}>Autonomous Digital Employee</div>
           <div style={{fontSize:11,fontWeight:700,color:'var(--navy)'}}>v2.4.1</div>
           <div style={{fontSize:10,color:'var(--gray-500)',marginTop:4}}>Liberty Ford Auto Group</div>
           <div style={{fontSize:10,color:'var(--gray-500)'}}>Strongsville, OH 44136</div>
@@ -2758,7 +2758,7 @@ function Settings(){
             <div style={{fontSize:12,color:'var(--gray-500)',marginBottom:16}}>Timestamped record of all ADE and human actions — immutable, exportable</div>
             <div style={{display:'flex',gap:8,marginBottom:14,alignItems:'center'}}>
               <select value={auditFilter} onChange={e=>setAuditFilter(e.target.value)} style={{padding:'6px 10px',border:'1px solid var(--gray-200)',borderRadius:3,fontSize:12}}>
-                <option>All</option><option>ADE System</option><option>Human</option>
+                <option>All</option><option>ADE System</option><option value="Human">Human Staff</option>
               </select>
               <button className="btn btn-ghost btn-sm" onClick={()=>exportCSV(AUDIT_LOG,'audit-log')}>Export CSV</button>
             </div>
@@ -2768,7 +2768,7 @@ function Settings(){
                   <div style={{fontSize:11,color:'var(--gray-500)',minWidth:130,fontFamily:'monospace'}}>{a.ts}</div>
                   <div>
                     <div style={{fontSize:11}}>
-                      <span className={`badge ${a.user==='ADE System'?'badge-ade':'badge-navy'}`} style={{fontSize:9,marginRight:6}}>{a.user}</span>
+                      <span className={`badge ${a.user==='ADE System'?'badge-ade':'badge-navy'}`} style={{fontSize:9,marginRight:6}}>{a.user==='ADE System'?'Digital Advisor':a.user}</span>
                       {a.action}
                     </div>
                   </div>
@@ -2806,7 +2806,7 @@ function ADEFlyout({ros,onLaunch}){
         <div className="ade-flyout">
           <div className="ade-flyout-header">
             <div className="pulse-dot" style={{width:6,height:6}}/>
-            Select RO to Activate ADE
+            Select RO — Launch Digital Advisor
           </div>
           {activeROs.map(ro=>{
             const c=getCustomer(ro.customerId);
@@ -2819,7 +2819,7 @@ function ADEFlyout({ros,onLaunch}){
                 </div>
                 <div style={{display:'flex',flexDirection:'column',alignItems:'flex-end',gap:3}}>
                   <span className={`badge ${ro.status==='Diagnosis'?'badge-orange':ro.status==='Awaiting Approval'?'badge-red':ro.status==='In Progress'?'badge-green':'badge-gray'}`} style={{fontSize:9}}>{ro.status}</span>
-                  {ro.adeActive&&<span className="badge badge-ade" style={{fontSize:9}}>ADE ON</span>}
+                  {ro.adeActive&&<span className="badge badge-ade" style={{fontSize:9}}>Autopilot On</span>}
                 </div>
               </div>
             );
@@ -2881,7 +2881,7 @@ function App(){
       <div className="app-shell">
         <TopBar/>
         <div className="revenue-ticker">
-          <div className="rev-item"><div className="rev-val">{adeROCount}</div><div className="rev-lbl">ADE Active ROs</div></div>
+          <div className="rev-item"><div className="rev-val">{adeROCount}</div><div className="rev-lbl">Autopilot ROs</div></div>
           <div className="rev-item"><div className="rev-val">${activeROValue.toLocaleString(undefined,{maximumFractionDigits:0})}</div><div className="rev-lbl">Pipeline Value</div></div>
           <div className="rev-item"><div className="rev-val">${todayRevenue.toLocaleString(undefined,{maximumFractionDigits:0})}</div><div className="rev-lbl">Collected Today</div></div>
           <div className="rev-item"><div className="rev-val">{Math.round(UPSELLS.filter(u=>u.status==='Approved').length/Math.max(UPSELLS.filter(u=>u.status!=='Pending').length,1)*100)}%</div><div className="rev-lbl">Upsell Rate</div></div>
