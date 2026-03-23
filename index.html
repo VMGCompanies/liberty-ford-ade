@@ -415,9 +415,9 @@ const initialROs = [
 ];
 
 const COMMUNICATIONS = [
-  {id:'MSG001',roId:'RO-24-8801',customerId:'C001',type:'sms',sender:'ADE',time:'07:44',content:'Hi Michael, this is Liberty Ford Service. We\'ve checked in your 2022 F-150 (RO-24-8801). Our advisor has pulled your vehicle history and we\'re getting started on the diagnosis now. We\'ll keep you updated every step of the way.',delivered:true},
+  {id:'MSG001',roId:'RO-24-8801',customerId:'C001',type:'sms',sender:'ADE',time:'07:44',content:'Hi Michael — Liberty Ford. Your F-150\'s checked in, RO-24-8801. Tech\'s pulling your history now. We\'ll text you as soon as we have the diagnosis.',delivered:true},
   {id:'MSG002',roId:'RO-24-8801',customerId:'C001',type:'sms',sender:'Customer',time:'07:51',content:'Thanks. How long do you think it\'ll take?',delivered:true},
-  {id:'MSG003',roId:'RO-24-8801',customerId:'C001',type:'sms',sender:'ADE',time:'07:52',content:'Hi Michael, our technician has completed the diagnosis. We found the vibration is caused by worn engine balance shaft components combined with fouled spark plugs at 41k miles. Full estimate and approval request sent to your email. Total estimated: $1,482.41. You can approve digitally — link in email.',delivered:true},
+  {id:'MSG003',roId:'RO-24-8801',customerId:'C001',type:'sms',sender:'ADE',time:'07:52',content:'Michael — tech\'s done. Balance shaft is worn and plugs are fouled. Both pretty common on the 5.0 at your mileage. Total to fix both: $1,482.41. Sent approval link to your email — or just reply YES here.',delivered:true},
   {id:'MSG004',roId:'RO-24-8802',customerId:'C002',type:'sms',sender:'ADE',time:'08:17',content:'Sandra, your Explorer is checked in (RO-24-8802). Diagnosis complete: LH front strut assembly failed. We recommend R&R + 4-wheel alignment. Estimate: $768.30. Approval link sent to skowalski@outlook.com.',delivered:true},
   {id:'MSG005',roId:'RO-24-8802',customerId:'C002',type:'sms',sender:'Customer',time:'08:29',content:'Approved. Go ahead. Can you also check the rear tires for wear?',delivered:true},
   {id:'MSG006',roId:'RO-24-8803',customerId:'C003',type:'sms',sender:'ADE',time:'08:33',content:'Travis, your Escape Hybrid is checked in (RO-24-8803). The hybrid battery warning is under diagnosis now — this is a warranty-covered component. We\'ll have findings within 90 minutes. No charge to you for the diagnostic.',delivered:true},
@@ -517,7 +517,7 @@ const DEMO_SCENARIOS = [
         {d:500,t:'Generating customer-ready explanation (plain language)...',y:'system'},
         {d:500,t:'Cost estimate finalized: Labor $840.00 · Parts $401.95 · Tax $90.74',y:'info'},
         {d:500,t:'Sending estimate + digital approval request...',y:'system'},
-        {d:600,t:'Approval request sent via SMS + email ✓',y:'success',a:{type:'sms',sender:'ADE',text:'Michael, diagnosis complete. Root cause: worn engine balance shaft + fouled spark plugs. Plain-language summary: The vibration is caused by an internal engine part wearing out — common at 40k+ miles on the 5.0L. We\'ll replace it and the plugs. Total: $1,482.41. Approve? Reply YES or tap: [Approve Now]'}},
+        {d:600,t:'Approval request sent via SMS + email ✓',y:'success',a:{type:'sms',sender:'ADE',text:'Michael — balance shaft is worn, plugs are fouled. Both common on the 5.0 at your mileage. Fixing both: $1,482.41. Reply YES to approve or tap the link in your email.'}},
         {d:400,t:'✓ Approval request delivered — awaiting customer response',y:'complete',a:{type:'step',n:5}},
       ]},
       {n:6,label:'Upsell Presentation',logs:[
@@ -660,7 +660,7 @@ const DEMO_SCENARIOS = [
 
 const CSI_DATA = Array.from({length:30},(_,i)=>{
   const d = new Date('2024-02-19'); d.setDate(d.getDate()+i);
-  const base = 88+Math.sin(i/5)*4+Math.random()*3;
+  const base = 91+Math.sin(i/5)*2+Math.random()*2;
   return {date:d.toISOString().slice(0,10),csi:Math.round(base*10)/10,roVolume:Math.floor(18+Math.random()*12),avgRoValue:Math.floor(720+Math.random()*400),upsellRate:Math.round((0.52+Math.random()*0.25)*100)/100,escalationRate:Math.round((0.04+Math.random()*0.06)*100)/100,handleTime:Math.floor(38+Math.random()*25),responseRate:Math.round((0.78+Math.random()*0.18)*100)/100};
 });
 
@@ -2491,10 +2491,10 @@ function Settings(){
   const [auditFilter,setAuditFilter]=useState('All');
 
   const integrationsStatus=[
-    {name:'DealerTrack DMS',type:'DMS',status:'live',lastSync:'10:41 AM',detail:'v3.2.1 · Syncronized 847 ROs'},
+    {name:'Reynolds & Reynolds ERA',type:'DMS — Primary',status:'live',lastSync:'10:41 AM',detail:'ERA-IGNITE v23.4 · Bi-directional RO sync · 847 ROs active'},
+    {name:'CDK Drive',type:'DMS — Alternate',status:'live',lastSync:'10:39 AM',detail:'CDK Drive API v4.1 · Available for multi-rooftop deployments'},
     {name:'Ford OASIS / STARS',type:'Recall & Warranty',status:'live',lastSync:'10:22 AM',detail:'Connected · 5 open recalls loaded'},
     {name:'Twilio SMS Gateway',type:'Messaging',status:'live',lastSync:'10:41 AM',detail:'+1 (440) 555-0192 · 98.7% delivery rate'},
-    {name:'Reynolds & Reynolds',type:'Accounting DMS',status:'warn',lastSync:'08:14 AM',detail:'Token expiring in 3 days — action required'},
     {name:'Autosoft Lane',type:'Lane Control',status:'live',lastSync:'10:40 AM',detail:'3 lanes active · all cameras online'},
     {name:'CRM: VinSolutions',type:'CRM',status:'error',lastSync:'Yesterday',detail:'OAuth error — reconnect required'},
     {name:'Ford Pass Rewards API',type:'Loyalty',status:'live',lastSync:'10:35 AM',detail:'Connected · points balance accessible'},
